@@ -7,14 +7,8 @@ assignees: Inhwa1003
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+**어떤 기능을 개발할 건지 작성해주세요.**
+ex) 로그인 기능
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
-
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
-
-**Additional context**
-Add any other context or screenshots about the feature request here.
+** 개발 예상 기간 **
+ex) 04-24~04-26
