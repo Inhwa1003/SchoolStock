@@ -1,0 +1,94 @@
+-- 시퀀스 초기화
+DROP SEQUENCE stock_no_seq;
+DROP SEQUENCE coupon_no_seq;
+DROP SEQUENCE coupon_purchase_no_seq;
+DROP SEQUENCE get_point_no_seq;
+DROP SEQUENCE order_no_seq;
+DROP SEQUENCE transaction_no_seq;
+DROP SEQUENCE news_no_seq;
+
+CREATE SEQUENCE stock_no_seq START WITH 1;
+CREATE SEQUENCE coupon_no_seq START WITH 1;
+CREATE SEQUENCE coupon_purchase_no_seq START WITH 1;
+CREATE SEQUENCE news_no_seq START WITH 1;
+CREATE SEQUENCE get_point_no_seq START WITH 1;
+CREATE SEQUENCE order_no_seq START WITH 1;
+CREATE SEQUENCE transaction_no_seq START WITH 1;
+
+-- STUDENTS
+INSERT INTO students(student_id, password, name, grade, class, class_number, register_year, total_coupon, total_point)
+VALUES('abc', 'abc123!', '홍길동', 5, '4', 63, 2026, 3, 3900);
+
+INSERT INTO students(student_id, password, name, grade, class, class_number, register_year, total_coupon, total_point)
+VALUES('def', 'def123!', '박소영', 5, '4', 9, 2026, 0, 5000);
+
+INSERT INTO students (student_id, password, name, grade, class, class_number, register_year, total_coupon, total_point) 
+VALUES ('dldlsghk123', 'dldlsghk123!', '이인화', 6, '미', 63, 2026, 0, 8000);
+
+-- STOCKS
+INSERT INTO stocks (stock_no, name, content, publication_balance, publication_price, prev_price)
+VALUES(stock_no_seq.NEXTVAL, '마라탕', '화하고 매운맛이 땡길 땐 마라', 100, 800, 750);
+
+INSERT INTO stocks(stock_no, name, content, publication_balance, publication_price, prev_price)
+VALUES(stock_no_seq.NEXTVAL, 'PC방', '친구들과 함께 발로란트 한판 ㄱ?', 100, 2000, 1900);
+
+INSERT INTO stocks(stock_no, name, content, publication_balance, publication_price, prev_price) 
+VALUES(stock_no_seq.NEXTVAL, 'SM', '에스파는 나여', 50, 4000, 4100);
+
+-- COUPONS
+INSERT INTO coupons (coupon_no, name, price)
+VALUES(coupon_no_seq.NEXTVAL, '간식 교환권', 500);
+
+INSERT INTO coupons(coupon_no, name, price)
+VALUES(coupon_no_seq.NEXTVAL, '청소당번 면제권', 3000);
+
+INSERT INTO coupons(coupon_no, name, price)
+VALUES(coupon_no_seq.NEXTVAL, '분리수거 면제권', 1000);
+
+-- 쿠폰 구매 내역 추가
+INSERT INTO coupon_purchase (coupon_purchase_no, purchase_date, price, state, student_id, coupon_no, name) 
+VALUES (1, SYSDATE, 300, 0, 'dldlsghk123', 1, '간식 교환권');
+
+
+-- 지급 내역 추가
+INSERT INTO get_point (get_point_no, content, point, get_date, student_id) 
+VALUES (get_point_no_seq.NEXTVAL, '분리수거', 500, SYSDATE, 'dldlsghk123');
+
+
+-- 뉴스추가
+INSERT INTO news (news_no, content) 
+VALUES (news_no_seq.NEXTVAL, '마라탕 땅콩소스에서 유해균 발견 으악 안 먹을래');
+
+-- 주문요청
+INSERT INTO orders (order_no, content, price, amount, state, order_date, student_id, stock_no)
+VALUES (order_no_seq.NEXTVAL, '매수', 800, 2, '체결', SYSDATE, 'abc', 1);
+
+INSERT INTO orders (order_no, content, price, amount, state, order_date, student_id, stock_no)
+VALUES (order_no_seq.NEXTVAL, '매수', 2000, 1, '체결', SYSDATE, 'abc', 2);
+
+INSERT INTO orders (order_no, content, price, amount, state, order_date, student_id, stock_no)
+VALUES (order_no_seq.NEXTVAL, '매수', 1600, 5, '대기', SYSDATE, 'abc', 3);
+
+INSERT INTO orders (order_no, content, price, amount, state, order_date, student_id, stock_no)
+VALUES (order_no_seq.NEXTVAL, '매도', 1600, 5, '대기', SYSDATE, 'def', 3);
+
+INSERT INTO orders (order_no, content, price, amount, state, order_date, student_id, stock_no)
+VALUES (order_no_seq.NEXTVAL, '매수', 1650, 2, '대기', SYSDATE, 'dldlsghk123', 3);
+
+INSERT INTO orders (order_no, content, price, amount, state, order_date, student_id, stock_no)
+VALUES (order_no_seq.NEXTVAL, '매수', 900, 3, '체결', SYSDATE, 'abc', 1);
+
+INSERT INTO orders (order_no, content, price, amount, state, order_date, student_id, stock_no)
+VALUES (order_no_seq.NEXTVAL, '매도', 2500, 1, '체결', SYSDATE, 'abc', 2);
+
+INSERT INTO orders (order_no, content, price, amount, state, order_date, student_id, stock_no)
+VALUES(order_no_seq.NEXTVAL, '매수', 800, 2, '대기', SYSDATE, 'def', 1);
+
+
+-- TRANSACTION
+INSERT INTO transaction (transaction_no, transaction_date, buy_order_no, sell_order_no)
+VALUES(transaction_no_seq.NEXTVAL, SYSDATE, 8, null);
+
+INSERT INTO transaction (transaction_no, transaction_date, buy_order_no, sell_order_no)
+VALUES (transaction_no_seq.NEXTVAL, SYSDATE, 3, 4);
+ 
