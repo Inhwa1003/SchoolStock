@@ -2,6 +2,8 @@ package com.school.stockGame.dao;
 
 import java.sql.Connection;
 
+import com.school.stockGame.query.StockListQuery;
+
 public class StockListDAO {
 	public StockListDAO(){}
 	
