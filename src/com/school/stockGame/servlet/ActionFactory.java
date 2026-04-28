@@ -11,12 +11,9 @@ public class ActionFactory {
 			cmd = "";
 		switch (cmd){
 		case "MyAssertUI":
-			a = new MyAssertUIAction();
+			a = new MyAssertUI();
 			break;
-			
-		case "MyAssertAction":
-			a = new MyAssertUIAction();
-			break;
+
 		}
 		return a;
 	}

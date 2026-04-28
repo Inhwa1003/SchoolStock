@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>내 자산 관리</title>
+<link rel="stylesheet" type="text/css" href="my_assets_style.css">
+</head>
+<body>
+	<div class="main-layout">
+
+		<main class="asset-page-wrapper">
+		<h2>내 자산</h2>
+
+		<div class="summary-container">
+			<div class="card">
+				<span class="label">총 자산</span>
+				<div class="value" id="total-assets">0P</div>
+			</div>
+			<div class="card">
+				<span class="label">보유 포인트</span>
+				<div class="value" id="total-points">0P</div>
+			</div>
+			<div class="card">
+				<span class="label">평가 손익</span>
+				<div class="value" id="total-profit">0P</div>
+			</div>
+			<div class="card">
+				<span class="label">보유 쿠폰</span>
+				<div class="value" id="coupon-count">0개</div>
+			</div>
+		</div>
+
+		<div class="table-container">
+			<h3>보유 주식 상세</h3>
+			<table id="stock-table">
+				<thead>
+					<tr>
+						<th>주식명</th>
+						<th>보유수량</th>
+						<th>현재가격</th>
+						<th>평균단가</th>
+						<th>총 구매 비용</th>
+						<th>수익금</th>
+					</tr>
+				</thead>
+				<tbody id="stock-list">
+				</tbody>
+			</table>
+		</div>
+		</main>
+
+		<aside class="right-sidebar">
+			<div class="user-info">
+				<h2 class="user-name" id="studentName">로드 중...</h2>
+				<p id="studentClassInfo">0학년 0반 0번</p>
+				<p class="point-info" id="studentPoints">보유 포인트 : 0P</p>
+			</div>
+
+			<div class="round-box">
+				<p>장 운영중</p>
+			</div>
+
+			<nav class="sidebar-menu">
+				<button class="menu-button active">내 자산</button>
+				<button class="menu-button">주식 목록</button>
+				<button class="menu-button">뉴스 목록</button>
+				<button class="menu-button">내 포인트 내역</button>
+				<button class="menu-button">쿠폰 상점</button>
+			</nav>
+		</aside>
+	</div>
+
+	<script type="text/javascript" src="my_assets_script.js"></script>
+</body>
+</html>
