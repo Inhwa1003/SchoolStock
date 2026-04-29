@@ -18,11 +18,11 @@
 	</div>
 
 	<nav class="sidebar-menu">
-	<button class="menu-button active">내 자산</button>
-	<button class="menu-button">주식 목록</button>
-	<button class="menu-button">뉴스 목록</button>
-	<button class="menu-button">내 포인트 내역</button>
-	<button class="menu-button">쿠폰 상점</button>
+	<button class="menu-button active" onclick="location.href='${pageContext.request.contextPath}/view/MyAssets.jsp'">내 자산</button>
+	<button class="menu-button" onclick="location.href='${pageContext.request.contextPath}/view/StockList.jsp'">주식 목록</button>
+	<button class="menu-button" onclick="location.href='${pageContext.request.contextPath}/view/NewsList.jsp'">뉴스 목록</button>
+	<button class="menu-button" onclick="location.href='${pageContext.request.contextPath}/view/MyPointHistory.jsp'">내 포인트 내역</button>
+	<button class="menu-button" onclick="location.href='${pageContext.request.contextPath}/view/CouponMarket.jsp'">쿠폰 상점</button>
 	</nav> </aside>
 	<script type="text/javascript" src="../js/MyAssetScript.js"></script>
 </body>
