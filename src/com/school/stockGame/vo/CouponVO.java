@@ -34,4 +34,8 @@ public class CouponVO {
 		this.price = price;
 	}
 
+
+
+
+
 }
