@@ -61,7 +61,7 @@ public class MemberDAO {
 		boolean result=false;
 		try {
 			Connection conn=DBCP.getConnection();			
-			PreparedStatement stmt = conn.prepareStatement(MemberQuery.ID_Check_SQL);
+			PreparedStatement stmt = conn.prepareStatement(MemberQuery.ID_CHECK_SQL);
 			stmt.setString(1, studentId);
 			ResultSet rs = stmt.executeQuery();
 			result=rs.next();

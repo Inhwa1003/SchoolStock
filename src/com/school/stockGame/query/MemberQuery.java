@@ -7,5 +7,5 @@ public interface MemberQuery {
 	
 	String LOGIN_SQL="SELECT name, grade, class, class_number, total_point FROM students WHERE student_id = ? AND password = ?";
 	
-	String ID_Check_SQL = "SELECT student_id FROM students WHERE student_id = ? ";
+	String ID_CHECK_SQL = "SELECT student_id FROM students WHERE student_id = ? ";
 }
