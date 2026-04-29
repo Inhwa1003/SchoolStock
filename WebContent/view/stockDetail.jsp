@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>주식 상세 - 마라탕</title>
+<title>주식 상세</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -16,6 +16,7 @@
 	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/order_status.js" type="text/javascript"></script>
 </head>
 <body>
 	<div class="app">
@@ -44,10 +45,11 @@
 			<!-- 주문 현황 -->
 				<div class="panel">
 					<div class="ptitle">등록된 주문 현황
-					    <select>
+					    <select id="orderTypeSelect">
 							<option value="sell" selected>매도</option>
 							<option value="buy">매수</option>
 						</select>
+						<input type="button" id="refreshBtn" value="새로고침"/>
 					</div>
 					<table class="table table-hover">
 						<thead>
@@ -57,32 +59,8 @@
 								<th>수량</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr>
-								<th class="sell">매도</th>
-								<th>1600</th>
-								<th>2</th>
-							</tr>
-							<tr>
-								<th class="sell">매도</th>
-								<th>2000</th>
-								<th>2</th>
-							</tr>
-							<tr>
-								<th class="sell">매도</th>
-								<th>1900</th>
-								<th>3</th>
-							</tr>
-							<tr>
-								<th class="buy">매수</th>
-								<th>900</th>
-								<th>2</th>
-							</tr>
-							<tr>
-								<th class="buy">매수</th>
-								<th>1000</th>
-								<th>2</th>
-							</tr>
+						<tbody id="orderListBody">
+							
 						</tbody>
 					</table>
 				</div>
@@ -166,6 +144,5 @@
 			<button class="btn btn-primary">쿠폰 상점</button>
 		</nav>
 	</div>
-
 </body>
 </html>
