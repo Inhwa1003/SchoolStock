@@ -13,7 +13,12 @@ public class ActionFactory {
 		case "MyAssertUI":
 			a = new MyAssertUI();
 			break;
-
+			
+		case "MyPointHistoryUI":
+			a = new MyPointHistoryUI();
+			break;
+			
+		
 		}
 		return a;
 	}
