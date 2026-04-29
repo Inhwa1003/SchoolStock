@@ -22,23 +22,16 @@ import com.school.stockGame.vo.OrderVO;
  */
 public class StockDetailDAO {
 	private Connection conn;
-	//기본 생성자 
-	public StockDetailDAO() throws ClassNotFoundException, SQLException {
-		conn = DBCP.getConnection();
-	}
-	
+	// 트랜잭션 관리 때문에 필요
 	public StockDetailDAO(Connection conn){
 		this.conn = conn;
 	}
-	
-	public void ConnClose() throws SQLException{
-		conn.close();
-	}
-	
+
 	// 주식 기본정보 조회
 	public Map<String, Object> getStockInfo(int stockNo) {
 		Map<String, Object> tmp = new HashMap<>();
 		try {
+			conn = DBCP.getConnection();
 			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.STOCK_INFO_SQL);
 			stmt.setInt(1, stockNo);
 			ResultSet rs = stmt.executeQuery();
@@ -50,6 +43,7 @@ public class StockDetailDAO {
 
 			rs.close();
 			stmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -60,6 +54,7 @@ public class StockDetailDAO {
 	public int getStockPrice(int stockNo) {
 		int price = 0;
 		try {
+			conn = DBCP.getConnection();
 			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.STOCK_PRICE_SQL);
 			stmt.setInt(1, stockNo);
 			ResultSet rs = stmt.executeQuery();
@@ -80,6 +75,7 @@ public class StockDetailDAO {
 	public int getStockPriceChange(int stockNo) {
 		int price = 0;
 		try {
+			conn = DBCP.getConnection();
 			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.STOCK_PRICE_CHANGE_SQL);
 			stmt.setInt(1, stockNo);
 			stmt.setInt(2, stockNo);
@@ -102,6 +98,7 @@ public class StockDetailDAO {
 	public int getChangeRate(int StockNo) {
 		int percent = 0;
 		try {
+			conn = DBCP.getConnection();
 			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.STOCK_CHANGE_RATE_SQL);
 			stmt.setInt(1, StockNo);
 			stmt.setInt(2, StockNo);
@@ -123,6 +120,7 @@ public class StockDetailDAO {
 	public int getPervPrice(int stockNo) {
 		int prevPrice = 0;
 		try {
+			conn = DBCP.getConnection();
 			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.STOCK_PREV_PRICE_SQL);
 			stmt.setInt(1, stockNo);
 			ResultSet rs = stmt.executeQuery();
@@ -142,6 +140,7 @@ public class StockDetailDAO {
 	public boolean setSellOrder(int stockNo, String studentId, int sellQty, int sellPrice) {
 		boolean flag = false;
 		try {
+			conn = DBCP.getConnection();
 			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.STOCK_QTY_SQL);
 			stmt.setString(1, studentId);
 			stmt.setInt(2, stockNo);
@@ -172,6 +171,7 @@ public class StockDetailDAO {
 	public boolean setBuyOrder(int stockNo, String studentId, int buyQty, int buyPrice) {
 		boolean flag = false;
 		try {
+			conn = DBCP.getConnection();
 
 			conn.setAutoCommit(false);
 
@@ -216,6 +216,7 @@ public class StockDetailDAO {
 	public List<OrderVO> getTotalOrder(int stockNo) {
 		List<OrderVO> list = new ArrayList<>();
 		try {
+			conn = DBCP.getConnection();
 			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.TOTAL_ORDER_REQUEST);
 			stmt.setInt(1, stockNo);
 			ResultSet rs = stmt.executeQuery();
@@ -234,6 +235,7 @@ public class StockDetailDAO {
 	public List<OrderVO> getTotalSellOrder(int stockNo) {
 		List<OrderVO> list = new ArrayList<>();
 		try {
+			conn = DBCP.getConnection();
 			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.TOTAL_SELL_ORDER_REQUEST);
 			stmt.setInt(1, stockNo);
 			ResultSet rs = stmt.executeQuery();
@@ -252,6 +254,7 @@ public class StockDetailDAO {
 	public List<OrderVO> getTotalBuyOrder(int stockNo) {
 		List<OrderVO> list = new ArrayList<>();
 		try {
+			conn = DBCP.getConnection();
 			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.TOTAL_BUY_ORDER_REQUEST);
 			stmt.setInt(1, stockNo);
 			ResultSet rs = stmt.executeQuery();
@@ -270,6 +273,7 @@ public class StockDetailDAO {
 	public List<OrderVO> getTotalMyOrder(int stockNo, String studentId) {
 		List<OrderVO> list = new ArrayList<>();
 		try {
+			conn = DBCP.getConnection();
 			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.MY_ORDER_REQUEST);
 			stmt.setString(1, studentId);
 			stmt.setInt(2, stockNo);
@@ -289,6 +293,7 @@ public class StockDetailDAO {
 	public boolean myOrderCancel(int orderNo){
 		boolean flag = false;
 		try {
+			conn = DBCP.getConnection();
 			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.MY_ORDER_CANCEL);
 			stmt.setInt(1, orderNo);
 			flag = (stmt.executeUpdate() == 1);
