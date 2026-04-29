@@ -71,6 +71,6 @@ public class MyAssertUI implements Action {
         System.out.println("stockProfit = " + stockProfit);
         
         // 중요: /view/ 붙이지 말기
-        return "my_assets.jsp";
+        return "MyAssets.jsp";
     }
 }

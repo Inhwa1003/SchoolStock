@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title>내 자산 관리</title>
-    <link rel="stylesheet" type="text/css" href="<%=contextPath%>/view/my_assets_style.css">
+    <link rel="stylesheet" type="text/css" href="<%=contextPath%>/view/MyAssetStyle.css">
 </head>
 <body>
     <div class="container">
@@ -66,7 +66,5 @@
             </table>
         </div>
     </div>
-
-    <script type="text/javascript" src="<%=contextPath%>/js/my_assets_script.js"></script>
 </body>
 </html>

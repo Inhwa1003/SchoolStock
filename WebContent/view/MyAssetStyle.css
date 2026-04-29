@@ -5,7 +5,7 @@ body {
 	padding: 0;
 }
 
-/* ·¹ÀÌ¾Æ¿ô ±¸¼º */
+/* ï¿½ï¿½ï¿½Ì¾Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ */
 .main-layout {
 	display: flex;
 	justify-content: center;
@@ -22,7 +22,7 @@ body {
 	padding: 40px 0;
 }
 
-/* ÀÚ»ê °ü¸® Àü¿ë ½ºÅ¸ÀÏ */
+/* ï¿½Ú»ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ */
 .summary-container {
 	display: table;
 	width: 100%;
@@ -88,7 +88,7 @@ td {
 	color: #0275d8;
 }
 
-/* »çÀÌµå¹Ù ½ºÅ¸ÀÏ*/
+/* ï¿½ï¿½ï¿½Ìµï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½*/
 .right-sidebar {
 	width: 405px;
 	min-height: 900px;
