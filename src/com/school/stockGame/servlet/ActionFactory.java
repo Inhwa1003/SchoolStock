@@ -17,7 +17,10 @@ public class ActionFactory {
 		case "MyPointHistoryUI":
 			a = new MyPointHistoryUI();
 			break;
-			
+		
+		case "StockListUI":
+			a = new StockListUI();
+			break;
 		
 		}
 		return a;

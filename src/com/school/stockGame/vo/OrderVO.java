@@ -9,6 +9,21 @@ public class OrderVO extends StudentVO {
 	private String orderDate;
 	
 	public OrderVO(){};
+	// 동석 추가
+	public OrderVO(int price, int amount, String content){
+		setPrice(price);
+		setAmount(amount);
+		setContent(content);
+	}
+	// 동석 추가
+	public OrderVO(int orderNo, String content, int price, int amount, String orderDate, String state){
+		setOrderNo(orderNo);
+		setContent(content);
+		setPrice(price);
+		setAmount(amount);
+		setOrderDate(orderDate);
+		setState(state);
+	}
 	public OrderVO(String studentId, int orderNo, String content, int price, int amount, String state, String orderDate) {
 		super(studentId);
 		setOrderNo(orderNo);
@@ -56,4 +71,13 @@ public class OrderVO extends StudentVO {
 	public void setOrderDate(String orderDate) {
 		this.orderDate = orderDate;
 	}
+	// 동석 추가
+	@Override
+	public String toString() {
+		return "[orderNo=" + orderNo + ", content=" + content + ", price=" + price + ", amount=" + amount
+				+ ", state=" + state + ", orderDate=" + orderDate + "]";
+	}
+
+	
+	
 }
