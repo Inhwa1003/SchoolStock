@@ -17,8 +17,7 @@ public class LoginAction implements Action {
 		String url="Login.jsp";
 		String studentId=request.getParameter("studentId");
 		String password=request.getParameter("password");
-		System.out.println("===> LoginAction 실행됨");
-	    System.out.println("입력된 ID: " + studentId);
+
 		try{
 			MemberDAO dao=new MemberDAO();
 			Map<String, Object> m=dao.login(studentId, password);

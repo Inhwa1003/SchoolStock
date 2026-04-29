@@ -63,6 +63,10 @@
     const today = new Date();
     document.getElementById('current-year').innerText = today.getFullYear();
 </script>
-
+<c:if test="${not empty errorMessage}">
+        <script type="text/javascript">
+            alert("${errorMessage}");
+        </script>
+    </c:if>
 </body>
 </html>
