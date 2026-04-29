@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% String contextPath = request.getContextPath(); %>
 
 <!DOCTYPE html>
@@ -28,85 +30,41 @@
         </thead>
 
         <tbody>
-          <tr>
-            <td>SM</td>
-            <td>4,000P</td>
-            <td>180P</td>
-            <td>+20P</td>
-            <td class="up">+10%</td>
-          </tr>
+          <c:choose>
+            <c:when test="${empty stockList}">
+              <tr>
+                <td colspan="5">등록된 주식이 없습니다.</td>
+              </tr>
+            </c:when>
 
-          <tr>
-            <td>YG</td>
-            <td>5,000P</td>
-            <td>180P</td>
-            <td>+20P</td>
-            <td class="up">+10%</td>
-          </tr>
+            <c:otherwise>
+              <c:forEach var="stock" items="${stockList}">
+                <tr>
+                  <td>${stock.stockName}</td>
+                  <td>${stock.currentPrice}P</td>
+                  <td>${stock.prevPrice}P</td>
 
-          <tr>
-            <td>JYP</td>
-            <td>4,500P</td>
-            <td>220P</td>
-            <td>-20P</td>
-            <td class="down">-10%</td>
-          </tr>
+                  <c:choose>
+                    <c:when test="${stock.priceChange >= 0}">
+                      <td class="up">+${stock.priceChange}P</td>
+                    </c:when>
+                    <c:otherwise>
+                      <td class="down">${stock.priceChange}P</td>
+                    </c:otherwise>
+                  </c:choose>
 
-          <tr>
-            <td>PC방</td>
-            <td>1,200P</td>
-            <td>180P</td>
-            <td>+20P</td>
-            <td class="up">+10%</td>
-          </tr>
-
-          <tr>
-            <td>가챠샵</td>
-            <td>2,200P</td>
-            <td>220P</td>
-            <td>-20P</td>
-            <td class="down">-10%</td>
-          </tr>
-
-          <tr>
-            <td>다이소</td>
-            <td>1,100P</td>
-            <td>180P</td>
-            <td>+20P</td>
-            <td class="up">+10%</td>
-          </tr>
-
-          <tr>
-            <td>탕후루</td>
-            <td>800P</td>
-            <td>220P</td>
-            <td>-20P</td>
-            <td class="down">-10%</td>
-          </tr>
-
-          <tr>
-            <td>요아정</td>
-            <td>700P</td>
-            <td>220P</td>
-            <td>-20P</td>
-            <td class="down">-10%</td>
-          </tr>
-
-          <tr>
-            <td>마라탕</td>
-            <td>800P</td>
-            <td>600P</td>
-            <td>+200P</td>
-            <td class="up">+25%</td>
-          </tr>
-
-          <tr>
-            <td>마크정식</td>
-            <td>400P</td>
-            <td>180P</td>
-            <td>+20P</td>
-            <td class="up">+10%</td>
-          </tr>
+                  <c:choose>
+                    <c:when test="${stock.changeRate >= 0}">
+                      <td class="up">+${stock.changeRate}%</td>
+                    </c:when>
+                    <c:otherwise>
+                      <td class="down">${stock.changeRate}%</td>
+                    </c:otherwise>
+                  </c:choose>
+                </tr>
+              </c:forEach>
+            </c:otherwise>
+          </c:choose>
         </tbody>
       </table>
     </main>

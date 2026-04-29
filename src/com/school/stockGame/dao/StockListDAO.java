@@ -14,7 +14,7 @@ public class StockListDAO {
     
     // 1. 주식명 조회
     public List<String> getStockNameList() {
-        List<String> stockNameList = new ArrayList<String>();
+        List<String> StockNameList = new ArrayList<String>();
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -30,7 +30,7 @@ public class StockListDAO {
 
             while (rs.next()) {
                 String stockName = rs.getString("NAME");
-                stockNameList.add(stockName);
+                StockNameList.add(stockName);
             }
 
         } catch (Exception e) {
@@ -45,7 +45,7 @@ public class StockListDAO {
                 e.printStackTrace();
             }
         }
-        return stockNameList;
+        return StockNameList;
     }
     
     // 2. 주식 현재가격 조회  
