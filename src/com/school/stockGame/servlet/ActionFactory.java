@@ -11,8 +11,14 @@ public class ActionFactory {
 			a = new LoginUIAction();
 			break;
 		case "LoginAction":
-			a=new LoginAction();
+			a=new LoginAction();	
 			break;
+		case "AddMemberUI":
+			a=new AddMemberUIAction();
+			break;
+		case "AddMemberAction":
+			a=new AddMemberAction();
+			break;		
 		default:
 			a=new LoginUIAction();
 

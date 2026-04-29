@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/view/SideBar.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/SideBar.css">
 </head>
 <body>
 	<aside class="right-sidebar">

@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>모의 투자 시스템</title>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/view/Login.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/Login.css">
 </head>
 <body>
 	<div class="login-container">
@@ -24,7 +24,7 @@
 		</div>
 		</form>
 		<div class="html-button">
-			<span>회원가입 </span> / <span> 아이디 찾기 </span> / <span> 비밀번호 찾기</span>
+			<a href="controller?cmd=AddMemberUI">회원가입 </a> / <span> 아이디 찾기 </span> / <span> 비밀번호 찾기</span>
 		</div>
 	</div>
 </body>
