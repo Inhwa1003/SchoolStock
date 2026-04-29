@@ -30,13 +30,13 @@
 
 			<div class="stock">
 				<div class="stock-info">
-					<h2>마라탕</h2>
-					<p>화하고 매운맛이 땡길 땐 마라탕</p>
+					<h2>${stockName}</h2>
+					<p>${stockContent}</p>
 				</div>
 				<div class="stock-price">
 					<div class="price-now">800P</div>
 					<div class="price-change">+200P (+25%)</div>
-					<div class="price-base">이전가: 600P</div>
+					<div class="price-base">${priceBase}</div>
 				</div>
 			</div>
 			<!-- 메인 구역 -->

@@ -18,6 +18,7 @@ import com.school.stockGame.vo.OrderVO;
  * 	- 이전가격 불러와서 자바 스크립트로 이전가격 +-30% 값 못적게 UI상 처리 가능? 한지 확인
  * 주식 매칭 되고 체결 될때 보유주식량 차감 sql문 만들어야함
  * 주식 매칭 되고 체결 될때 매도한 포인트 증가 sql문만 있음 기능은 없음
+ * 04.29 발행 잔량이 남아있다면 이라는 조건을 주기위해 발행 잔량 체크 하는 SQL 추가해야함 
  */
 public class StockDetailDAO {
 	private Connection conn;

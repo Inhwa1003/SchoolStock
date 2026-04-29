@@ -16,7 +16,6 @@ public class StockDetailDAOTest {
 	public void 주식기본정보조회테스트() throws ClassNotFoundException, SQLException {
 		dao = new StockDetailDAO();
 		System.out.println(dao.getStockInfo(3));
-		
 	}
 	@Test
 	public void 주식현재가격조회테스트() throws ClassNotFoundException, SQLException {
