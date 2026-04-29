@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
+	<c:if test="${empty sessionScope.loginOK}">
+    <script>
+        alert('로그인이 필요합니다.');
+        location.href = '${pageContext.request.contextPath}/Login.jsp'; 
+    </script>
+</c:if>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +15,7 @@
 <body>
 	<aside class="right-sidebar">
 	<div class="user-info">
+	<a href="controller?cmd=logoutAction" class="logout-btn">로그아웃</a>
 		<h2 class="user-name" id="studentName">${name}</h2>
 		<p id="studentClassInfo">${grade}학년 ${className}반 ${classNumber}번</p>
 		<p class="point-info" id="studentPoints">보유 포인트 : ${totalPoint}P</p>

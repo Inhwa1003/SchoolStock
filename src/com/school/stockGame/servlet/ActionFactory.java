@@ -18,7 +18,9 @@ public class ActionFactory {
 			break;
 		case "AddMemberAction":
 			a=new AddMemberAction();
-			break;		
+			break;
+		case "LogoutAction":
+			a=new LogoutAction();
 		default:
 			a=new LoginUIAction();
 
