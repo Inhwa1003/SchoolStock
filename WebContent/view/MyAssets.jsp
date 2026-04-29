@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% String contextPath = request.getContextPath(); %>
 
 <!DOCTYPE html>
@@ -51,17 +52,32 @@
                 </thead>
 
                 <tbody id="stock-list">
-                    <tr>
-                        <td>${stockName}</td>
-                        <td>${stockAmount}</td>
+                    <c:choose>
+                        <c:when test="${empty stockName}">
+                            <tr>
+                                <td colspan="6">보유 주식이 없습니다.</td>
+                            </tr>
+                        </c:when>
 
-                        <!-- 현재가격은 현재 Action에서 따로 넘긴 값이 없어서 일단 '-' 처리 -->
-                        <td>-</td>
+                        <c:otherwise>
+                            <tr>
+                                <td>${stockName}</td>
+                                <td>${stockAmount}</td>
+                                <td>-</td>
+                                <td>${averagePrice}P</td>
+                                <td>${purchasePrice}P</td>
 
-                        <td>${averagePrice}P</td>
-                        <td>${purchasePrice}P</td>
-                        <td>${stockProfit}P</td>
-                    </tr>
+                                <c:choose>
+                                    <c:when test="${stockProfit >= 0}">
+                                        <td class="plus">+${stockProfit}P</td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td class="minus">${stockProfit}P</td>
+                                    </c:otherwise>
+                                </c:choose>
+                            </tr>
+                        </c:otherwise>
+                    </c:choose>
                 </tbody>
             </table>
         </div>

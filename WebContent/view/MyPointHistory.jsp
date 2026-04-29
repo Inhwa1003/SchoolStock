@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% String contextPath = request.getContextPath(); %>
 
 <!DOCTYPE html>
@@ -27,40 +28,35 @@
         </thead>
 
         <tbody>
-          <tr>
-            <td class="date">04/20</td>
-            <td>매도</td>
-            <td>마라탕</td>
-            <td class="plus">+500P</td>
-          </tr>
 
-          <tr>
-            <td class="date">04/20</td>
-            <td>매수</td>
-            <td>마라탕</td>
-            <td class="minus">-400P</td>
-          </tr>
+          <c:choose>
+            <c:when test="${empty historyList}">
+              <tr>
+                <td colspan="4">포인트 내역이 없습니다.</td>
+              </tr>
+            </c:when>
 
-          <tr>
-            <td class="date">04/20</td>
-            <td>쿠폰</td>
-            <td>쿠폰 구매</td>
-            <td class="minus">-7,000P</td>
-          </tr>
+            <c:otherwise>
+              <c:forEach var="history" items="${historyList}">
+                <tr>
+                  <td class="date">${history.historyDate}</td>
+                  <td>${history.historyType}</td>
+                  <td>${history.historyContent}</td>
 
-          <tr>
-            <td class="date">04/18</td>
-            <td>매수</td>
-            <td>편의점</td>
-            <td class="minus">-70P</td>
-          </tr>
+                  <c:choose>
+                    <c:when test="${history.pointChange >= 0}">
+                      <td class="plus">+${history.pointChange}P</td>
+                    </c:when>
 
-          <tr>
-            <td class="date">04/17</td>
-            <td>지급</td>
-            <td>분리수거</td>
-            <td class="plus">+500P</td>
-          </tr>
+                    <c:otherwise>
+                      <td class="minus">${history.pointChange}P</td>
+                    </c:otherwise>
+                  </c:choose>
+                </tr>
+              </c:forEach>
+            </c:otherwise>
+          </c:choose>
+
         </tbody>
       </table>
     </main>
