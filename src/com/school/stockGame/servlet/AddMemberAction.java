@@ -24,7 +24,6 @@ public class AddMemberAction implements Action {
 				url="Login.jsp";
 			else
 				request.setAttribute("errorMessage", "회원가입실패");
-			url="AddMember.jsp";
 			
 		} catch (Exception e) {
 			e.printStackTrace();
