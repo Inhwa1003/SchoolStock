@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>회원 가입 페이지</title>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/AddMember.css" />
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/AddMember.css" />
 </head>
 <body>
 
@@ -13,60 +14,60 @@
 		<h1>회원가입</h1>
 		<form method="post" action="controller?cmd=AddMemberAction">
 
-		<div class="input-row">
-			<label>아이디 :</label>
-			<div class="input-field-group">
-				<input type="text" name="studentId"> <span class="message success">*
-					사용가능한 아이디 입니다!</span>
+			<div class="input-row">
+				<label>아이디 :</label>
+				<div class="input-field-group">
+					<input type="text" name="studentId"> <span
+						class="message success">* 사용가능한 아이디 입니다!</span>
+				</div>
 			</div>
-		</div>
 
-		<div class="input-row">
-			<label>비밀번호 :</label>
-			<div class="input-field-group">
-				<input type="password" name="password"> <span class="message info">비밀번호는
-					특수기호를 포함한 8자리 이상</span>
+			<div class="input-row">
+				<label>비밀번호 :</label>
+				<div class="input-field-group">
+					<input type="password" name="password"> <span
+						class="message info">비밀번호는 특수기호를 포함한 8자리 이상</span>
+				</div>
 			</div>
-		</div>
 
-		<div class="input-row">
-			<label>비밀번호 확인 :</label>
-			<div class="input-field-group">
-				<input type="password"> <span class="message error">비밀번호를
-					확인 해주세요.</span>
+			<div class="input-row">
+				<label>비밀번호 확인 :</label>
+				<div class="input-field-group">
+					<input type="password"> <span class="message error">비밀번호를
+						확인 해주세요.</span>
+				</div>
 			</div>
-		</div>
-		<div class="input-row">
-		<label>이름 :</label>
-		<div class="input-field-group">
-		<input type="text" name="name" />
-		</div>
-		
-		</div>
+			<div class="input-row">
+				<label>이름 :</label>
+				<div class="input-field-group">
+					<input type="text" name="name" />
+				</div>
 
-		<div class="info-row">
-			<span>년도 : <span id="current-year" style="font-weight: bold;"></span></span>
-			<span>학년 :</span> <select name="grade">
-				<option>5</option>
-				<option>6</option>
-			</select> 
-			<span>반 :</span> <input type="text" class="small" name="className">
-			<span>번호 :</span> <input type="number" class="small" name="classNumber"
-				min="1" max="99">
-		</div>
+			</div>
 
-		<button class="submit-button">회원가입</button>
+			<div class="info-row">
+				<span>년도 : <span id="current-year" style="font-weight: bold;"></span></span>
+				<span>학년 :</span> <select name="grade">
+					<option>5</option>
+					<option>6</option>
+				</select> <span>반 :</span> <input type="text" class="small" name="className">
+				<span>번호 :</span> <input type="number" class="small"
+					name="classNumber" min="1" max="99">
+			</div>
+
+			<button class="submit-button">회원가입</button>
 		</form>
+		<div class="login-link-container">
+			이미 아이디가 있나요? <a
+				href="${pageContext.request.contextPath}/controller?cmd=LoginUI"
+				class="back-to-login"> 로그인하러 가기 </a>
+		</div>
 	</div>
 
 	<script>
-    const today = new Date();
-    document.getElementById('current-year').innerText = today.getFullYear();
-</script>
-<c:if test="${not empty errorMessage}">
-        <script type="text/javascript">
-            alert("${errorMessage}");
-        </script>
-    </c:if>
+		const
+		today = new Date();
+		document.getElementById('current-year').innerText = today.getFullYear();
+	</script>
 </body>
 </html>

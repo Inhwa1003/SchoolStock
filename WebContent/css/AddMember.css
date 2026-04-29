@@ -93,3 +93,27 @@ input, select {
 	font-size: 24px;
 	cursor: pointer;
 }
+
+.login-link-container {
+    margin-top: 25px;         
+    font-size: 16px;          
+    color: #666;              
+    width: 100%;              
+    display: flex;            
+    justify-content: center;  
+    gap: 8px;                 
+}
+
+
+.back-to-login {
+    color: #007bff;           
+    text-decoration: none;    
+    font-weight: bold;        
+    transition: color 0.2s;   
+}
+
+
+.back-to-login:hover {
+    text-decoration: underline; 
+    color: #0056b3;             
+}
