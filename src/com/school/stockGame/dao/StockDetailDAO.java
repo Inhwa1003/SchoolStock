@@ -22,6 +22,7 @@ import com.school.stockGame.vo.OrderVO;
  */
 public class StockDetailDAO {
 	private Connection conn;
+	public StockDetailDAO(){}
 	// 트랜잭션 관리 때문에 필요
 	public StockDetailDAO(Connection conn){
 		this.conn = conn;
