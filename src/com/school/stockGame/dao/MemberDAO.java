@@ -29,6 +29,7 @@ public class MemberDAO {
 			stmt.close();
 			conn.close();
 		} catch (Exception e) {
+			System.out.println("회원가입 중 에러 발생!");
 			e.printStackTrace();
 		}
 		return flag;
