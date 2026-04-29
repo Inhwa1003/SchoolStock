@@ -84,6 +84,6 @@ public interface StockDetailQuery {
 			+ "AND state ='대기' "
 			+ "ORDER BY ORDER_DATE ASC";
 	
-	// 내 주문 요청 취소
+	// 내 주문 요청 취소 무조건 다시 orders state 업데이트 문으로 취소로 바꾸기
 	String MY_ORDER_CANCEL = "DELETE FROM orders WHERE order_no = ?";
 }

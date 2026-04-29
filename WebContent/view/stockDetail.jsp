@@ -34,9 +34,9 @@
 					<p>${stockContent}</p>
 				</div>
 				<div class="stock-price">
-					<div class="price-now">800P</div>
-					<div class="price-change">+200P (+25%)</div>
-					<div class="price-base">${priceBase}</div>
+					<div class="price-now">${nowPrice}P</div>
+					<div class="price-change">${changePrice}P (${percent}%)</div>
+					<div class="price-base">${prevPrice}</div>
 				</div>
 			</div>
 			<!-- 메인 구역 -->
