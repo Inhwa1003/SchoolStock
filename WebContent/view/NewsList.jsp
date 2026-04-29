@@ -31,31 +31,7 @@
 			</c:if>
 		</div>
 		</main>
-
-		<aside class="right-sidebar">
-			<div class="user-info">
-				<h2 class="user-name" id="studentName">로드 중...</h2>
-				<p id="studentClassInfo">0학년 0반 0번</p>
-				<p class="point-info" id="studentPoints">보유 포인트 : 0P</p>
-			</div>
-
-			<div class="round-box">
-				<p>장 운영중</p>
-			</div>
-
-			<nav class="sidebar-menu">
-				<button class="menu-button"
-					onclick="location.href='controller?cmd=MyAssetsUI'">내 자산</button>
-				<button class="menu-button"
-					onclick="location.href='controller?cmd='">주식 목록</button>
-				<button class="menu-button active"
-					onclick="location.href='controller?cmd=NewsUI'">뉴스 목록</button>
-				<button class="menu-button"
-					onclick="location.href='controller?cmd='">내 포인트 내역</button>
-				<button class="menu-button"
-					onclick="location.href='controller?cmd='">쿠폰 상점</button>
-			</nav>
-		</aside>
+		<jsp:include page="SideBar.jsp" />
 	</div>
 
 	<script src="${pageContext.request.contextPath}/js/NewsScript.js"></script>
