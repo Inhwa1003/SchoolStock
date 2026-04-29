@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title>내 자산 관리</title>
-    <link rel="stylesheet" type="text/css" href="<%=contextPath%>/view/MyAssetStyle.css">
+    <link rel="stylesheet" type="text/css" href="<%=contextPath%>/css/MyAssetStyle.css">
 </head>
 <body>
     <div class="container">
