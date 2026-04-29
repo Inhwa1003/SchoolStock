@@ -16,6 +16,7 @@ public class ActionFactory {
 			break;
 
 		default:
+			a = new StockDetailUIAction();
 			break;
 		}
 		return a;
