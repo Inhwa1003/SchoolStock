@@ -14,10 +14,6 @@ public class ActionFactory {
 		case "stockDetailUI":
 			a = new StockDetailUIAction();
 			break;
-		case "loginUI":
-			a = new LoginUIAction();
-		case "loginAction":
-			a = new LoginAction();
 
 		default:
 			break;
