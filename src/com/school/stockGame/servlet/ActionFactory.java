@@ -1,0 +1,24 @@
+package com.school.stockGame.servlet;
+
+public class ActionFactory {
+	private ActionFactory(){}
+	
+	public static Action getAction(String cmd){
+		Action a = null;
+		if(cmd == null) cmd = "";
+		switch (cmd){
+		case "LoginUI":
+			a = new LoginUIAction();
+			break;
+		case "LoginAction":
+			a=new LoginAction();
+			break;
+		default:
+			a=new LoginUIAction();
+
+		}
+		return a;
+	}
+	
+
+}

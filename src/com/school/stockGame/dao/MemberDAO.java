@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.school.stockGame.query.MemberQuery;
+
 //import com.school.stockGame.vo.studentVO
 public class MemberDAO {
 	public MemberDAO(){}

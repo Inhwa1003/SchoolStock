@@ -1,4 +1,4 @@
-package com.school.stockGame.dao;
+package com.school.stockGame.query;
 
 public interface MemberQuery {
 

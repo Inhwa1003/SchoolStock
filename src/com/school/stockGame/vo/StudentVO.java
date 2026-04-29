@@ -1,0 +1,84 @@
+package com.school.stockGame.vo;
+
+public class StudentVO {
+	private String studentId;
+	private String password;
+	private String name;
+	private int grade;
+	private String classNumber;
+	private int studentNumber;
+	private int registerYear;
+	private int totalCoupon;
+	private int totalPoint;
+	
+	public StudentVO() {};
+	public StudentVO(String studentId) {};
+	public StudentVO(String studentId, String password, String name, int grade, String classNumber, int studentNumber,
+			int registerYear, int totalCoupon, int totalPoint) {
+		setStudentId(studentId);
+		setPassword(password);
+		setName(name);
+		setGrade(grade);
+		setClassNumber(classNumber);
+		setStudentNumber(studentNumber);
+		setRegisterYear(registerYear);
+		setTotalCoupon(totalCoupon);
+		setTotalPoint(totalPoint);
+	}
+	
+
+	public String getStudentId() {
+		return studentId;
+	}
+	public void setStudentId(String studentId) {
+		this.studentId = studentId;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getGrade() {
+		return grade;
+	}
+	public void setGrade(int grade) {
+		this.grade = grade;
+	}
+	public String getClassNumber() {
+		return classNumber;
+	}
+	public void setClassNumber(String classNumber) {
+		this.classNumber = classNumber;
+	}
+	public int getStudentNumber() {
+		return studentNumber;
+	}
+	public void setStudentNumber(int studentNumber) {
+		this.studentNumber = studentNumber;
+	}
+	public int getRegisterYear() {
+		return registerYear;
+	}
+	public void setRegisterYear(int registerYear) {
+		this.registerYear = registerYear;
+	}
+	public int getTotalCoupon() {
+		return totalCoupon;
+	}
+	public void setTotalCoupon(int totalCoupon) {
+		this.totalCoupon = totalCoupon;
+	}
+	public int getTotalPoint() {
+		return totalPoint;
+	}
+	public void setTotalPoint(int totalPoint) {
+		this.totalPoint = totalPoint;
+	}
+}
