@@ -30,6 +30,10 @@ public class StockDetailDAO {
 		this.conn = conn;
 	}
 	
+	public void ConnClose() throws SQLException{
+		conn.close();
+	}
+	
 	// 주식 기본정보 조회
 	public Map<String, Object> getStockInfo(int stockNo) {
 		Map<String, Object> tmp = new HashMap<>();
