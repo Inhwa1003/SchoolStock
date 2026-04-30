@@ -4,7 +4,7 @@
 	<c:if test="${loginOK==null}">
     <script>
         alert('로그인이 필요합니다.');
-        location.href = '${pageContext.request.contextPath}/controller'; 
+        location.href = '${pageContext.request.contextPath}/Login.jsp'; 
     </script>
 </c:if>
 <!DOCTYPE html>
