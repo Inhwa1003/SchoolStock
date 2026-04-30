@@ -38,9 +38,6 @@ function updateStockPrices() {
         }
       });
     })
-    .catch(function(error) {
-      console.log("주식 가격 갱신 실패:", error);
-    });
 }
 
 window.onload = function() {
@@ -48,5 +45,5 @@ window.onload = function() {
 
   setInterval(function() {
     updateStockPrices();
-  }, 5000);
+  }, 10000);
 };
