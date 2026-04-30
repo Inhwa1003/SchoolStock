@@ -25,6 +25,13 @@ public class ActionFactory {
 		case "StockPriceAjax":
 			a = new StockPriceAjax();
 			break;
+			// 소문자 수정
+		case "StockDetailUI":
+			a = new StockDetailUIAction();
+			break;
+		default:
+			a = new StockDetailUIAction();
+			break;
 		}
 		return a;
 	}
