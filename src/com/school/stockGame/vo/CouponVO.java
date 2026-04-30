@@ -6,6 +6,9 @@ public class CouponVO {
 	private int price;
 
 	
+	//매개변수 없는 생성자 추가
+	public CouponVO() {
+	}
 	
 	public CouponVO(int couponNo) {
 		setCouponNo(couponNo);

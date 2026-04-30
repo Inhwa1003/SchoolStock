@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.school.stockGame.query.CouponQuery;
+import com.school.stockGame.vo.CouponPurchaseVO;
 import com.school.stockGame.vo.CouponVO;
 
 public class CouponDAO {
@@ -64,5 +65,25 @@ public class CouponDAO {
 			e.printStackTrace();
 		}
 		return flag;
+	}
+	// 내가 보유한 쿠폰 조회
+	public List<CouponPurchaseVO> MyCouponList(String studentId){
+		List<CouponPurchaseVO> list = new ArrayList<>();
+		try {
+			conn = DBCP.getConnection();
+			PreparedStatement stmt = conn.prepareStatement(CouponQuery.MY_COUPON_SQL);
+			stmt.setString(1, studentId);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()){
+				list.add((CouponPurchaseVO) new CouponPurchaseVO(rs.getInt("price"),rs.getString("name")));
+			}
+			rs.close();
+			stmt.close();
+			conn.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 }
