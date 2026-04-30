@@ -23,7 +23,7 @@ public class ActionFactory {
 			break;
 		
 		case "StockPriceAjax":
-			a = new StockPriceAjaxAction();
+			a = new StockPriceAjax();
 			break;
 		}
 		return a;

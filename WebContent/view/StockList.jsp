@@ -9,7 +9,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>주식 목록</title>
-  <link rel="stylesheet" href="<%=contextPath%>/css/stock-list.css" />
+  <link rel="stylesheet" href="<%=contextPath%>/css/StockList.css" />
 </head>
 
 <body>

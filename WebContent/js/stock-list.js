@@ -48,5 +48,5 @@ window.onload = function() {
 
   setInterval(function() {
     updateStockPrices();
-  }, 3000);
+  }, 5000);
 };

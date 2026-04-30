@@ -2,7 +2,7 @@ package com.school.stockGame.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +13,7 @@ import com.google.gson.Gson;
 import com.school.stockGame.dao.StockDetailDAO;
 import com.school.stockGame.dao.StockListDAO;
 
-public class StockPriceAjaxAction implements Action {
+public class StockPriceAjax implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
@@ -37,7 +37,7 @@ public class StockPriceAjaxAction implements Action {
 			int priceChange = daoDetail.getStockPriceChange(stockNo);
 			int changeRate = daoDetail.getChangeRate(stockNo);
 
-			Map<String, Object> stock = new HashMap<String, Object>();
+			Map<String, Object> stock = new LinkedHashMap<String, Object>();
 
 			// JS에서 stock.stockName으로 쓰고 있으므로 key 이름 반드시 stockName
 			stock.put("stockName", stockName);
@@ -53,6 +53,7 @@ public class StockPriceAjaxAction implements Action {
 		Gson gson = new Gson();
 		String json = gson.toJson(stockList);
 
+		System.out.println("StockPriceAjax Json="+json);
 		// 4. JSP에서 출력할 수 있도록 request에 저장
 		request.setAttribute("jsonData", json);
 
