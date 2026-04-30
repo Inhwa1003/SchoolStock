@@ -70,10 +70,10 @@ public class StockDetailDAOTest {
 		dao = new StockDetailDAO();
 		System.out.println(dao.getTotalMyOrder(1, "abc"));
 	}
-	@Test
-	public void 내주문취소() throws ClassNotFoundException, SQLException {
-		dao = new StockDetailDAO();
-		//System.out.println(dao.myOrderCancel(12));
-	}
+//	@Test 테스트 잘못함
+//	public void 내주문취소() throws ClassNotFoundException, SQLException {
+//		dao = new StockDetailDAO();
+//		//System.out.println(dao.myOrderCancel(12));
+//	}
 
 }
