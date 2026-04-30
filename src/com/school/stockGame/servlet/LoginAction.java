@@ -24,11 +24,6 @@ public class LoginAction implements Action {
 			if(m.keySet().size()>0){
 				HttpSession session=request.getSession(true);
 				session.setAttribute("loginOK", studentId);
-				session.setAttribute("name", m.get("name"));
-				session.setAttribute("grade", m.get("grade"));
-				session.setAttribute("className", m.get("class"));
-				session.setAttribute("classNumber", m.get("classNumber"));
-				session.setAttribute("totalPoint", m.get("totalPoint"));
 				session.setAttribute("info", m);
 				url="MyAssets.jsp";
 			}

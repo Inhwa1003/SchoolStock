@@ -6,6 +6,7 @@ public class ActionFactory {
 	public static Action getAction(String cmd){
 		Action a = null;
 		if(cmd == null) cmd = "";
+		System.out.println(cmd);
 		switch (cmd){
 		case "LoginUI":
 			a = new LoginUIAction();
