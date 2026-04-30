@@ -9,7 +9,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>주식 목록</title>
-  <link rel="stylesheet" href="<%=contextPath%>/css/StockList.css" />
+  <link rel="stylesheet" href="<%=contextPath%>/css/stock-list.css" />
 </head>
 
 <body>
@@ -39,26 +39,27 @@
 
             <c:otherwise>
               <c:forEach var="stock" items="${stockList}">
-                <tr>
+                <tr data-stock-no="${stock.stockNo}">
                   <td>${stock.stockName}</td>
-                  <td>${stock.currentPrice}P</td>
-                  <td>${stock.prevPrice}P</td>
+
+                  <td class="current-price">${stock.currentPrice}P</td>
+                  <td class="prev-price">${stock.prevPrice}P</td>
 
                   <c:choose>
                     <c:when test="${stock.priceChange >= 0}">
-                      <td class="up">+${stock.priceChange}P</td>
+                      <td class="price-change up">+${stock.priceChange}P</td>
                     </c:when>
                     <c:otherwise>
-                      <td class="down">${stock.priceChange}P</td>
+                      <td class="price-change down">${stock.priceChange}P</td>
                     </c:otherwise>
                   </c:choose>
 
                   <c:choose>
                     <c:when test="${stock.changeRate >= 0}">
-                      <td class="up">+${stock.changeRate}%</td>
+                      <td class="change-rate up">+${stock.changeRate}%</td>
                     </c:when>
                     <c:otherwise>
-                      <td class="down">${stock.changeRate}%</td>
+                      <td class="change-rate down">${stock.changeRate}%</td>
                     </c:otherwise>
                   </c:choose>
                 </tr>
@@ -90,5 +91,10 @@
     </aside>
 
   </div>
+
+  <script>
+    const contextPath = "<%=contextPath%>";
+  </script>
+  <script src="<%=contextPath%>/js/stock-list.js"></script>
 </body>
 </html>
