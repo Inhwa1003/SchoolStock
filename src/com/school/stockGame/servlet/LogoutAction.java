@@ -13,7 +13,7 @@ public class LogoutAction implements Action {
 		
 		HttpSession session=request.getSession();
 		if(session !=null){
-			//session.removeAttribute("loginOK"); //1
+//			session.removeAttribute("loginOK"); //1
 			session.invalidate();//2
 		}		
 		return "index.jsp";
