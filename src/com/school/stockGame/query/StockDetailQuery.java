@@ -45,14 +45,6 @@ public interface StockDetailQuery {
 	String ORDER_REQUEST = "INSERT INTO ORDERS (order_no, content, price, amount, state, order_date, student_id, stock_no) "
 			+ "VALUES (order_no_seq.NEXTVAL, ?, ?, ?, '대기', SYSDATE, ?, ?)";
 	
-	// 주문 완료시 포인트 up (주식 개수 * 주문가격)
-	String POINT_UP_SQL = "UPDATE students SET total_point = total_point + (? * ?) "
-			+ "WHERE student_id = ?";
-	
-	// 주문 완료시 포인트 down (주식 개수 * 주문가격)
-	String POINT_DOWN_SQL = "UPDATE students SET total_point = total_point - (?) "
-			+ "WHERE student_id = ?";
-	
 	// 대기중인 총 매도 매수 요청 리스트
 	String TOTAL_ORDER_REQUEST = "SELECT price, amount, content "
 			+ "FROM orders "
@@ -85,5 +77,30 @@ public interface StockDetailQuery {
 			+ "ORDER BY ORDER_DATE ASC";
 	
 	// 내 주문 요청 취소
-	String MY_ORDER_CANCEL = "DELETE FROM orders WHERE order_no = ?";
+	String MY_ORDER_CANCEL = "";
+	
+	// 주문 완료시 포인트 up (주식 개수 * 주문가격)
+	String POINT_UP_SQL = "UPDATE students SET total_point = total_point + (?) "
+			+ "WHERE student_id = ?";
+	
+	// 주문 완료시 포인트 down (주식 개수 * 주문가격)
+	String POINT_DOWN_SQL = "UPDATE students SET total_point = total_point - (?) "
+			+ "WHERE student_id = ?";
+	
+	// 주문 요청 완료 (매수no, 매도no)
+	String MATCH_COMPLETE_INSERT_SQL = "INSERT INTO transaction (transaction_no, transaction_date, buy_order_no, sell_order_no) "
+			+ "VALUES (transaction_no_seq.NEXTVAL, SYSDATE, ?, ?)";
+	
+	// 주식 발행 정보 조회 (주식no)
+	String PUBLICATION_DATA_SELECT_SQL = "SELECT publication_balance, publication_price "
+			+ "FROM stocks "
+			+ "WHERE stock_no = ?";
+	
+	// 주식 발행 개수 변경 (구입개수, 주식no)
+	String PUBLICATION_DATA_UPDATE_SQL = "UPDATE stocks SET publication_balance = publication_balance - ? "
+			+ "WHERE stock_no = ?";
+	
+	// 주문요청 상태 변경 (['대기','체결','취소'], 주문no)
+	String ORDER_STATE_UPDATE_SQL = "UPDATE orders SET state = ? "
+			+ "WHERE order_no = ?";
 }
