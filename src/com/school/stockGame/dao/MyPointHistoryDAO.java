@@ -10,6 +10,8 @@ import java.util.Map;
 
 import com.school.stockGame.query.MyPointHistoryQuery;
 
+import com.school.stockGame.query.MyPointHistoryQuery;
+
 public class MyPointHistoryDAO {
 
     public MyPointHistoryDAO() {}

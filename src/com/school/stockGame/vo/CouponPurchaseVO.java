@@ -54,8 +54,5 @@ public class CouponPurchaseVO extends CouponVO{
 	public void setStudentId(int studentId) {
 		this.studentId = studentId;
 	}
-		
-	
-	
-	
 }
+		
