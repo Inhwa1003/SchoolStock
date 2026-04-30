@@ -25,7 +25,7 @@
 
 			<header class="hd">
 				<input class="back-btn" type="button" value="뒤로" />
-				<div class="hd-name">홍길동의 보유 쿠폰</div>
+				<div class="hd-name">${info.name}의 보유 쿠폰</div>
 			</header>
 
 			<div class="main">

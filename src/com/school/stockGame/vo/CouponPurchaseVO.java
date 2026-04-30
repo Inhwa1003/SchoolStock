@@ -60,6 +60,12 @@ public class CouponPurchaseVO extends CouponVO{
 	public void setStudentId(int studentId) {
 		this.studentId = studentId;
 	}
+
+	@Override
+	public String toString() {
+		return "[price=" + price + ", name=" + name + ", state=" + state + ", studentId=" + studentId
+				+ "]";
+	}
 		
 	
 	

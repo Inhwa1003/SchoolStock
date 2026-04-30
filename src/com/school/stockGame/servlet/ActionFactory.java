@@ -9,7 +9,7 @@ public class ActionFactory {
 		System.out.println(cmd);
 		switch (cmd){
 		case "LoginUI":
-			a = new LoginUIAction();
+			a=new LoginUIAction();
 			break;
 		case "LoginAction":
 			a=new LoginAction();	
@@ -22,6 +22,11 @@ public class ActionFactory {
 			break;
 		case "LogoutAction":
 			a=new LogoutAction();
+			break;
+		case "CouponPersonalUI":
+			a=new CouponPersonalUIAction();
+			break;
+		
 		default:
 			a=new LoginUIAction();
 
