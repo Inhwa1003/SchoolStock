@@ -1,0 +1,309 @@
+package com.school.stockGame.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.school.stockGame.query.StockDetailQuery;
+import com.school.stockGame.vo.OrderVO;
+
+/**
+ * @author 최동석 
+ * 주식 등락률 폭 +- 30% 제한 어떻게 둘지 고민 해봐야함
+ * 	- 이전가격 불러와서 자바 스크립트로 이전가격 +-30% 값 못적게 UI상 처리 가능? 한지 확인
+ * 주식 매칭 되고 체결 될때 보유주식량 차감 sql문 만들어야함
+ * 주식 매칭 되고 체결 될때 매도한 포인트 증가 sql문만 있음 기능은 없음
+ * 04.29 발행 잔량이 남아있다면 이라는 조건을 주기위해 발행 잔량 체크 하는 SQL 추가해야함 
+ */
+public class StockDetailDAO {
+	private Connection conn;
+	public StockDetailDAO(){}
+	// 트랜잭션 관리 때문에 필요
+	public StockDetailDAO(Connection conn){
+		this.conn = conn;
+	}
+
+	// 주식 기본정보 조회
+	public Map<String, Object> getStockInfo(int stockNo) {
+		Map<String, Object> tmp = new HashMap<>();
+		try {
+			conn = DBCP.getConnection();
+			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.STOCK_INFO_SQL);
+			stmt.setInt(1, stockNo);
+			ResultSet rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				tmp.put("name", rs.getString(1));
+				tmp.put("content", rs.getString(2));
+			}
+
+			rs.close();
+			stmt.close();
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return tmp;
+	}
+
+	// 주식 현재 가격 조회
+	public int getStockPrice(int stockNo) {
+		int price = 0;
+		try {
+			conn = DBCP.getConnection();
+			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.STOCK_PRICE_SQL);
+			stmt.setInt(1, stockNo);
+			ResultSet rs = stmt.executeQuery();
+
+			if (rs.next())
+				price = rs.getInt(1);
+
+			rs.close();
+			stmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return price;
+	}
+
+	// 주식 이전 가격 대비 조회
+	public int getStockPriceChange(int stockNo) {
+		int price = 0;
+		try {
+			conn = DBCP.getConnection();
+			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.STOCK_PRICE_CHANGE_SQL);
+			stmt.setInt(1, stockNo);
+			stmt.setInt(2, stockNo);
+			ResultSet rs = stmt.executeQuery();
+
+			if (rs.next())
+				price = rs.getInt(1);
+
+			rs.close();
+			stmt.close();
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return price;
+	}
+
+	// 주식 등락률 조회
+	public int getChangeRate(int StockNo) {
+		int percent = 0;
+		try {
+			conn = DBCP.getConnection();
+			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.STOCK_CHANGE_RATE_SQL);
+			stmt.setInt(1, StockNo);
+			stmt.setInt(2, StockNo);
+			ResultSet rs = stmt.executeQuery();
+
+			if (rs.next())
+				percent = rs.getInt(1);
+
+			rs.close();
+			stmt.close();
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return percent;
+	}
+
+	// 주식 이전가격 조회
+	public int getPervPrice(int stockNo) {
+		int prevPrice = 0;
+		try {
+			conn = DBCP.getConnection();
+			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.STOCK_PREV_PRICE_SQL);
+			stmt.setInt(1, stockNo);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next())
+				prevPrice = rs.getInt(1);
+			rs.close();
+			stmt.close();
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return prevPrice;
+	}
+
+	// 매도 기능
+	public boolean setSellOrder(int stockNo, String studentId, int sellQty, int sellPrice) {
+		boolean flag = false;
+		try {
+			conn = DBCP.getConnection();
+			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.STOCK_QTY_SQL);
+			stmt.setString(1, studentId);
+			stmt.setInt(2, stockNo);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				// 보유수량 주문수량 비교 UI에서 할지 고민하기
+				// 주문한 수량이 보유 수량보다 작거나 같다면 실행
+				if (sellQty <= rs.getInt(1)) {
+					// 매도 주문
+					stmt = conn.prepareStatement(StockDetailQuery.ORDER_REQUEST);
+					stmt.setString(1, "매도");
+					stmt.setInt(2, sellPrice);
+					stmt.setInt(3, sellQty);
+					stmt.setString(4, studentId);
+					stmt.setInt(5, stockNo);
+					flag = (stmt.executeUpdate() == 1);
+				}
+			}
+			rs.close();
+			stmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return flag;
+	}
+
+	// 매수 기능
+	public boolean setBuyOrder(int stockNo, String studentId, int buyQty, int buyPrice) {
+		boolean flag = false;
+		try {
+			conn = DBCP.getConnection();
+
+			conn.setAutoCommit(false);
+
+			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.TOTAL_POINT_SQL);
+			stmt.setString(1, studentId);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				// 보유 포인트가 사기로 한 포인트보다 여유가 있으면 실행
+				if (rs.getInt(1) >= (buyQty * buyPrice)) {
+					stmt = conn.prepareStatement(StockDetailQuery.ORDER_REQUEST);
+					stmt.setString(1, "매수");
+					stmt.setInt(2, buyPrice);
+					stmt.setInt(3, buyQty);
+					stmt.setString(4, studentId);
+					stmt.setInt(5, stockNo);
+					// 주문 완료 되면 포인트 차감
+					if (stmt.executeUpdate() == 1) {
+						stmt = conn.prepareStatement(StockDetailQuery.POINT_DOWN_SQL);
+						stmt.setInt(1, buyQty * buyPrice);
+						stmt.setString(2, studentId);
+						flag = (stmt.executeUpdate() == 1);
+					}
+				}
+			}
+			// 모든 쿼리문 실행 되면 커밋 아니면 롤백
+			if (flag) {
+				conn.commit();
+			} else {
+				conn.rollback();
+			}
+			conn.setAutoCommit(true);
+			rs.close();
+			stmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return flag;
+	}
+
+	// 특정 주식 대기중인 매도 매수 주문 모두 조회
+	public List<OrderVO> getTotalOrder(int stockNo) {
+		List<OrderVO> list = new ArrayList<>();
+		try {
+			conn = DBCP.getConnection();
+			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.TOTAL_ORDER_REQUEST);
+			stmt.setInt(1, stockNo);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				list.add(new OrderVO(rs.getInt(1), rs.getInt(2), rs.getString(3)));
+			}
+			rs.close();
+			stmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	// 특정 주식 대기중인 매도 주문 모두 조회
+	public List<OrderVO> getTotalSellOrder(int stockNo) {
+		List<OrderVO> list = new ArrayList<>();
+		try {
+			conn = DBCP.getConnection();
+			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.TOTAL_SELL_ORDER_REQUEST);
+			stmt.setInt(1, stockNo);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				list.add(new OrderVO(rs.getInt(1), rs.getInt(2), rs.getString(3)));
+			}
+			rs.close();
+			stmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	// 특정 주식 대기중인 매수 주문 모두 조회
+	public List<OrderVO> getTotalBuyOrder(int stockNo) {
+		List<OrderVO> list = new ArrayList<>();
+		try {
+			conn = DBCP.getConnection();
+			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.TOTAL_BUY_ORDER_REQUEST);
+			stmt.setInt(1, stockNo);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				list.add(new OrderVO(rs.getInt(1), rs.getInt(2), rs.getString(3)));
+			}
+			rs.close();
+			stmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	// 내 주문 요청 조회
+	public List<OrderVO> getTotalMyOrder(int stockNo, String studentId) {
+		List<OrderVO> list = new ArrayList<>();
+		try {
+			conn = DBCP.getConnection();
+			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.MY_ORDER_REQUEST);
+			stmt.setString(1, studentId);
+			stmt.setInt(2, stockNo);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				list.add(new OrderVO(rs.getInt(1),rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6)));
+			}
+			rs.close();
+			stmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	// 내 주문 요청 취소
+	public boolean myOrderCancel(int orderNo){
+		boolean flag = false;
+		try {
+			conn = DBCP.getConnection();
+			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.MY_ORDER_CANCEL);
+			stmt.setInt(1, orderNo);
+			flag = (stmt.executeUpdate() == 1);
+			
+			stmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return flag;
+	}
+}
