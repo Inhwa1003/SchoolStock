@@ -8,6 +8,9 @@ public class ActionFactory {
 		if(cmd == null) cmd = "";
 		System.out.println(cmd);
 		switch (cmd){
+		case "idCheck":
+			a=new IdCheckAction();
+			break;
 		case "LoginUI":
 			a=new LoginUIAction();
 			break;
@@ -25,7 +28,7 @@ public class ActionFactory {
 			break;
 		case "CouponPersonalUI":
 			a=new CouponPersonalUIAction();
-			break;
+			break;	
 		
 		default:
 			a=new LoginUIAction();
