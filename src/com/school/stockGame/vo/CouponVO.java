@@ -33,9 +33,9 @@ public class CouponVO {
 	public void setPrice(int price) {
 		this.price = price;
 	}
-	@Override
-	public String toString() {
-		return "[couponNo=" + couponNo + ", name=" + name + ", price=" + price + "]";
-	}
-	
+
+
+
+
+
 }

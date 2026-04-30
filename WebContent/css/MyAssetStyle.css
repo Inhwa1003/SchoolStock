@@ -1,0 +1,160 @@
+body {
+	font-family: 'Malgun Gothic', sans-serif;
+	background-color: #f4f7f9;
+	margin: 0;
+	padding: 0;
+}
+
+/* ���̾ƿ� ���� */
+.main-layout {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	gap: 30px;
+	max-width: 1400px;
+	margin: 0 auto;
+	padding: 0 20px;
+}
+
+.asset-page-wrapper {
+	flex: 1;
+	max-width: 1000px;
+	padding: 40px 0;
+}
+
+/* �ڻ� ���� ���� ��Ÿ�� */
+.summary-container {
+	display: table;
+	width: 100%;
+	table-layout: fixed;
+	margin-bottom: 30px;
+	border-collapse: separate;
+	border-spacing: 10px 0;
+}
+
+.card {
+	display: table-cell;
+	background: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	text-align: center;
+	border: 1px solid #ddd;
+}
+
+.label {
+	display: block;
+	color: #666;
+	font-size: 14px;
+	margin-bottom: 10px;
+}
+
+.value {
+	font-size: 20px;
+	font-weight: bold;
+	color: #333;
+}
+
+.table-container {
+	background: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 10px;
+}
+
+th {
+	background-color: #f8f9fa;
+	border-bottom: 2px solid #dee2e6;
+	padding: 12px;
+	text-align: left;
+}
+
+td {
+	padding: 12px;
+	border-bottom: 1px solid #eee;
+}
+
+.plus {
+	color: #d9534f;
+}
+
+.minus {
+	color: #0275d8;
+}
+
+/* ���̵�� ��Ÿ��*/
+.right-sidebar {
+	width: 405px;
+	min-height: 900px;
+	background-color: white;
+	box-sizing: border-box;
+	padding: 20px 12px;
+	border-left: 1px solid #eee;
+}
+
+.user-info {
+	text-align: center;
+	font-weight: 800;
+	margin-bottom: 28px;
+}
+
+.user-name {
+	margin: 0 0 2px 0;
+	font-size: 42px;
+	font-weight: 900;
+}
+
+.user-info p {
+	margin: 6px 0;
+	font-size: 28px;
+	line-height: 1.15;
+}
+
+.round-box {
+	width: 378px;
+	height: 128px;
+	margin: 0 auto 24px auto;
+	background-color: white;
+	border: 2px solid #777;
+	border-radius: 16px;
+	box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.35);
+	text-align: center;
+	box-sizing: border-box;
+	padding-top: 13px;
+}
+
+.round-box p {
+	margin: 8px 0 24px 0;
+	font-size: 25px;
+}
+
+.sidebar-menu {
+	width: 380px;
+}
+
+.menu-button {
+	width: 380px;
+	height: 84px;
+	margin-bottom: 24px;
+	border: 2px solid blue;
+	border-radius: 9px;
+	background-color: blue;
+	color: white;
+	font-size: 32px;
+	font-weight: 500;
+	cursor: pointer;
+}
+
+.menu-button.active {
+	background-color: skyblue;
+}
+
+.menu-button:hover {
+	filter: brightness(0.95);
+}

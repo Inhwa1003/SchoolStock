@@ -44,5 +44,7 @@ public class TransactionVO{
 	public void setBuyOrderNo(int buyOrderNo) {
 		this.buyOrderNo = buyOrderNo;
 	}
-}
+	
 
+
+}
