@@ -22,6 +22,9 @@ public class ActionFactory {
 			a = new StockListUI();
 			break;
 		
+		case "StockPriceAjax":
+			a = new StockPriceAjaxAction();
+			break;
 		}
 		return a;
 	}
