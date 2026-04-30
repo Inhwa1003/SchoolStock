@@ -6,7 +6,7 @@ function updateStockPrices() {
     .then(function(stockList) {
       stockList.forEach(function(stock) {
         const row = document.querySelector(
-          'tr[data-stock-no="' + stock.stockNo + '"]'
+          'tr[data-stock-name="' + stock.stockName + '"]'
         );
 
         if (row == null) {
