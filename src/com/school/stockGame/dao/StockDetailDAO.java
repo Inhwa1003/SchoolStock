@@ -22,6 +22,7 @@ import com.school.stockGame.vo.OrderVO;
  */
 public class StockDetailDAO {
 	private Connection conn;
+	
 	public StockDetailDAO(){}
 	// 트랜잭션 관리 때문에 필요
 	public StockDetailDAO(Connection conn){
@@ -65,6 +66,7 @@ public class StockDetailDAO {
 
 			rs.close();
 			stmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -162,6 +164,7 @@ public class StockDetailDAO {
 			}
 			rs.close();
 			stmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -206,6 +209,7 @@ public class StockDetailDAO {
 			conn.setAutoCommit(true);
 			rs.close();
 			stmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -226,6 +230,7 @@ public class StockDetailDAO {
 			}
 			rs.close();
 			stmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -245,6 +250,7 @@ public class StockDetailDAO {
 			}
 			rs.close();
 			stmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -264,6 +270,7 @@ public class StockDetailDAO {
 			}
 			rs.close();
 			stmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -284,6 +291,7 @@ public class StockDetailDAO {
 			}
 			rs.close();
 			stmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -300,6 +308,7 @@ public class StockDetailDAO {
 			flag = (stmt.executeUpdate() == 1);
 			
 			stmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
