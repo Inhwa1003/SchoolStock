@@ -6,7 +6,9 @@ let getOrdersEvent = function() {
     let selectedType = document.querySelector("#orderTypeSelect").value;
     
     // controller에 cmd와 함께 선택된 type을 파라미터로 보냅니다.
-    xhr.open("get", "controller?cmd=StockOrderStatusAction&type=" + selectedType, true);
+    xhr.open("get", "controller?cmd=StockOrderStatusAction&type=" + selectedType + "&no="+ stockNo, true);
+    
+   
     
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {

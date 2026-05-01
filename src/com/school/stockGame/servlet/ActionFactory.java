@@ -33,7 +33,7 @@ public class ActionFactory {
 			a = new StockOrderStatusAcion();
 			break;
 		default:
-			a = new StockDetailUIAction();
+			a = new StockListUI();
 			break;
 		}
 		return a;

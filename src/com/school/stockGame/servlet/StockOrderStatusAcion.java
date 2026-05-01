@@ -16,10 +16,12 @@ public class StockOrderStatusAcion implements Action {
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
 		StockDetailDAO stockDetailDAO = new StockDetailDAO();
 		List<OrderVO> list = null;
+		
+		int stockNo = Integer.parseInt(request.getParameter("no"));
 		if(request.getParameter("type").equals("sell")){
-			list = stockDetailDAO.getTotalSellOrder(1);
+			list = stockDetailDAO.getTotalSellOrder(stockNo);
 		}else{
-			list = stockDetailDAO.getTotalBuyOrder(1);
+			list = stockDetailDAO.getTotalBuyOrder(stockNo);
 		}
 		Gson gson = new Gson();
 		String json = gson.toJson(list);

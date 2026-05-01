@@ -7,14 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.school.stockGame.query.StockListQuery;
+import com.school.stockGame.vo.StockVO;
 
 public class StockListDAO {
 
     public StockListDAO() {}
     
     // 1. 주식명 조회
-    public List<String> getStockNameList() {
-        List<String> StockNameList = new ArrayList<String>();
+    public List<StockVO> getStockNameList() {
+        List<StockVO> StockList = new ArrayList<>();
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -29,8 +30,7 @@ public class StockListDAO {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                String stockName = rs.getString("NAME");
-                StockNameList.add(stockName);
+            	StockList.add(new StockVO(rs.getInt(1), rs.getString(2)));
             }
 
         } catch (Exception e) {
@@ -45,7 +45,7 @@ public class StockListDAO {
                 e.printStackTrace();
             }
         }
-        return StockNameList;
+        return StockList;
     }
     
     // 2. 주식 현재가격 조회  

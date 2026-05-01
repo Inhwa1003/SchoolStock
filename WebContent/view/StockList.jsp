@@ -40,8 +40,7 @@
             <c:otherwise>
               <c:forEach var="stock" items="${stockList}">
                 <tr data-stock-name="${stock.stockName}">
-                  <td href=>${stock.stockName}</td>
-
+                  <td>${stock.stockName}</td>
                   <td class="current-price">${stock.currentPrice}P</td>
                   <td class="prev-price">${stock.prevPrice}P</td>
 
