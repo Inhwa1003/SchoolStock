@@ -35,13 +35,13 @@
 				onclick="location.href='${pageContext.request.contextPath}/controller?cmd=MyAssetsAction'">내
 				자산</button>
 			<button class="menu-button ${currentCmd == 'StockListUI' ? 'active' : ''}"
-				onclick="location.href='${pageContext.request.contextPath}/view/StockList.jsp'">주식
+				onclick="location.href='${pageContext.request.contextPath}/controller?com=StockListUI'">주식
 				목록</button>
 			<button class="menu-button ${currentCmd == 'NewsUI' ? 'active' : ''}"
 				onclick="location.href='${pageContext.request.contextPath}/controller?cmd=NewsUI'">뉴스
 				목록</button>
 			<button class="menu-button ${currentCmd == 'MyPointHistoryUI' ? 'active' : ''}"
-				onclick="location.href='${pageContext.request.contextPath}/view/MyPointHistory.jsp'">내
+				onclick="location.href='${pageContext.request.contextPath}/controller?cmd=MyPointHistoryUI'">내
 				포인트 내역</button>
 			<button class="menu-button ${currentCmd == 'CouponMarketUI' ? 'active' : ''}"
 				onclick="location.href='${pageContext.request.contextPath}/view/CouponMarket.jsp'">쿠폰
