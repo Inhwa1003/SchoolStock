@@ -329,6 +329,7 @@ public class StockDetailDAO {
 		}
 		return flag;
 	}
+	
 	// 주식 발행 정보 조회
 	public Map<String, Object> getStockPublishInfo(int stockNo){
 		Map<String, Object> map = new HashMap<>();
@@ -349,6 +350,7 @@ public class StockDetailDAO {
 		}
 		return map;		
 	}
+	
 	// 주문 요청 완료
 	public boolean setMatchedOrder(int buyOrderNo, int sellOrderNo){
 		boolean flag = false;
@@ -357,6 +359,57 @@ public class StockDetailDAO {
 			stmt = conn.prepareStatement(StockDetailQuery.MATCH_COMPLETE_INSERT_SQL);
 			stmt.setInt(1, buyOrderNo);
 			stmt.setInt(2, sellOrderNo);
+			if(stmt.executeUpdate() == 1)
+				flag = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}		
+		return flag;
+	}
+	
+	// 주문 요청 상태 '대기'변경
+	public boolean setOrderStatePending(int orderNo){
+		boolean flag = false;
+		try {
+			conn = DBCP.getConnection();
+			stmt = conn.prepareStatement(StockDetailQuery.ORDER_STATE_PENDING_UPDATE_SQL);
+			stmt.setInt(1, orderNo);
+			if(stmt.executeUpdate() == 1)
+				flag = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}		
+		return flag;
+	}
+	
+	// 주문 요청 상태 '체결'변경
+	public boolean setOrderStateMatched(int orderNo){
+		boolean flag = false;
+		try {
+			conn = DBCP.getConnection();
+			stmt = conn.prepareStatement(StockDetailQuery.ORDER_STATE_MATCHED_UPDATE_SQL);
+			stmt.setInt(1, orderNo);
+			if(stmt.executeUpdate() == 1)
+				flag = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}		
+		return flag;
+	}
+	
+	// 주문 요청 상태 '취소'변경
+	public boolean setOrderStateCancel(int orderNo){
+		boolean flag = false;
+		try {
+			conn = DBCP.getConnection();
+			stmt = conn.prepareStatement(StockDetailQuery.ORDER_STATE_CANCEL_UPDATE_SQL);
+			stmt.setInt(1, orderNo);
 			if(stmt.executeUpdate() == 1)
 				flag = true;
 		} catch (Exception e) {

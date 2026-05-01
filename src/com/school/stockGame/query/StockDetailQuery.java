@@ -91,10 +91,18 @@ public interface StockDetailQuery {
 	String MATCH_COMPLETE_INSERT_SQL = "INSERT INTO transaction (transaction_no, transaction_date, buy_order_no, sell_order_no) "
 			+ "VALUES (transaction_no_seq.NEXTVAL, SYSDATE, ?, ?)";
 	
-	// 주문요청 상태 변경 (['대기','체결','취소'], 주문no)
-		String ORDER_STATE_UPDATE_SQL = "UPDATE orders SET state = ? "
-				+ "WHERE order_no = ?";
-	
+	// 주문요청 상태 '대기' 변경 (주문no)
+	String ORDER_STATE_PENDING_UPDATE_SQL = "UPDATE orders SET state = '대기' "
+			+ "WHERE order_no = ?";
+
+	// 주문요청 상태 '체결' 변경 (주문no)
+	String ORDER_STATE_MATCHED_UPDATE_SQL = "UPDATE orders SET state = '체결' "
+			+ "WHERE order_no = ?";
+
+	// 주문요청 상태 '취소' 변경 (주문no)
+	String ORDER_STATE_CANCEL_UPDATE_SQL = "UPDATE orders SET state = '취소' "
+			+ "WHERE order_no = ?";
+
 	// 주식 발행 정보 조회 (주식no)
 	String PUBLICATION_DATA_SELECT_SQL = "SELECT publication_balance, publication_price "
 			+ "FROM stocks "

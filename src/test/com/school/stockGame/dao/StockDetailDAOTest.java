@@ -84,13 +84,22 @@ public class StockDetailDAOTest {
 	
 	@Test
 	public void setMatchedOrder() throws ClassNotFoundException, SQLException {
-		dao = new StockDetailDAO(DBCP.getConnection());
-		conn = dao.getConnection();
-		conn.setAutoCommit(false);
+		dao = new StockDetailDAO();
 		//assertTrue(dao.setMatchedOrder(1, 4));
-		conn.rollback();
-		conn.commit();
-		conn.setAutoCommit(true);
 	}
-
+	@Test
+	public void setOrderStateCancel(){
+		dao = new StockDetailDAO();
+		//assertTrue(dao.setOrderStateCancel(14));
+	}
+	@Test
+	public void setOrderStatePending(){
+		dao = new StockDetailDAO();
+		//assertTrue(dao.setOrderStatePending(14));
+	}
+	@Test
+	public void setOrderStateMatched(){
+		dao = new StockDetailDAO();
+		//assertTrue(dao.setOrderStateMatched(14));
+	}
 }
