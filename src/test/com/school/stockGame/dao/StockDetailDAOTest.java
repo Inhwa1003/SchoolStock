@@ -77,34 +77,44 @@ public class StockDetailDAOTest {
 //		//System.out.println(dao.myOrderCancel(12));
 //	}
 	@Test
-	public void getPublishInfo() {
+	public void getPublishInfoTest() {
 		dao = new StockDetailDAO();
 		System.out.println(dao.getStockPubInfo(1));
 	}
 	
 	@Test
-	public void setMatchedOrder() throws ClassNotFoundException, SQLException {
+	public void setMatchedOrderTest() throws ClassNotFoundException, SQLException {
 		dao = new StockDetailDAO();
 		//assertTrue(dao.setMatchedOrder(1, 4));
 	}
 	@Test
-	public void setOrderStateCancel(){
+	public void setOrderStateCancelTest(){
 		dao = new StockDetailDAO();
 		//assertTrue(dao.setOrderStateCancel(14));
 	}
 	@Test
-	public void setOrderStatePending(){
+	public void setOrderStatePendingTest(){
 		dao = new StockDetailDAO();
 		//assertTrue(dao.setOrderStatePending(14));
 	}
 	@Test
-	public void setOrderStateMatched(){
+	public void setOrderStateMatchedTest(){
 		dao = new StockDetailDAO();
 		//assertTrue(dao.setOrderStateMatched(14));
 	}
 	@Test
-	public void setStockPubBalance(){
+	public void setStockPubBalanceTest(){
 		dao = new StockDetailDAO();
 		//assertTrue(dao.setStockPubBalance(3, 1));
+	}
+	@Test
+	public void getMatchBuyOrderTest(){
+		dao = new StockDetailDAO();
+		//수량O, 가격O
+		//assertTrue(dao.getMatchBuyOrder(1, 1700, 1) != null);
+		//가격O, 수량X
+		//assertTrue(dao.getMatchBuyOrder(1, 1700, 2) == null);
+		//가격X, 수량O
+		//assertTrue(dao.getMatchBuyOrder(1, 1300, 1) == null);
 	}
 }

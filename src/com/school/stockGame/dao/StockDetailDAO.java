@@ -437,4 +437,29 @@ public class StockDetailDAO {
 		}		
 		return flag;
 	}
+	// 매수 주문 요청 매칭
+	public Map<String, Object> getMatchBuyOrder(int stockNo, int buyPrice, int buyAmount){
+		Map<String, Object> map = new HashMap<>();
+		try {
+			conn = DBCP.getConnection();
+			stmt = conn.prepareStatement(StockDetailQuery.MATCH_BUY_ORDER_SQL);
+			stmt.setInt(1, stockNo);
+			stmt.setInt(2, buyPrice);
+			stmt.setInt(3, buyAmount);
+			rs = stmt.executeQuery();
+			if(rs.next()){
+				map.put("orderNo", rs.getInt(1));
+				map.put("content", rs.getString(2));
+				map.put("price", rs.getInt(3));
+				map.put("state", rs.getString(4));
+				map.put("orderDate", rs.getString(5));
+				map.put("studentId", rs.getInt(6));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return map;
+	}
 }

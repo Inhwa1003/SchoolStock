@@ -112,5 +112,19 @@ public interface StockDetailQuery {
 	String PUBLICATION_DATA_UPDATE_SQL = "UPDATE stocks SET publication_balance = publication_balance - ? "
 			+ "WHERE stock_no = ?";
 	
-	
+	// 매수 주문 요청 매칭 
+	String MATCH_BUY_ORDER_SQL = "SELECT order_no, content, price, amount, state, order_date, student_id, stock_no "
+			+ "FROM orders "
+			+ "WHERE order_no = "
+			+ "(SELECT order_no "
+			+ "FROM (SELECT order_no "
+			+ "FROM orders "
+			+ "WHERE stock_no = ? "
+			+ "AND state = '대기' "
+			+ "AND content = '매도' "
+			+ "AND price = ? "
+			+ "AND amount = ? "
+			+ "ORDER BY order_date ASC) "
+			+ "WHERE ROWNUM = 1) "
+			+ "FOR UPDATE";
 }
