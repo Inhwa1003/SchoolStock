@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
+import com.school.stockGame.dao.DBCP;
 import com.school.stockGame.dao.StockDetailDAO;
 
 public class StockDetailDAOTest {
@@ -76,9 +77,20 @@ public class StockDetailDAOTest {
 //		//System.out.println(dao.myOrderCancel(12));
 //	}
 	@Test
-	public void getPublishInfo(){
+	public void getPublishInfo() {
 		dao = new StockDetailDAO();
 		System.out.println(dao.getStockPublishInfo(1));
+	}
+	
+	@Test
+	public void setMatchedOrder() throws ClassNotFoundException, SQLException {
+		dao = new StockDetailDAO(DBCP.getConnection());
+		conn = dao.getConnection();
+		conn.setAutoCommit(false);
+		//assertTrue(dao.setMatchedOrder(1, 4));
+		conn.rollback();
+		conn.commit();
+		conn.setAutoCommit(true);
 	}
 
 }

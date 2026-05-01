@@ -22,10 +22,30 @@ import com.school.stockGame.vo.OrderVO;
  */
 public class StockDetailDAO {
 	private Connection conn;
+	private PreparedStatement stmt;
+	private ResultSet rs;
+	
 	public StockDetailDAO(){}
 	// 트랜잭션 관리 때문에 필요
 	public StockDetailDAO(Connection conn){
 		this.conn = conn;
+	}
+	public Connection getConnection(){
+		return conn;
+	}
+	
+	// 닫아주는 기능
+	private void close() {
+		try {
+			if (rs != null)
+				rs.close();
+			if (stmt != null)
+				stmt.close();
+			if (conn != null)
+				conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	// 주식 기본정보 조회
@@ -33,20 +53,19 @@ public class StockDetailDAO {
 		Map<String, Object> tmp = new HashMap<>();
 		try {
 			conn = DBCP.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.STOCK_INFO_SQL);
+			stmt = conn.prepareStatement(StockDetailQuery.STOCK_INFO_SQL);
 			stmt.setInt(1, stockNo);
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 
 			if (rs.next()) {
 				tmp.put("name", rs.getString(1));
 				tmp.put("content", rs.getString(2));
+				
 			}
-
-			rs.close();
-			stmt.close();
-			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			close();
 		}
 		return tmp;
 	}
@@ -56,20 +75,18 @@ public class StockDetailDAO {
 		int price = 0;
 		try {
 			conn = DBCP.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.STOCK_PRICE_SQL);
+			stmt = conn.prepareStatement(StockDetailQuery.STOCK_PRICE_SQL);
 			stmt.setInt(1, stockNo);
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 
 			if (rs.next())
 				price = rs.getInt(1);
 
-			rs.close();
-			stmt.close();
-			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			close();
 		}
-
 		return price;
 	}
 
@@ -78,21 +95,19 @@ public class StockDetailDAO {
 		int price = 0;
 		try {
 			conn = DBCP.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.STOCK_PRICE_CHANGE_SQL);
+			stmt = conn.prepareStatement(StockDetailQuery.STOCK_PRICE_CHANGE_SQL);
 			stmt.setInt(1, stockNo);
 			stmt.setInt(2, stockNo);
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 
 			if (rs.next())
 				price = rs.getInt(1);
 
-			rs.close();
-			stmt.close();
-			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			close();
 		}
-
 		return price;
 	}
 
@@ -101,19 +116,18 @@ public class StockDetailDAO {
 		int percent = 0;
 		try {
 			conn = DBCP.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.STOCK_CHANGE_RATE_SQL);
+			stmt = conn.prepareStatement(StockDetailQuery.STOCK_CHANGE_RATE_SQL);
 			stmt.setInt(1, StockNo);
 			stmt.setInt(2, StockNo);
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 
 			if (rs.next())
 				percent = rs.getInt(1);
 
-			rs.close();
-			stmt.close();
-			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			close();
 		}
 		return percent;
 	}
@@ -123,18 +137,17 @@ public class StockDetailDAO {
 		int prevPrice = 0;
 		try {
 			conn = DBCP.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.STOCK_PREV_PRICE_SQL);
+			stmt = conn.prepareStatement(StockDetailQuery.STOCK_PREV_PRICE_SQL);
 			stmt.setInt(1, stockNo);
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 			if (rs.next())
 				prevPrice = rs.getInt(1);
-			rs.close();
-			stmt.close();
-			conn.close();
+
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			close();
 		}
-
 		return prevPrice;
 	}
 
@@ -143,10 +156,10 @@ public class StockDetailDAO {
 		boolean flag = false;
 		try {
 			conn = DBCP.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.STOCK_QTY_SQL);
+			stmt = conn.prepareStatement(StockDetailQuery.STOCK_QTY_SQL);
 			stmt.setString(1, studentId);
 			stmt.setInt(2, stockNo);
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 			if (rs.next()) {
 				// 보유수량 주문수량 비교 UI에서 할지 고민하기
 				// 주문한 수량이 보유 수량보다 작거나 같다면 실행
@@ -161,11 +174,10 @@ public class StockDetailDAO {
 					flag = (stmt.executeUpdate() == 1);
 				}
 			}
-			rs.close();
-			stmt.close();
-			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			close();
 		}
 		return flag;
 	}
@@ -184,9 +196,9 @@ public class StockDetailDAO {
 
 			conn.setAutoCommit(false);
 
-			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.TOTAL_POINT_SQL);
+			stmt = conn.prepareStatement(StockDetailQuery.TOTAL_POINT_SQL);
 			stmt.setString(1, studentId);
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 			if (rs.next()) {
 				// 보유 포인트가 사기로 한 포인트보다 여유가 있으면 실행
 				if (rs.getInt(1) >= (buyQty * buyPrice)) {
@@ -212,13 +224,11 @@ public class StockDetailDAO {
 				conn.rollback();
 			}
 			conn.setAutoCommit(true);
-			rs.close();
-			stmt.close();
-			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			close();
 		}
-
 		return flag;
 	}
 
@@ -227,17 +237,17 @@ public class StockDetailDAO {
 		List<OrderVO> list = new ArrayList<>();
 		try {
 			conn = DBCP.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.TOTAL_ORDER_REQUEST);
+			stmt = conn.prepareStatement(StockDetailQuery.TOTAL_ORDER_REQUEST);
 			stmt.setInt(1, stockNo);
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 			while (rs.next()) {
 				list.add(new OrderVO(rs.getInt(1), rs.getInt(2), rs.getString(3)));
 			}
-			rs.close();
-			stmt.close();
-			conn.close();
+
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			close();
 		}
 		return list;
 	}
@@ -247,17 +257,17 @@ public class StockDetailDAO {
 		List<OrderVO> list = new ArrayList<>();
 		try {
 			conn = DBCP.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.TOTAL_SELL_ORDER_REQUEST);
+			stmt = conn.prepareStatement(StockDetailQuery.TOTAL_SELL_ORDER_REQUEST);
 			stmt.setInt(1, stockNo);
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 			while (rs.next()) {
 				list.add(new OrderVO(rs.getInt(1), rs.getInt(2), rs.getString(3)));
 			}
-			rs.close();
-			stmt.close();
-			conn.close();
+
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			close();
 		}
 		return list;
 	}
@@ -267,17 +277,17 @@ public class StockDetailDAO {
 		List<OrderVO> list = new ArrayList<>();
 		try {
 			conn = DBCP.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.TOTAL_BUY_ORDER_REQUEST);
+			stmt = conn.prepareStatement(StockDetailQuery.TOTAL_BUY_ORDER_REQUEST);
 			stmt.setInt(1, stockNo);
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 			while (rs.next()) {
 				list.add(new OrderVO(rs.getInt(1), rs.getInt(2), rs.getString(3)));
 			}
-			rs.close();
-			stmt.close();
-			conn.close();
+
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			close();
 		}
 		return list;
 	}
@@ -287,18 +297,18 @@ public class StockDetailDAO {
 		List<OrderVO> list = new ArrayList<>();
 		try {
 			conn = DBCP.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.MY_ORDER_REQUEST);
+			stmt = conn.prepareStatement(StockDetailQuery.MY_ORDER_REQUEST);
 			stmt.setString(1, studentId);
 			stmt.setInt(2, stockNo);
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 			while (rs.next()) {
 				list.add(new OrderVO(rs.getInt(1),rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6)));
 			}
-			rs.close();
-			stmt.close();
-			conn.close();
+
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			close();
 		}
 		return list;
 	}
@@ -308,16 +318,15 @@ public class StockDetailDAO {
 		boolean flag = false;
 		try {
 			conn = DBCP.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.MY_ORDER_CANCEL);
+			stmt = conn.prepareStatement(StockDetailQuery.MY_ORDER_CANCEL);
 			stmt.setInt(1, orderNo);
 			flag = (stmt.executeUpdate() == 1);
 			
-			stmt.close();
-			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			close();
 		}
-		
 		return flag;
 	}
 	// 주식 발행 정보 조회
@@ -325,18 +334,36 @@ public class StockDetailDAO {
 		Map<String, Object> map = new HashMap<>();
 		try {
 			conn = DBCP.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.PUBLICATION_DATA_SELECT_SQL);
+			stmt = conn.prepareStatement(StockDetailQuery.PUBLICATION_DATA_SELECT_SQL);
 			stmt.setInt(1, stockNo);
 			
-			ResultSet rs =  stmt.executeQuery();
+			rs =  stmt.executeQuery();
 			if(rs.next()){
 				map.put("pubAmount", rs.getInt(1));
 				map.put("pubPrice", rs.getInt(2));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			close();
 		}
-		return map;
-		
+		return map;		
+	}
+	// 주문 요청 완료
+	public boolean setMatchedOrder(int buyOrderNo, int sellOrderNo){
+		boolean flag = false;
+		try {
+			conn = DBCP.getConnection();
+			stmt = conn.prepareStatement(StockDetailQuery.MATCH_COMPLETE_INSERT_SQL);
+			stmt.setInt(1, buyOrderNo);
+			stmt.setInt(2, sellOrderNo);
+			if(stmt.executeUpdate() == 1)
+				flag = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}		
+		return flag;
 	}
 }

@@ -87,9 +87,13 @@ public interface StockDetailQuery {
 	String POINT_DOWN_SQL = "UPDATE students SET total_point = total_point - (?) "
 			+ "WHERE student_id = ?";
 	
-	// 주문 요청 완료 (매수no, 매도no)
+	// 주문 요청 체결 완료 (매수no, 매도no)
 	String MATCH_COMPLETE_INSERT_SQL = "INSERT INTO transaction (transaction_no, transaction_date, buy_order_no, sell_order_no) "
 			+ "VALUES (transaction_no_seq.NEXTVAL, SYSDATE, ?, ?)";
+	
+	// 주문요청 상태 변경 (['대기','체결','취소'], 주문no)
+		String ORDER_STATE_UPDATE_SQL = "UPDATE orders SET state = ? "
+				+ "WHERE order_no = ?";
 	
 	// 주식 발행 정보 조회 (주식no)
 	String PUBLICATION_DATA_SELECT_SQL = "SELECT publication_balance, publication_price "
@@ -100,7 +104,5 @@ public interface StockDetailQuery {
 	String PUBLICATION_DATA_UPDATE_SQL = "UPDATE stocks SET publication_balance = publication_balance - ? "
 			+ "WHERE stock_no = ?";
 	
-	// 주문요청 상태 변경 (['대기','체결','취소'], 주문no)
-	String ORDER_STATE_UPDATE_SQL = "UPDATE orders SET state = ? "
-			+ "WHERE order_no = ?";
+	
 }
