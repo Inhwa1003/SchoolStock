@@ -169,13 +169,31 @@ public class StockDetailDAO {
 		}
 		return totalPoint;
 	}
+	// 학생의 특정 주식 보유수량 조회
+	public int getStudentStockAmount(int stockNo, String studenId){
+		int amount = 0;
+		try {
+			conn = DBCP.getConnection();
+			stmt = conn.prepareStatement(StockDetailQuery.STOCK_AMOUNT_SQL);
+			stmt.setString(1, studenId);
+			stmt.setInt(2, stockNo);
+			rs = stmt.executeQuery();
+			if(rs.next())
+				amount = rs.getInt(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return amount;
+	} 
 
 	// 매도 기능
 	public boolean setSellOrderxxx(int stockNo, String studentId, int sellQty, int sellPrice) {
 		boolean flag = false;
 		try {
 			conn = DBCP.getConnection();
-			stmt = conn.prepareStatement(StockDetailQuery.STOCK_QTY_SQL);
+			stmt = conn.prepareStatement(StockDetailQuery.STOCK_AMOUNT_SQL);
 			stmt.setString(1, studentId);
 			stmt.setInt(2, stockNo);
 			rs = stmt.executeQuery();

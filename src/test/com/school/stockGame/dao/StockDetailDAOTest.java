@@ -111,4 +111,11 @@ public class StockDetailDAOTest {
 		assertNotNull(dao.getStudentPoint("dong"));
 		System.out.println(dao.getStudentPoint("dong"));
 	}
+	@Test
+	public void getStudentStockAmountTest(){
+		dao = new StockDetailDAO();
+		// 보유 한 주식을 반환 하는지 확인
+		assertNotNull(dao.getStudentStockAmount(1, "abc"));
+		System.out.println(dao.getStudentStockAmount(1, "abc"));
+	}
 }

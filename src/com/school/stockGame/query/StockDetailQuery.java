@@ -30,7 +30,7 @@ public interface StockDetailQuery {
 	String STOCK_PREV_PRICE_SQL = "SELECT prev_price FROM stocks WHERE stock_no = ?";
 	
 	// 보유 주식 수량 조회 쿼리
-	String STOCK_QTY_SQL = "SELECT SUM(CASE WHEN content='매수' THEN amount ELSE -amount END) AS amount "
+	String STOCK_AMOUNT_SQL = "SELECT SUM(CASE WHEN content='매수' THEN amount ELSE -amount END) AS amount "
 			+ "FROM orders "
 			+ "WHERE student_id = ? "
 			+ "AND stock_no = ? "
