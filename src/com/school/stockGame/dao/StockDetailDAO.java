@@ -65,6 +65,7 @@ public class StockDetailDAO {
 
 			rs.close();
 			stmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -162,6 +163,7 @@ public class StockDetailDAO {
 			}
 			rs.close();
 			stmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -206,6 +208,7 @@ public class StockDetailDAO {
 			conn.setAutoCommit(true);
 			rs.close();
 			stmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -226,6 +229,7 @@ public class StockDetailDAO {
 			}
 			rs.close();
 			stmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -245,6 +249,7 @@ public class StockDetailDAO {
 			}
 			rs.close();
 			stmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -264,6 +269,7 @@ public class StockDetailDAO {
 			}
 			rs.close();
 			stmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -284,6 +290,7 @@ public class StockDetailDAO {
 			}
 			rs.close();
 			stmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -300,6 +307,7 @@ public class StockDetailDAO {
 			flag = (stmt.executeUpdate() == 1);
 			
 			stmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
