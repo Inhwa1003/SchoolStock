@@ -23,7 +23,10 @@ public class FrontControllerServlet extends HttpServlet {
 			String jsonData = (String) request.getAttribute("jsonData");
 			response.setContentType("application/json;charset=UTF-8");
 			response.getWriter().print(jsonData);
-		}else
+		}else if(path.contains("controller?cmd=")) {
+            // 다른 액션으로 넘겨야 할 때 (로그인 성공 시 등)
+            response.sendRedirect(path);
+        }else
 			request.getRequestDispatcher("/view/" + path).forward(request, response);
 	}
 	

@@ -1,101 +1,29 @@
-body {
-	font-family: 'Malgun Gothic', sans-serif;
-	background-color: #f4f7f9;
-	margin: 0;
-	padding: 0;
-}
-
 /* 레이아웃 구성 */
 .main-layout {
 	display: flex;
 	justify-content: center;
 	align-items: flex-start;
 	gap: 30px;
-	max-width: 1400px;
+	max-width: 1400px; /* 뉴스(900) + 사이드바(405) + 간격 고려 */
 	margin: 0 auto;
 	padding: 0 20px;
 }
 
-.asset-page-wrapper {
-	flex: 1;
-	max-width: 1000px;
+/* 뉴스 페이지 (기존 스타일 유지 및 조정) */
+.news-page-wrapper {
+	flex: 1; /* 남은 공간 차지 */
+	max-width: 900px;
 	padding: 40px 0;
 }
 
-/* 자산 관리 전용 스타일 */
-.summary-container {
-	display: table;
-	width: 100%;
-	table-layout: fixed;
-	margin-bottom: 30px;
-	border-collapse: separate;
-	border-spacing: 10px 0;
-}
-
-.card {
-	display: table-cell;
-	background: #fff;
-	padding: 20px;
-	border-radius: 8px;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-	text-align: center;
-	border: 1px solid #ddd;
-}
-
-.label {
-	display: block;
-	color: #666;
-	font-size: 14px;
-	margin-bottom: 10px;
-}
-
-.value {
-	font-size: 20px;
-	font-weight: bold;
-	color: #333;
-}
-
-.table-container {
-	background: #fff;
-	padding: 20px;
-	border-radius: 8px;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-table {
-	width: 100%;
-	border-collapse: collapse;
-	margin-top: 10px;
-}
-
-th {
-	background-color: #f8f9fa;
-	border-bottom: 2px solid #dee2e6;
-	padding: 12px;
-	text-align: left;
-}
-
-td {
-	padding: 12px;
-	border-bottom: 1px solid #eee;
-}
-
-.plus {
-	color: #d9534f;
-}
-
-.minus {
-	color: #0275d8;
-}
-
-/* 사이드바 스타일*/
+/* 팀원 사이드바 스타일 (기존 코드 유지) */
 .right-sidebar {
 	width: 405px;
 	min-height: 900px;
 	background-color: white;
 	box-sizing: border-box;
 	padding: 20px 12px;
-	border-left: 1px solid #eee;
+	border-left: 1px solid #eee; /* 구분선 추가(선택사항) */
 }
 
 .user-info {
@@ -157,4 +85,66 @@ td {
 
 .menu-button:hover {
 	filter: brightness(0.95);
+}
+
+/* 가로형 뉴스 카드 */
+.news-card-item {
+	width: 100%;
+	display: flex;
+	background: #ffffff;
+	border-radius: 12px;
+	overflow: hidden;
+	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.03);
+	border: 1px solid #eee;
+	transition: all 0.2s ease;
+	cursor: default;
+	pointer-events: none;
+}
+
+.news-card-item:hover {
+	transform: translateX(10px);
+	border-color: #4c5af7;
+}
+
+/* 카드 왼쪽 바 */
+.card-side-deco {
+	width: 8px;
+	flex-shrink: 0;
+}
+
+.color-0 {
+	background-color: #ffadad;
+}
+
+.color-1 {
+	background-color: #ffd6a5;
+}
+
+.color-2 {
+	background-color: #fdffb6;
+}
+
+.color-3 {
+	background-color: #caffbf;
+}
+
+.color-4 {
+	background-color: #9bf6ff;
+}
+
+/* 카드 내부 본문 */
+.card-body-content {
+	padding: 20px 25px;
+	display: flex;
+	align-items: center;
+	gap: 20px;
+	width: 100%;
+}
+
+.news-text-main {
+	font-size: 16px;
+	color: #2c3e50;
+	font-weight: 500;
+	margin: 0;
+	word-break: keep-all;
 }

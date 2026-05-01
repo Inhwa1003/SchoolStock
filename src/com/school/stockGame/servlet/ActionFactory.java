@@ -1,31 +1,58 @@
 package com.school.stockGame.servlet;
 
 public class ActionFactory {
-	private ActionFactory(){}
-	
-	public static Action getAction(String cmd){
+	private ActionFactory() {
+	}
+
+	public static Action getAction(String cmd) {
 		Action a = null;
 		System.out.println(cmd);
-		
-		if(cmd == null)
+
+		if (cmd == null)
 			cmd = "";
-		switch (cmd){
-		case "MyAssertUI":
-			a = new MyAssertUI();
+		switch (cmd) {
+		case "MyAssetsUI":
+			a = new MyAssetsUIAction();
 			break;
-			
+		case "MyAssetsAction":
+			a = new MyAssetsAction();
+			break;
+		case "NewsUI":
+			a = new NewsUIAction();
+			break;
+		case "GetStockPrice":
+			a = new GetStockPriceAction();
+			break;
+		case "idCheck":
+			a = new IdCheckAction();
+			break;
+		case "LoginUI":
+			a = new LoginUIAction();
+			break;
+		case "LoginAction":
+			a = new LoginAction();
+			break;
+		case "AddMemberUI":
+			a = new AddMemberUIAction();
+			break;
+		case "AddMemberAction":
+			a = new AddMemberAction();
+			break;
+		case "LogoutAction":
+			a = new LogoutAction();
+			break;
+		case "CouponPersonalUI":
+			a = new CouponPersonalUIAction();
+			break;
 		case "MyPointHistoryUI":
 			a = new MyPointHistoryUI();
 			break;
-		
 		case "StockListUI":
 			a = new StockListUI();
 			break;
-		
 		case "StockPriceAjax":
 			a = new StockPriceAjax();
 			break;
-			// 소문자 수정
 		case "StockDetailUI":
 			a = new StockDetailUIAction();
 			break;
@@ -33,11 +60,9 @@ public class ActionFactory {
 			a = new StockOrderStatusAcion();
 			break;
 		default:
-			a = new StockListUI();
-			break;
+			a = new LoginUIAction();
 		}
 		return a;
 	}
-	
 
 }
