@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>홍길동의 보유 쿠폰</title>
+<title>보유 쿠폰</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -26,22 +27,20 @@
 
 			<header class="hd">
 				<input class="back-btn" type="button" value="뒤로" />
-				<div class="hd-name">${info.name}의보유 쿠폰</div>
+				<div class="hd-name">${info.name}의 보유 쿠폰</div>
 			</header>
 
 			<div class="main">
-				<div class="cp-panel">
-					<div class="cp-name">간식교환권</div>
-					<div class="cp-price">3,000 P</div>
-				</div>
-				<div class="cp-panel">
-					<div class="cp-name">간식교환권</div>
-					<div class="cp-price">3,000 P</div>
-				</div>
-				<div class="cp-panel">
-					<div class="cp-name">청소 당번 면제권</div>
-					<div class="cp-price">10,000 P</div>
-				</div>
+				<c:forEach var="vo" items="${couponlist}">
+					<div class="cp-panel">
+						<div class="cp-name">${vo.name}</div>
+						<div class="cp-price">${vo.price}P</div>
+					</div>
+				</c:forEach>
+
+				<c:if test="${empty couponlist}">
+					<div class="text-center">보유하신 쿠폰이 없습니다.</div>
+				</c:if>
 			</div>
 
 
