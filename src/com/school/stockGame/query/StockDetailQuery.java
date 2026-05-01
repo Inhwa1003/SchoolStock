@@ -79,11 +79,11 @@ public interface StockDetailQuery {
 	// 내 주문 요청 취소
 	String MY_ORDER_CANCEL = "";
 	
-	// 주문 완료시 포인트 up (주식 개수 * 주문가격)
+	// 주문 완료시 포인트 up (주식 개수 * 주문가격, 학생아이디)
 	String POINT_UP_SQL = "UPDATE students SET total_point = total_point + (?) "
 			+ "WHERE student_id = ?";
 	
-	// 주문 완료시 포인트 down (주식 개수 * 주문가격)
+	// 주문 완료시 포인트 down (주식 개수 * 주문가격, 학생아이디)
 	String POINT_DOWN_SQL = "UPDATE students SET total_point = total_point - (?) "
 			+ "WHERE student_id = ?";
 	

@@ -26,14 +26,7 @@ public class StockDetailDAO {
 	private ResultSet rs;
 	
 	public StockDetailDAO(){}
-	// 트랜잭션 관리 때문에 필요
-	public StockDetailDAO(Connection conn){
-		this.conn = conn;
-	}
-	public Connection getConnection(){
-		return conn;
-	}
-	
+
 	// 닫아주는 기능
 	private void close() {
 		try {
@@ -187,6 +180,42 @@ public class StockDetailDAO {
 		}
 		return amount;
 	} 
+
+	// 학생의 보유포인트 차감
+	public boolean setStudentPointDown(int totalPrice, String studenId) {
+		boolean flag = false;
+		try {
+			conn = DBCP.getConnection();
+			stmt = conn.prepareStatement(StockDetailQuery.POINT_DOWN_SQL);
+			stmt.setInt(1, totalPrice);
+			stmt.setString(2, studenId);
+			if(stmt.executeUpdate() == 1);
+				flag = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return flag;
+	}
+	
+	// 학생의 보유포인트 증가
+	public boolean setStudentPointUp(int totalPrice, String studenId) {
+		boolean flag = false;
+		try {
+			conn = DBCP.getConnection();
+			stmt = conn.prepareStatement(StockDetailQuery.POINT_UP_SQL);
+			stmt.setInt(1, totalPrice);
+			stmt.setString(2, studenId);
+			if(stmt.executeUpdate() == 1);
+				flag = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return flag;
+	}
 
 	// 매도, 매수 주문 요청
 	public boolean setOrderRequest(String content, int price, int amount, String studentId, int stockNo) {

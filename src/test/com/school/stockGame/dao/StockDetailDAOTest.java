@@ -126,4 +126,24 @@ public class StockDetailDAOTest {
 		// 매도 주문 요청
 		//assertTrue(dao.setOrderRequest("매도", 1400, 2, "dong", 1));
 	}
+	@Test
+	public void setStudentPointDownTest(){
+		dao = new StockDetailDAO();
+		//학생 포인트 내려감
+		//assertTrue(dao.setStudentPointDown(200, "dong"));
+		//학생 포인트 올라감 x
+		//assertTrue(dao.setStudentPointDown(-200, "dong"));
+		//학생 포인트 내려감
+		//assertTrue(dao.setStudentPointDown(+200, "dong"));
+	}
+	@Test
+	public void setStudentPointUpTest(){
+		dao = new StockDetailDAO();
+		//학생 포인트 올라감
+		//assertTrue(dao.setStudentPointUp(200, "dong"));
+		//학생 포인트 올라감 
+		//assertTrue(dao.setStudentPointUp(-200, "dong"));
+		//학생 포인트 올라감
+		//assertTrue(dao.setStudentPointUp(+200, "dong"));
+	}
 }
