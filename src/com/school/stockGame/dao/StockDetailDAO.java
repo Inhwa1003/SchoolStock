@@ -188,6 +188,28 @@ public class StockDetailDAO {
 		return amount;
 	} 
 
+	// 매도, 매수 주문 요청
+	public boolean setOrderRequest(String content, int price, int amount, String studentId, int stockNo) {
+		boolean flag = false;
+		try {
+			conn = DBCP.getConnection();
+			stmt = conn.prepareStatement(StockDetailQuery.ORDER_REQUEST);
+			stmt.setString(1, content);
+			stmt.setInt(2, price);
+			stmt.setInt(3, amount);
+			stmt.setString(4, studentId);
+			stmt.setInt(5, stockNo);
+			if(stmt.executeUpdate() == 1)
+				flag = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return flag;
+	}
+	
+
 	// 매도 기능
 	public boolean setSellOrderxxx(int stockNo, String studentId, int sellQty, int sellPrice) {
 		boolean flag = false;

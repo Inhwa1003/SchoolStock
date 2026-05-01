@@ -118,4 +118,12 @@ public class StockDetailDAOTest {
 		assertNotNull(dao.getStudentStockAmount(1, "abc"));
 		System.out.println(dao.getStudentStockAmount(1, "abc"));
 	}
+	@Test
+	public void setOrderRequetTest(){
+		dao = new StockDetailDAO();
+		// 매수 주문 요청
+		//assertTrue(dao.setOrderRequest("매수", 1200, 2, "dong", 1));
+		// 매도 주문 요청
+		//assertTrue(dao.setOrderRequest("매도", 1400, 2, "dong", 1));
+	}
 }
