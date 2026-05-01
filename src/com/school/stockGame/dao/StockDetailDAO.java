@@ -139,7 +139,7 @@ public class StockDetailDAO {
 	}
 
 	// 매도 기능
-	public boolean setSellOrder(int stockNo, String studentId, int sellQty, int sellPrice) {
+	public boolean setSellOrderxxx(int stockNo, String studentId, int sellQty, int sellPrice) {
 		boolean flag = false;
 		try {
 			conn = DBCP.getConnection();
@@ -169,9 +169,15 @@ public class StockDetailDAO {
 		}
 		return flag;
 	}
+	public boolean setBuyOrder(){
+		boolean flag = false;
+		
+		
+		return flag;
+	}
 
 	// 매수 기능
-	public boolean setBuyOrder(int stockNo, String studentId, int buyQty, int buyPrice) {
+	public boolean setBuyOrderxxx(int stockNo, String studentId, int buyQty, int buyPrice) {
 		boolean flag = false;
 		try {
 			conn = DBCP.getConnection();
@@ -313,5 +319,24 @@ public class StockDetailDAO {
 		}
 		
 		return flag;
+	}
+	// 주식 발행 정보 조회
+	public Map<String, Object> getStockPublishInfo(int stockNo){
+		Map<String, Object> map = new HashMap<>();
+		try {
+			conn = DBCP.getConnection();
+			PreparedStatement stmt = conn.prepareStatement(StockDetailQuery.PUBLICATION_DATA_SELECT_SQL);
+			stmt.setInt(1, stockNo);
+			
+			ResultSet rs =  stmt.executeQuery();
+			if(rs.next()){
+				map.put("pubAmount", rs.getInt(1));
+				map.put("pubPrice", rs.getInt(2));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+		
 	}
 }

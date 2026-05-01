@@ -75,5 +75,10 @@ public class StockDetailDAOTest {
 //		dao = new StockDetailDAO();
 //		//System.out.println(dao.myOrderCancel(12));
 //	}
+	@Test
+	public void getPublishInfo(){
+		dao = new StockDetailDAO();
+		System.out.println(dao.getStockPublishInfo(1));
+	}
 
 }
