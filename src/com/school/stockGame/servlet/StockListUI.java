@@ -35,7 +35,7 @@ public class StockListUI implements Action {
         for (int i = 0; i < stockNameList.size(); i++) {
 
             int stockNo = i + 1;
-
+            
             String stockName = stockNameList.get(i);
 
             int currentPrice = dao_detail.getStockPrice(stockNo);
@@ -44,7 +44,7 @@ public class StockListUI implements Action {
             int changeRate = dao_detail.getChangeRate(stockNo);
 
             Map<String, Object> stock = new HashMap<String, Object>();
-
+            
             stock.put("stockName", stockName);
             stock.put("currentPrice", currentPrice);
             stock.put("prevPrice", prevPrice);
