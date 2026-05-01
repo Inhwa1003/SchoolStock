@@ -35,7 +35,7 @@
 				onclick="location.href='${pageContext.request.contextPath}/controller?cmd=MyAssetsAction'">내
 				자산</button>
 			<button class="menu-button ${currentCmd == 'StockListUI' ? 'active' : ''}"
-				onclick="location.href='${pageContext.request.contextPath}/controller?com=StockListUI'">주식
+				onclick="location.href='${pageContext.request.contextPath}/controller?cmd=StockListUI'">주식
 				목록</button>
 			<button class="menu-button ${currentCmd == 'NewsUI' ? 'active' : ''}"
 				onclick="location.href='${pageContext.request.contextPath}/controller?cmd=NewsUI'">뉴스
