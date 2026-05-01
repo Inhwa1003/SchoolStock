@@ -331,7 +331,7 @@ public class StockDetailDAO {
 	}
 	
 	// 주식 발행 정보 조회
-	public Map<String, Object> getStockPublishInfo(int stockNo){
+	public Map<String, Object> getStockPubInfo(int stockNo){
 		Map<String, Object> map = new HashMap<>();
 		try {
 			conn = DBCP.getConnection();
@@ -351,6 +351,24 @@ public class StockDetailDAO {
 		return map;		
 	}
 	
+	// 주식 발행 개수 차감 
+	public boolean setStockPubBalance(int buyAmount, int stockNo) {
+		boolean flag = false;
+		try {
+			conn = DBCP.getConnection();
+			stmt = conn.prepareStatement(StockDetailQuery.PUBLICATION_DATA_UPDATE_SQL);
+			stmt.setInt(1, buyAmount);
+			stmt.setInt(2, stockNo);
+			if (stmt.executeUpdate() == 1)
+				flag = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return flag;
+	}
+
 	// 주문 요청 완료
 	public boolean setMatchedOrder(int buyOrderNo, int sellOrderNo){
 		boolean flag = false;

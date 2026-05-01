@@ -79,7 +79,7 @@ public class StockDetailDAOTest {
 	@Test
 	public void getPublishInfo() {
 		dao = new StockDetailDAO();
-		System.out.println(dao.getStockPublishInfo(1));
+		System.out.println(dao.getStockPubInfo(1));
 	}
 	
 	@Test
@@ -101,5 +101,10 @@ public class StockDetailDAOTest {
 	public void setOrderStateMatched(){
 		dao = new StockDetailDAO();
 		//assertTrue(dao.setOrderStateMatched(14));
+	}
+	@Test
+	public void setStockPubBalance(){
+		dao = new StockDetailDAO();
+		//assertTrue(dao.setStockPubBalance(3, 1));
 	}
 }
