@@ -122,9 +122,9 @@ public class StockDetailDAOTest {
 	public void setOrderRequetTest(){
 		dao = new StockDetailDAO();
 		// 매수 주문 요청
-		//assertTrue(dao.setOrderRequest("매수", 1200, 2, "dong", 1));
+		//assertTrue(dao.setOrderRequest("매수", 1200, 2, "대기", "dong", 1));
 		// 매도 주문 요청
-		//assertTrue(dao.setOrderRequest("매도", 1400, 2, "dong", 1));
+		//assertTrue(dao.setOrderRequest("매도", 1400, 2, "대기", "dong", 1));
 	}
 	@Test
 	public void setStudentPointDownTest(){

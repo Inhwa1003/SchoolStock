@@ -43,7 +43,7 @@ public interface StockDetailQuery {
 	
 	// 주문 요청 (매도, 매수) 둘다 가능
 	String ORDER_REQUEST = "INSERT INTO ORDERS (order_no, content, price, amount, state, order_date, student_id, stock_no) "
-			+ "VALUES (order_no_seq.NEXTVAL, ?, ?, ?, '대기', SYSDATE, ?, ?)";
+			+ "VALUES (order_no_seq.NEXTVAL, ?, ?, ?, ?, SYSDATE, ?, ?)";
 	
 	// 대기중인 총 매도 매수 요청 리스트
 	String TOTAL_ORDER_REQUEST = "SELECT price, amount, content "
@@ -127,4 +127,13 @@ public interface StockDetailQuery {
 			+ "ORDER BY order_date ASC) "
 			+ "WHERE ROWNUM = 1) "
 			+ "FOR UPDATE";
+	// 직전에 내가 주문 요청한건 조회
+	String FIND_MY_ORDER_SQL = "SELECT order_no "
+			+ "FROM orders "
+			+ "WHERE content = ? "
+			+ "AND student_id = ? "
+			+ "AND stock_no = ? "
+			+ "AND state = ? "
+			+ "AND amount = ? "
+			+ "AND price = ? ORDER BY order_date DESC";
 }
