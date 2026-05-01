@@ -39,19 +39,6 @@ public class StockDetailDAOTest {
 		System.out.println(dao.getPervPrice(3));
 	}
 	@Test
-	public void 매도기능테스트() throws ClassNotFoundException, SQLException {
-		dao = new StockDetailDAO();
-		//YES
-		//System.out.println(dao.setSellOrder(1, "abc", 1, 1700));
-
-	}
-	@Test
-	public void 매수기능테스트() throws ClassNotFoundException, SQLException {
-		dao = new StockDetailDAO();
-		//yes
-		//System.out.println(dao.setBuyOrder(1, "abc", 2, 1600));
-	}
-	@Test
 	public void 매도매수총조회테스트() throws ClassNotFoundException, SQLException {
 		dao = new StockDetailDAO();
 		System.out.println(dao.getTotalOrder(1));
@@ -116,5 +103,12 @@ public class StockDetailDAOTest {
 		//assertTrue(dao.getMatchBuyOrder(1, 1700, 2) == null);
 		//가격X, 수량O
 		//assertTrue(dao.getMatchBuyOrder(1, 1300, 1) == null);
+	}
+	@Test
+	public void getStudentPointTest(){
+		dao = new StockDetailDAO();
+		// 보유 포인트를 반환 하는지 확인
+		assertNotNull(dao.getStudentPoint("dong"));
+		System.out.println(dao.getStudentPoint("dong"));
 	}
 }

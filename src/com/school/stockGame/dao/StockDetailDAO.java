@@ -150,6 +150,25 @@ public class StockDetailDAO {
 		}
 		return prevPrice;
 	}
+	
+	// 학생의 가용 보유 포인트 조회
+	public int getStudentPoint(String studenId){
+		int totalPoint = 0;
+		try {
+			conn = DBCP.getConnection();
+			stmt = conn.prepareStatement(StockDetailQuery.TOTAL_POINT_SQL);
+			stmt.setString(1, studenId);
+			rs = stmt.executeQuery();
+			if(rs.next())
+				totalPoint = rs.getInt(1);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return totalPoint;
+	}
 
 	// 매도 기능
 	public boolean setSellOrderxxx(int stockNo, String studentId, int sellQty, int sellPrice) {
