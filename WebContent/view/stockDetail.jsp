@@ -16,7 +16,7 @@
 	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="js/order_status.js" type="text/javascript"></script>
+<script src="js/order-status.js" type="text/javascript"></script>
 </head>
 <body>
 	<div class="app">
@@ -138,7 +138,7 @@
 
 			<div class="state">장 운영중</div>
 			<button class="btn btn-primary">내 자산</button>
-			<button class="btn btn-primary">주식 목록</button>
+			<button class="btn btn-primary" href="controller?cmd=StockListAction">주식 목록</button>
 			<button class="btn btn-primary">뉴스 목록</button>
 			<button class="btn btn-primary">포인트 내역</button>
 			<button class="btn btn-primary">쿠폰 상점</button>
