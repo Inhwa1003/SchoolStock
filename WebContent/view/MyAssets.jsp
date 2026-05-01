@@ -9,9 +9,11 @@
 <title>내 자산 관리</title>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/MyAssetStyle.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/stock_style.css">
 </head>
 <body>
-	<div class="main-layout">
+	<div class="app">
 		<main class="asset-page-wrapper">
 		<h2>내 자산</h2>
 
