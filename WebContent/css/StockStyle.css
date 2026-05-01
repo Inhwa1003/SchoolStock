@@ -140,3 +140,6 @@ input[type="number"], .sell-btn, .buy-btn{
 	padding: 20px 0;
 	margin: 4px;
 }
+.text-center{
+	padding: 20px;
+}

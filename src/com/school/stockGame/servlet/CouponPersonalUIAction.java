@@ -17,17 +17,17 @@ public class CouponPersonalUIAction implements Action {
 	@Override
 	public String execute(HttpServletRequest request) 
 			throws ServletException, IOException {
+		String url="CouponPersonal.jsp";
 		Map<String, Object> studentInfo = (Map<String, Object>) request.getSession().getAttribute("info");
 
 		
 		CouponDAO dao = new CouponDAO();
 		List<CouponPurchaseVO> list = dao.MyCouponList((String) studentInfo.get("studentId"));
-		
+		request.setAttribute("couponlist", list);
 
-		System.out.println(list.get(0));
 		
 		
-		return "CouponPersonal.jsp";
+		return url;
 	}
 
 }

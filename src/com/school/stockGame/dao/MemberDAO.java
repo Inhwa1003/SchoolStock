@@ -46,7 +46,7 @@ public class MemberDAO {
 				tmp.put("studentId", studentId);
 				tmp.put("name", rs.getString(1));
 				tmp.put("grade", rs.getInt(2));
-				tmp.put("class", rs.getString(3));
+				tmp.put("className", rs.getString(3));
 				tmp.put("classNumber", rs.getInt(4));
 				tmp.put("totalPoint", rs.getInt(5));
 			}
