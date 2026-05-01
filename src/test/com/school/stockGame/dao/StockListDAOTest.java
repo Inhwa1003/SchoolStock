@@ -7,6 +7,7 @@ import java.util.List;
 import org.junit.Test;
 
 import com.school.stockGame.dao.StockListDAO;
+import com.school.stockGame.vo.StockVO;
 
 public class StockListDAOTest {
 
@@ -14,15 +15,15 @@ public class StockListDAOTest {
     public void testGetStockNameList() {
         StockListDAO dao = new StockListDAO();
 
-        List<String> stockNameList = dao.getStockNameList();
+        List<StockVO> stockNameList = dao.getStockNameList();
 
         assertNotNull(stockNameList);
         assertEquals(3, stockNameList.size());
 
         System.out.println("조회된 주식 개수: " + stockNameList.size());
 
-        for (String stockName : stockNameList) {
-            System.out.println("주식명: " + stockName);
+        for (StockVO stockName : stockNameList) {
+            System.out.println("주식명: " + stockName.getName());
         }
     }
 }

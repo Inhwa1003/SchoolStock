@@ -12,7 +12,10 @@ function updateStockPrices() {
         if (row == null) {
           return;
         }
-
+        row.style.cusur = "pointer";
+        row.onclick = function(){
+        	location.href = contextPath + "/controller?cmd=StockDetailUI&no=" + stock.stockNo;
+        };
         const currentPriceTd = row.querySelector(".current-price");
         const prevPriceTd = row.querySelector(".prev-price");
         const priceChangeTd = row.querySelector(".price-change");

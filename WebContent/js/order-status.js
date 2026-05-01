@@ -6,7 +6,9 @@ let getOrdersEvent = function() {
     let selectedType = document.querySelector("#orderTypeSelect").value;
     
     // controller에 cmd와 함께 선택된 type을 파라미터로 보냅니다.
-    xhr.open("get", "controller?cmd=stockOrderStatusAction&type=" + selectedType, true);
+    xhr.open("get", "controller?cmd=StockOrderStatusAction&type=" + selectedType + "&no="+ stockNo, true);
+    
+   
     
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
@@ -16,7 +18,7 @@ let getOrdersEvent = function() {
 
             list.forEach(function(order) {
                 let tr = document.createElement("tr");
-                // 서버 DTO 필드명과 일치해야 함 (image_7d694b.jpg 기반)
+                // 서버 vo 필드명과 일치해야 함  기반
                 tr.innerHTML = "<td>" + order.content + "</td>" +
                                "<td>" + order.price + "</td>" +
                                "<td>" + order.amount + "</td>";

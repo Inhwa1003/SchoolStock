@@ -8,6 +8,12 @@ public class StockVO {
 	private int publicationPrice;
 	private int prevPrice;
 	
+	// 동석 추가 (인화님 주식리스트에서 눌렀을때 주식no가 필요해서 만듦)
+	public StockVO(int stockNo, String name){
+		setStockNo(stockNo);
+		setName(name);
+	}
+	
 	
 	public int getStockNo() {
 		return stockNo;

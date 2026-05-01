@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.gson.Gson;
 import com.school.stockGame.dao.StockDetailDAO;
 import com.school.stockGame.dao.StockListDAO;
+import com.school.stockGame.vo.StockVO;
 
 public class StockPriceAjax implements Action {
 
@@ -21,16 +22,19 @@ public class StockPriceAjax implements Action {
 		StockDetailDAO daoDetail = new StockDetailDAO();
 
 		// 1. 등록된 주식명 목록 조회
-		List<String> stockNameList = daoList.getStockNameList();
+		List<StockVO> stockNameList = daoList.getStockNameList();
 
 		// 2. JSON으로 보낼 데이터 생성
 		List<Map<String, Object>> stockList = new ArrayList<Map<String, Object>>();
 
 		for (int i = 0; i < stockNameList.size(); i++) {
-			String stockName = stockNameList.get(i);
+			
 
 			// 현재 요구사항상 stock_no는 1번부터 순서대로 존재
-			int stockNo = i + 1;
+			// int stockNo = i + 1;
+			
+			int stockNo = stockNameList.get(i).getStockNo();
+            String stockName = stockNameList.get(i).getName();
 
 			int currentPrice = daoDetail.getStockPrice(stockNo);
 			int prevPrice = daoDetail.getPervPrice(stockNo);
@@ -40,6 +44,7 @@ public class StockPriceAjax implements Action {
 			Map<String, Object> stock = new LinkedHashMap<String, Object>();
 
 			// JS에서 stock.stockName으로 쓰고 있으므로 key 이름 반드시 stockName
+			stock.put("stockNo", stockNo);
 			stock.put("stockName", stockName);
 			stock.put("currentPrice", currentPrice);
 			stock.put("prevPrice", prevPrice);
