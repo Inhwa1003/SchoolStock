@@ -12,7 +12,7 @@ function updateStockPrices() {
         if (row == null) {
           return;
         }
-        row.style.cusur = "pointer";
+        row.style.cursor = "pointer";
         row.onclick = function(){
         	location.href = contextPath + "/controller?cmd=StockDetailUI&no=" + stock.stockNo;
         };

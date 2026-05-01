@@ -58,7 +58,7 @@ public class StockPriceAjax implements Action {
 		Gson gson = new Gson();
 		String json = gson.toJson(stockList);
 
-		System.out.println("StockPriceAjax Json="+json);
+		//System.out.println("StockPriceAjax Json="+json);
 		// 4. JSP에서 출력할 수 있도록 request에 저장
 		request.setAttribute("jsonData", json);
 

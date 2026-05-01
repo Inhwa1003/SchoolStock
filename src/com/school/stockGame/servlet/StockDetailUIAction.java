@@ -35,7 +35,7 @@ public class StockDetailUIAction implements Action {
 			e.printStackTrace();
 		}
 		
-		return "stockDetail.jsp";
+		return "StockDetail.jsp";
 	}
 
 }
