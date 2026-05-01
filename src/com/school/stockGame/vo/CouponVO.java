@@ -5,7 +5,8 @@ public class CouponVO {
 	private String name;
 	private int price;
 
-	
+	public CouponVO() {
+	}
 	
 	public CouponVO(int couponNo) {
 		setCouponNo(couponNo);
