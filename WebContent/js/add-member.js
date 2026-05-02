@@ -20,9 +20,12 @@ let callbackMethod = function(){
 		if(xhr.status ==200 || xhr.status ==300){
 			let r=JSON.parse(xhr.responseText);		
 			isIdValid = !r.result;
-			let message='사용가능';
-			if(r.result)
-				message='사용 불가능';
+			let message = r.result ? '중복된 아이디 입니다.' : '사용가능한 아이디 입니다.';
+			if (r.result) {
+                idMsg.className = "message error";
+            } else {
+                idMsg.className = "message success";
+            }
 			document.querySelector("#id-check-msg").innerHTML=message;		
 		}
 	}
@@ -41,12 +44,10 @@ inputs[0].onchange = idEvent;
 passwordCheck.onchange = function() {
     if (password.value !== passwordCheck.value) {
         pwdMsg.innerHTML = "비밀번호가 일치하지 않습니다.";
-        pwdMsg.style.color = "red";
-        passwordCheck.style.border = "2px solid red"; // 시각적 강조
+        pwdMsg.className = "message error";
     } else {
         pwdMsg.innerHTML = "비밀번호가 일치합니다.";
-        pwdMsg.style.color = "green";
-        passwordCheck.style.border = "2px solid green";
+        pwdMsg.className = "message success";
     }
  };
  form.addEventListener("submit", function(event) {
