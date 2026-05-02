@@ -40,10 +40,37 @@ public class StockListUI implements Action {
         	int stockNo = stockNameList.get(i).getStockNo();
             String stockName = stockNameList.get(i).getName();
 
-            int currentPrice = dao_detail.getStockPrice(stockNo);
+            // 발행 잔량이 1개 이상일 경우엔, 현재가격은 발행 가격으로 표시한다.
+            // 발행 잔량이 0개일 때부터 학생들이 거래가 이루어지기 때문에, 최신 거래 가격이 현재가격으로 이뤄진다.
+            
+            // 주식 발행 정보 가져오기
+            Map<String, Object> pubInfo = dao_detail.getStockPubInfo(stockNo);
+
+            int pubAmount = 0;
+            int pubPrice = 0;
+
+            // 발행 잔량과 가격이 null이 아닐 때
+            if (pubInfo.get("pubAmount") != null) {
+                pubAmount = ((Number) pubInfo.get("pubAmount")).intValue();
+            }
+
+            if (pubInfo.get("pubPrice") != null) {
+                pubPrice = ((Number) pubInfo.get("pubPrice")).intValue();
+            }
+
+            int currentPrice = 0;
+
+            // 발행잔량이 1이상일 때. 현재가격을 발행 가격으로 표시해주는 조건 넣어줌.
+            if (pubAmount > 0) {
+                currentPrice = pubPrice;
+            } else {
+                currentPrice = dao_detail.getStockPrice(stockNo);
+            }
+
             int prevPrice = dao_detail.getPervPrice(stockNo);
             int priceChange = dao_detail.getStockPriceChange(stockNo);
             int changeRate = dao_detail.getChangeRate(stockNo);
+            
 
             Map<String, Object> stock = new HashMap<String, Object>();
             
