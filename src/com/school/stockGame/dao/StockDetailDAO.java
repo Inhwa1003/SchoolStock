@@ -635,7 +635,7 @@ public class StockDetailDAO {
 		return orderNo;
 	}
 
-	// 내 주문 요청 취소
+	// 내 주문 요청 취소(트랜잭션 관리용)
 	public boolean myOrderCancel(int orderNo){
 		boolean flag = false;
 		try {

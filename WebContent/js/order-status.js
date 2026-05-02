@@ -70,6 +70,7 @@ window.onload = function() {
 	document.querySelector("#backBtn").onclick = function(){history.back();};
 	
 	let buyBtn = document.querySelector("#buyBtn");
+	let sellBtn = document.querySelector("#sellBtn");
 	let selectEl = document.querySelector("#orderTypeSelect");
 	let refreshBtn = document.querySelector("#refreshBtn");
 	
@@ -78,14 +79,30 @@ window.onload = function() {
 			 const buyPrice = parseInt(document.getElementById("buyPrice").value);
 			 const buyAmount = parseInt(document.getElementById("buyAmount").value);
 			 
-			// 3. 확인
+			// 확인
 			    const totalPrice = buyPrice * buyAmount;
 			    if (!confirm(buyAmount + "주를" + buyPrice + "P에 매수합니다.\n총 " + totalPrice + "P가 차감됩니다.\n진행하시겠습니까?")) {
 			        return;
 			    }
 			    
-			    // 4. 컨트롤러로 이동
+			    // 컨트롤러로 이동
 			    location.href = "controller?cmd=StockBuy&buyPrice=" + buyPrice+ "&buyAmount=" + buyAmount + "&stockNo=" + stockNo;
+		}
+	}
+	
+	if(sellBtn){
+		sellBtn.onclick = function(){
+			 const sellPrice = parseInt(document.getElementById("sellPrice").value);
+			 const sellAmount = parseInt(document.getElementById("sellAmount").value);
+			 
+			// 확인
+			    const totalPrice = sellPrice * sellAmount;
+			    if (!confirm(sellAmount + "주를" + sellPrice + "P에 매수합니다.\n총 " + totalPrice + "P가 차감됩니다.\n진행하시겠습니까?")) {
+			        return;
+			    }
+			    
+			    // 컨트롤러로 이동
+			    location.href = "controller?cmd=StockSell&sellPrice=" + sellPrice+ "&sellAmount=" + sellAmount + "&stockNo=" + stockNo;
 		}
 	}
 	
