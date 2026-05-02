@@ -11,32 +11,26 @@ import com.google.gson.Gson;
 import com.school.stockGame.dao.StockDetailDAO;
 import com.school.stockGame.vo.OrderVO;
 
-public class StockOrderStatusAcion implements Action {
+public class MyStockOrderAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
 		
 		HttpSession session = request.getSession();
 		
+		int stockNo = Integer.parseInt(request.getParameter("no"));
 		String studentId = (String) session.getAttribute("studentId");
-		//세션 체크
-		if(studentId == null){
-			return "controller?cmd=LoginUI";
-		}
 		
 		StockDetailDAO stockDetailDAO = new StockDetailDAO();
-		List<OrderVO> list = null;
+	
+		List<OrderVO> list = stockDetailDAO.getTotalMyOrder(stockNo, studentId);
 		
-		int stockNo = Integer.parseInt(request.getParameter("no"));
-		if(request.getParameter("type").equals("sell")){
-			list = stockDetailDAO.getTotalSellOrder(stockNo);
-		}else{
-			list = stockDetailDAO.getTotalBuyOrder(stockNo);
-		}
+		
 		Gson gson = new Gson();
 		String json = gson.toJson(list);
-		
+	
 		request.setAttribute("jsonData", json);
+		
 		return null;
 	}
 

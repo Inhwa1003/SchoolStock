@@ -56,8 +56,14 @@ public class ActionFactory {
 		case "StockDetailUI":
 			a = new StockDetailUIAction();
 			break;
-		case "StockOrderStatusAction":
+		case "StockOrderStatus":
 			a = new StockOrderStatusAcion();
+			break;
+		case "MyStockOrder":
+			a = new MyStockOrderAction();
+			break;
+		case "StockBuy":
+			a = new StockBuyAction();
 			break;
 		default:
 			a = new LoginUIAction();

@@ -30,7 +30,7 @@ public interface StockDetailQuery {
 	String STOCK_PREV_PRICE_SQL = "SELECT prev_price FROM stocks WHERE stock_no = ?";
 	
 	// 보유 주식 수량 조회 쿼리
-	String STOCK_QTY_SQL = "SELECT SUM(CASE WHEN content='매수' THEN amount ELSE -amount END) AS amount "
+	String STOCK_AMOUNT_SQL = "SELECT SUM(CASE WHEN content='매수' THEN amount ELSE -amount END) AS amount "
 			+ "FROM orders "
 			+ "WHERE student_id = ? "
 			+ "AND stock_no = ? "
@@ -43,7 +43,7 @@ public interface StockDetailQuery {
 	
 	// 주문 요청 (매도, 매수) 둘다 가능
 	String ORDER_REQUEST = "INSERT INTO ORDERS (order_no, content, price, amount, state, order_date, student_id, stock_no) "
-			+ "VALUES (order_no_seq.NEXTVAL, ?, ?, ?, '대기', SYSDATE, ?, ?)";
+			+ "VALUES (order_no_seq.NEXTVAL, ?, ?, ?, ?, SYSDATE, ?, ?)";
 	
 	// 대기중인 총 매도 매수 요청 리스트
 	String TOTAL_ORDER_REQUEST = "SELECT price, amount, content "
@@ -79,18 +79,30 @@ public interface StockDetailQuery {
 	// 내 주문 요청 취소
 	String MY_ORDER_CANCEL = "";
 	
-	// 주문 완료시 포인트 up (주식 개수 * 주문가격)
+	// 주문 완료시 포인트 up (주식 개수 * 주문가격, 학생아이디)
 	String POINT_UP_SQL = "UPDATE students SET total_point = total_point + (?) "
 			+ "WHERE student_id = ?";
 	
-	// 주문 완료시 포인트 down (주식 개수 * 주문가격)
+	// 주문 완료시 포인트 down (주식 개수 * 주문가격, 학생아이디)
 	String POINT_DOWN_SQL = "UPDATE students SET total_point = total_point - (?) "
 			+ "WHERE student_id = ?";
 	
-	// 주문 요청 완료 (매수no, 매도no)
+	// 주문 요청 체결 완료 (매수no, 매도no)
 	String MATCH_COMPLETE_INSERT_SQL = "INSERT INTO transaction (transaction_no, transaction_date, buy_order_no, sell_order_no) "
 			+ "VALUES (transaction_no_seq.NEXTVAL, SYSDATE, ?, ?)";
 	
+	// 주문요청 상태 '대기' 변경 (주문no)
+	String ORDER_STATE_PENDING_UPDATE_SQL = "UPDATE orders SET state = '대기' "
+			+ "WHERE order_no = ?";
+
+	// 주문요청 상태 '체결' 변경 (주문no)
+	String ORDER_STATE_MATCHED_UPDATE_SQL = "UPDATE orders SET state = '체결' "
+			+ "WHERE order_no = ?";
+
+	// 주문요청 상태 '취소' 변경 (주문no)
+	String ORDER_STATE_CANCEL_UPDATE_SQL = "UPDATE orders SET state = '취소' "
+			+ "WHERE order_no = ?";
+
 	// 주식 발행 정보 조회 (주식no)
 	String PUBLICATION_DATA_SELECT_SQL = "SELECT publication_balance, publication_price "
 			+ "FROM stocks "
@@ -100,7 +112,29 @@ public interface StockDetailQuery {
 	String PUBLICATION_DATA_UPDATE_SQL = "UPDATE stocks SET publication_balance = publication_balance - ? "
 			+ "WHERE stock_no = ?";
 	
-	// 주문요청 상태 변경 (['대기','체결','취소'], 주문no)
-	String ORDER_STATE_UPDATE_SQL = "UPDATE orders SET state = ? "
-			+ "WHERE order_no = ?";
+	// 매수 주문 요청 매칭 
+	String MATCH_BUY_ORDER_SQL = "SELECT order_no, content, price, amount, state, order_date, student_id, stock_no "
+			+ "FROM orders "
+			+ "WHERE order_no = "
+			+ "(SELECT order_no "
+			+ "FROM (SELECT order_no "
+			+ "FROM orders "
+			+ "WHERE stock_no = ? "
+			+ "AND state = '대기' "
+			+ "AND content = '매도' "
+			+ "AND price = ? "
+			+ "AND amount = ? "
+			+ "AND student_id != ? "
+			+ "ORDER BY order_date ASC) "
+			+ "WHERE ROWNUM = 1) "
+			+ "FOR UPDATE";
+	// 직전에 내가 주문 요청한건 조회
+	String FIND_MY_ORDER_SQL = "SELECT order_no "
+			+ "FROM orders "
+			+ "WHERE content = ? "
+			+ "AND student_id = ? "
+			+ "AND stock_no = ? "
+			+ "AND state = ? "
+			+ "AND amount = ? "
+			+ "AND price = ? ORDER BY order_date DESC";
 }

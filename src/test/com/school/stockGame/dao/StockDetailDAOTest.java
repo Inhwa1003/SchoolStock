@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
+import com.school.stockGame.dao.DBCP;
 import com.school.stockGame.dao.StockDetailDAO;
 
 public class StockDetailDAOTest {
@@ -38,19 +39,6 @@ public class StockDetailDAOTest {
 		System.out.println(dao.getPervPrice(3));
 	}
 	@Test
-	public void 매도기능테스트() throws ClassNotFoundException, SQLException {
-		dao = new StockDetailDAO();
-		//YES
-		//System.out.println(dao.setSellOrder(1, "abc", 1, 1700));
-
-	}
-	@Test
-	public void 매수기능테스트() throws ClassNotFoundException, SQLException {
-		dao = new StockDetailDAO();
-		//yes
-		//System.out.println(dao.setBuyOrder(1, "abc", 2, 1600));
-	}
-	@Test
 	public void 매도매수총조회테스트() throws ClassNotFoundException, SQLException {
 		dao = new StockDetailDAO();
 		System.out.println(dao.getTotalOrder(1));
@@ -75,5 +63,87 @@ public class StockDetailDAOTest {
 //		dao = new StockDetailDAO();
 //		//System.out.println(dao.myOrderCancel(12));
 //	}
-
+	@Test
+	public void getPublishInfoTest() {
+		dao = new StockDetailDAO();
+		System.out.println(dao.getStockPubInfo(1));
+	}
+	
+	@Test
+	public void setMatchedOrderTest() throws ClassNotFoundException, SQLException {
+		dao = new StockDetailDAO();
+		//assertTrue(dao.setMatchedOrder(1, 4));
+	}
+	@Test
+	public void setOrderStateCancelTest(){
+		dao = new StockDetailDAO();
+		//assertTrue(dao.setOrderStateCancel(14));
+	}
+	@Test
+	public void setOrderStatePendingTest(){
+		dao = new StockDetailDAO();
+		//assertTrue(dao.setOrderStatePending(14));
+	}
+	@Test
+	public void setOrderStateMatchedTest(){
+		dao = new StockDetailDAO();
+		//assertTrue(dao.setOrderStateMatched(14));
+	}
+	@Test
+	public void setStockPubBalanceTest(){
+		dao = new StockDetailDAO();
+		//assertTrue(dao.setStockPubBalance(3, 1));
+	}
+	@Test
+	public void getMatchBuyOrderTest(){
+		dao = new StockDetailDAO();
+		//수량O, 가격O
+		//assertTrue(dao.getMatchBuyOrder(1, 1700, 1) != null);
+		//가격O, 수량X
+		//assertTrue(dao.getMatchBuyOrder(1, 1700, 2) == null);
+		//가격X, 수량O
+		//assertTrue(dao.getMatchBuyOrder(1, 1300, 1) == null);
+	}
+	@Test
+	public void getStudentPointTest(){
+		dao = new StockDetailDAO();
+		// 보유 포인트를 반환 하는지 확인
+		assertNotNull(dao.getStudentPoint("dong"));
+		System.out.println(dao.getStudentPoint("dong"));
+	}
+	@Test
+	public void getStudentStockAmountTest(){
+		dao = new StockDetailDAO();
+		// 보유 한 주식을 반환 하는지 확인
+		assertNotNull(dao.getStudentStockAmount(1, "abc"));
+		System.out.println(dao.getStudentStockAmount(1, "abc"));
+	}
+	@Test
+	public void setOrderRequetTest(){
+		dao = new StockDetailDAO();
+		// 매수 주문 요청
+		//assertTrue(dao.setOrderRequest("매수", 1200, 2, "대기", "dong", 1));
+		// 매도 주문 요청
+		//assertTrue(dao.setOrderRequest("매도", 1400, 2, "대기", "dong", 1));
+	}
+	@Test
+	public void setStudentPointDownTest(){
+		dao = new StockDetailDAO();
+		//학생 포인트 내려감
+		//assertTrue(dao.setStudentPointDown(200, "dong"));
+		//학생 포인트 올라감 x
+		//assertTrue(dao.setStudentPointDown(-200, "dong"));
+		//학생 포인트 내려감
+		//assertTrue(dao.setStudentPointDown(+200, "dong"));
+	}
+	@Test
+	public void setStudentPointUpTest(){
+		dao = new StockDetailDAO();
+		//학생 포인트 올라감
+		//assertTrue(dao.setStudentPointUp(200, "dong"));
+		//학생 포인트 올라감 
+		//assertTrue(dao.setStudentPointUp(-200, "dong"));
+		//학생 포인트 올라감
+		//assertTrue(dao.setStudentPointUp(+200, "dong"));
+	}
 }
