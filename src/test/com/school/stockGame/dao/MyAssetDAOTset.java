@@ -61,14 +61,14 @@ public class MyAssetDAOTset {
     // --- [4. 종목명 조회 테스트] ---
     @Test
     public void testGetStockName_성공() {
-        String name = dao.getStockName(validStudentId);
+        String name = dao.getStockName(validStockNo);
         System.out.println("4. 조회된 종목명: " + name);
         assertNotNull("종목명이 조회되어야 합니다.", name);
     }
 
     @Test
     public void testGetStockName_실패_없는종목() {
-        String name = dao.getStockName(invalidStudentId);
+        String name = dao.getStockName(invalidStockNo);
         assertNull("없는 종목 번호 조회 시 null을 반환해야 합니다.", name);
     }
 

@@ -43,7 +43,7 @@ public class MyAssetsAction implements Action {
 					int stockPrice = detail.getStockPrice(stockNo);
 					Map stockMap = new HashMap();
 					stockMap.put("stockNo", stockNo);
-                    stockMap.put("name", myAsset.getStockName(studentId)); 
+                    stockMap.put("name", myAsset.getStockName(stockNo)); 
                     stockMap.put("amount", amount);
                     stockMap.put("price", stockPrice);
                     stockMap.put("average", myAsset.getAveragePrice(studentId, stockNo, "체결", "매수"));

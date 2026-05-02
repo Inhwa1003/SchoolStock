@@ -88,12 +88,12 @@ public class MyAssetDAO {
 		return result;
 	}
 	
-	public String getStockName(String studentId) {
+	public String getStockName(int stockNo) {
 		String result = null;
 		try {
 			Connection conn = DBCP.getConnection();
 	        PreparedStatement stmt = conn.prepareStatement(MyAssetQuery.STOCK_NAME_SQL);
-			stmt.setString(1, studentId);
+			stmt.setInt(1, stockNo);
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
 				result = rs.getString("name");

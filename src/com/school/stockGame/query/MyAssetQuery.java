@@ -21,9 +21,7 @@ public interface MyAssetQuery {
 			+ "JOIN stocks st ON o.stock_no = st.stock_no WHERE o.student_id = ? "
 			+ "AND o.state = ? GROUP BY o.stock_no, st.publication_price)";
 	String TOTAL_COUPON_SQL = "SELECT total_coupon FROM students WHERE student_id = ?";
-	String STOCK_NAME_SQL = "SELECT sto.name FROM students s "
-			+ "JOIN orders o ON s.student_id = o.student_id "
-			+ "JOIN stocks sto ON sto.stock_no = o.stock_no WHERE s.student_id = ?";
+	String STOCK_NAME_SQL = "SELECT name FROM stocks WHERE stock_no = ?";
 	String STOCK_AMOUNT_SQL = "SELECT SUM(CASE WHEN content = '매수' THEN amount ELSE -amount END) AS amount "
 			+ "FROM orders WHERE student_id = ? AND stock_no = ? AND state = ?";
 	String AVERAGE_PRICE_SQL = "SELECT (SUM(price * amount) / SUM(amount)) AS average FROM orders "
