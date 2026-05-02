@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/MyAssetStyle.css">
 <link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/css/stock_style.css">
+	href="${pageContext.request.contextPath}/css/StockStyle.css">
 </head>
 <body>
 	<div class="app">
