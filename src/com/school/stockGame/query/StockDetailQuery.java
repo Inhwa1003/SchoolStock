@@ -124,6 +124,7 @@ public interface StockDetailQuery {
 			+ "AND content = '매도' "
 			+ "AND price = ? "
 			+ "AND amount = ? "
+			+ "AND student_id != ? "
 			+ "ORDER BY order_date ASC) "
 			+ "WHERE ROWNUM = 1) "
 			+ "FOR UPDATE";

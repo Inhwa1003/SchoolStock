@@ -43,8 +43,6 @@ public class StockDetailDAO {
 				rs.close();
 			if (stmt != null)
 				stmt.close();
-			if (conn != null)
-				conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -62,26 +60,30 @@ public class StockDetailDAO {
 			if (getStudentPoint(conn, studentId) < (buyPrice * buyAmount)) {
 				return false;
 			}
+			Map<String, Object> pubInfo = getStockPubInfo(conn, stockNo);
+			int pubAmount = ((Number) pubInfo.get("pubAmount")).intValue();
+			int pubPrice = ((Number) pubInfo.get("pubPrice")).intValue();
+			
 			// 1. 발행 개수가 남았는지 체크 있으면 실행
-			if (((Number) getStockPubInfo(conn, stockNo).get("pubAmount")).intValue() >= buyAmount) {
+			if (pubAmount >= buyAmount) {
 				// 1-1. 발행 개수 차감
 				setStockPubBalance(conn, buyAmount, stockNo);
 				// 1-2. 주문 체결로 바로 요청
-				setOrderRequest(conn, "매수", buyPrice, buyAmount, "체결", studentId, stockNo);
+				setOrderRequest(conn, "매수", pubPrice, buyAmount, "체결", studentId, stockNo);
 				// 1-3. 매수 요청한 주문번호로 주문 완료 등록
-				setMatchedOrder(conn, getMyOrderNo(conn, "매수", studentId, stockNo, "체결", buyAmount, buyPrice), null);
+				setMatchedOrder(conn, getMyOrderNo(conn, "매수", studentId, stockNo, "체결", buyAmount, pubPrice),null);
 				// 1-4. 보유 포인트 차감
-				setStudentPointDown(conn, (buyPrice * buyAmount), studentId);
+				setStudentPointDown(conn, (pubPrice * buyAmount), studentId);
 				// 1-5. 커밋
 				conn.commit();
 				return true;
 			}
 			// 발행 잔량이 남아있으면 실행
-			if (((Number) getStockPubInfo(conn, stockNo).get("pubAmount")).intValue() > 0) {
+			if (pubAmount > 0) {
 				return false;
 			}
 
-			matchOrder = getMatchBuyOrder(conn, stockNo, buyPrice, buyAmount);
+			matchOrder = getMatchBuyOrder(conn, stockNo, buyPrice, buyAmount, studentId);
 			// 2. 매수 요청에 따른 매도 요청이 있을경우 실행
 			if (!matchOrder.isEmpty()) {
 				// 2-1 매도 주문 '체결'로 업데이트
@@ -170,8 +172,12 @@ public class StockDetailDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			rs.close();
-			stmt.close();
+			 if (rs != null) {
+			        try { rs.close(); } catch (SQLException ignore) {}
+			    }
+			    if (stmt != null) {
+			        try { stmt.close(); } catch (SQLException ignore) {}
+			    }
 		}
 
 		return tmp;
@@ -285,8 +291,12 @@ public class StockDetailDAO {
 			if (rs.next())
 				totalPoint = rs.getInt(1);
 		} finally {
-			rs.close();
-			stmt.close();
+			 if (rs != null) {
+			        try { rs.close(); } catch (SQLException ignore) {}
+			    }
+			    if (stmt != null) {
+			        try { stmt.close(); } catch (SQLException ignore) {}
+			    }
 		}
 		return totalPoint;
 	}
@@ -339,7 +349,9 @@ public class StockDetailDAO {
 			if (stmt.executeUpdate() == 1)
 				flag = true;
 		} finally {
-			stmt.close();
+			 if (stmt != null) {
+			        try { stmt.close(); } catch (SQLException ignore) {}
+			    }
 		}
 		return flag;
 	}
@@ -376,7 +388,9 @@ public class StockDetailDAO {
 			if (stmt.executeUpdate() == 1)
 				flag = true;
 		} finally {
-			stmt.close();
+			 if (stmt != null) {
+			        try { stmt.close(); } catch (SQLException ignore) {}
+			    }
 		}
 		return flag;
 	}
@@ -421,7 +435,9 @@ public class StockDetailDAO {
 			if (stmt.executeUpdate() == 1)
 				flag = true;
 		} finally {
-			stmt.close();
+			 if (stmt != null) {
+			        try { stmt.close(); } catch (SQLException ignore) {}
+			    }
 		}
 		return flag;
 	}
@@ -545,8 +561,12 @@ public class StockDetailDAO {
 			if (rs.next())
 				orderNo = rs.getInt(1);
 		} finally {
-			rs.close();
-			stmt.close();
+		    if (rs != null) {
+		        try { rs.close(); } catch (SQLException ignore) {}
+		    }
+		    if (stmt != null) {
+		        try { stmt.close(); } catch (SQLException ignore) {}
+		    }
 		}
 		return orderNo;
 	}
@@ -603,8 +623,12 @@ public class StockDetailDAO {
 				map.put("pubPrice", rs.getInt(2));
 			}
 		} finally {
-			rs.close();
-			stmt.close();
+		    if (rs != null) {
+		        try { rs.close(); } catch (SQLException ignore) {}
+		    }
+		    if (stmt != null) {
+		        try { stmt.close(); } catch (SQLException ignore) {}
+		    }
 		}
 		return map;
 	}
@@ -639,7 +663,9 @@ public class StockDetailDAO {
 			if (stmt.executeUpdate() == 1)
 				flag = true;
 		} finally {
-			stmt.close();
+			if (stmt != null) {
+		        try { stmt.close(); } catch (SQLException ignore) {}
+		    }
 		}
 		return flag;
 	}
@@ -669,11 +695,18 @@ public class StockDetailDAO {
 		try {
 			stmt = conn.prepareStatement(StockDetailQuery.MATCH_COMPLETE_INSERT_SQL);
 			stmt.setInt(1, buyOrderNo);
-			stmt.setInt(2, sellOrderNo);
+			if(sellOrderNo != null){
+				stmt.setInt(2, sellOrderNo);
+			}else{
+				stmt.setNull(2, java.sql.Types.INTEGER);
+			}
+			
 			if (stmt.executeUpdate() == 1)
 				flag = true;
 		} finally {
-			stmt.close();
+			if (stmt != null) {
+		        try { stmt.close(); } catch (SQLException ignore) {}
+		    }
 		}
 		return flag;
 	}
@@ -720,7 +753,9 @@ public class StockDetailDAO {
 			if (stmt.executeUpdate() == 1)
 				flag = true;
 		} finally {
-			stmt.close();
+			if (stmt != null) {
+		        try { stmt.close(); } catch (SQLException ignore) {}
+		    }
 		}
 		return flag;
 	}
@@ -766,7 +801,7 @@ public class StockDetailDAO {
 	}
 	
 	// 매수 주문 요청 매칭 (트랜잭션 관리용)
-	public Map<String, Object> getMatchBuyOrder(Connection conn, int stockNo, int buyPrice, int buyAmount)throws SQLException {
+	public Map<String, Object> getMatchBuyOrder(Connection conn, int stockNo, int buyPrice, int buyAmount, String studentId)throws SQLException {
 		Map<String, Object> map = new HashMap<>();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -776,18 +811,24 @@ public class StockDetailDAO {
 			stmt.setInt(1, stockNo);
 			stmt.setInt(2, buyPrice);
 			stmt.setInt(3, buyAmount);
+			stmt.setString(4, studentId);
 			rs = stmt.executeQuery();
 			if (rs.next()) {
 				map.put("orderNo", rs.getInt(1));
 				map.put("content", rs.getString(2));
 				map.put("price", rs.getInt(3));
-				map.put("state", rs.getString(4));
-				map.put("orderDate", rs.getString(5));
-				map.put("studentId", rs.getString(6));
+				map.put("amount",rs.getInt(4));
+				map.put("state", rs.getString(5));
+				map.put("orderDate", rs.getString(6));
+				map.put("studentId", rs.getString(7));
 			}
 		} finally {
-			rs.close();
-			stmt.close();
+			if (rs != null) {
+	            try { rs.close(); } catch (SQLException ignore) {}
+	        }
+	        if (stmt != null) {
+	            try { stmt.close(); } catch (SQLException ignore) {}
+	        }
 		}
 		return map;
 	}

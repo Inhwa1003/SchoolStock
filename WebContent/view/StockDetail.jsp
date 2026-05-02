@@ -85,7 +85,7 @@
 				</div>
 				<!-- 매도 매수 -->
 				<div class="panel">
-					<div class="ptitle">주문 요청하기</div>
+					<div class="ptitle">주문 요청하기(${buyOk})</div>
 					<div class="sell-request">
 						<div>가격(P)</div>
 						<input type="number" min="100" step="100" Value="100" />
@@ -96,10 +96,10 @@
 					
 					<div class="buy-request">
 						<div>가격(P)</div>
-						<input type="number" min="100" step="100" Value="100" />
+						<input id="buyPrice" type="number" min="100" step="100" Value="100" />
 						<div>수량</div>
-						<input type="number" min="1" Value="1" />
-						<div><button class="buy-btn">매수</button></div>
+						<input id="buyAmount" type="number" min="1" Value="1" />
+						<div><button id="buyBtn" class="buy-btn">매수</button></div>
 					</div>
 				</div>
 			</div>

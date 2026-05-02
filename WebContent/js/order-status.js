@@ -63,14 +63,31 @@ let getMyOrdersEvent = function() {
 	xhr2.send(null);
 };
 
+
 // 2. 페이지 로드 시 이벤트 연결
 window.onload = function() {
 	
 	document.querySelector("#backBtn").onclick = function(){history.back();};
 	
-	
+	let buyBtn = document.querySelector("#buyBtn");
 	let selectEl = document.querySelector("#orderTypeSelect");
 	let refreshBtn = document.querySelector("#refreshBtn");
+	
+	if(buyBtn){
+		buyBtn.onclick = function(){
+			 const buyPrice = parseInt(document.getElementById("buyPrice").value);
+			 const buyAmount = parseInt(document.getElementById("buyAmount").value);
+			 
+			// 3. 확인
+			    const totalPrice = buyPrice * buyAmount;
+			    if (!confirm(buyAmount + "주를" + buyPrice + "P에 매수합니다.\n총 " + totalPrice + "P가 차감됩니다.\n진행하시겠습니까?")) {
+			        return;
+			    }
+			    
+			    // 4. 컨트롤러로 이동
+			    location.href = "controller?cmd=StockBuy&buyPrice=" + buyPrice+ "&buyAmount=" + buyAmount + "&stockNo=" + stockNo;
+		}
+	}
 	
 	if(refreshBtn){
 		refreshBtn.onclick = getMyOrdersEvent;
