@@ -26,12 +26,13 @@ public class StockSellAction implements Action {
 		int sellPrice = Integer.parseInt(request.getParameter("sellPrice"));
 		int sellAmount = Integer.parseInt(request.getParameter("sellAmount"));
 		int stockNo = Integer.parseInt(request.getParameter("stockNo"));
-		int totalPoint = (int) studentInfo.get("totalPoint");
 		
-		studentInfo.put("totalPoint", totalPoint += (sellPrice*sellAmount));
+
+		session.setAttribute("Message", stockDetailDAO.setSellOrder(studentId, sellPrice, sellAmount, stockNo));
+		
+		studentInfo.put("totalPoint", stockDetailDAO.getStudentPoint(studentId));
 		session.setAttribute("info", studentInfo);
-		
-		request.setAttribute("ordereOk", stockDetailDAO.setSellOrder(studentId, sellPrice, sellAmount, stockNo));
+			
 	return "controller?cmd=StockDetailUI&no=" + stockNo;
 	}
 

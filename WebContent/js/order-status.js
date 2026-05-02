@@ -81,7 +81,7 @@ window.onload = function() {
 			 
 			// 확인
 			    const totalPrice = buyPrice * buyAmount;
-			    if (!confirm(buyAmount + "주를" + buyPrice + "P에 매수합니다.\n총 " + totalPrice + "P가 차감됩니다.\n진행하시겠습니까?")) {
+			    if (!confirm(buyAmount + " 주를 " + buyPrice + " P에 매수합니다.\n총 " + totalPrice + " P가 차감됩니다. 진행하시겠습니까?")) {
 			        return;
 			    }
 			    
@@ -97,7 +97,7 @@ window.onload = function() {
 			 
 			// 확인
 			    const totalPrice = sellPrice * sellAmount;
-			    if (!confirm(sellAmount + "주를" + sellPrice + "P에 매수합니다.\n총 " + totalPrice + "P가 차감됩니다.\n진행하시겠습니까?")) {
+			    if (!confirm(sellAmount + " 주를 " + sellPrice + " P에 매도합니다.\n총 " + totalPrice + " P 입니다. 진행하시겠습니까?")) {
 			        return;
 			    }
 			    
