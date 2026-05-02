@@ -3,6 +3,7 @@ package com.school.stockGame.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,6 +124,37 @@ public class MyAssetDAO {
 	        conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		return result;
+	}
+	// 동석 추가 (트랜잭션 관리용)오버로딩
+	public int getStockAmount(Connection conn, String studentId, int stockNo, String state) throws SQLException {
+		int result = 0;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			stmt = conn.prepareStatement(MyAssetQuery.STOCK_AMOUNT_SQL);
+			stmt.setString(1, studentId);
+			stmt.setInt(2, stockNo);
+			stmt.setString(3, state);
+			rs = stmt.executeQuery();
+			if (rs.next()) {
+				result = rs.getInt("amount");
+			}
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException ignore) {
+				}
+			}
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException ignore) {
+				}
+			}
 		}
 		return result;
 	}
