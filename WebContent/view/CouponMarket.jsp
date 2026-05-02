@@ -47,10 +47,11 @@
         <jsp:include page="SideBar.jsp" />
     </div>
 
-    <c:if test="${not empty buyMessage}">
-        <script type="text/javascript">
-            alert("${buyMessage}");
-        </script>
-    </c:if>
+    <c:if test="${not empty sessionScope.buyMessage}">
+    <script type="text/javascript">
+        alert("${sessionScope.buyMessage}");
+        <% session.removeAttribute("buyMessage"); %>
+    </script>
+</c:if>
 </body>
 </html>

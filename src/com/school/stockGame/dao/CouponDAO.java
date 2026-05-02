@@ -57,8 +57,9 @@ public class CouponDAO {
 					conn.rollback();
 				}
 			} catch (Exception ex) {
-				e.printStackTrace();
+				ex.printStackTrace();
 			}
+			e.printStackTrace();
 		}finally {
 			try {
 				if (conn != null) {
@@ -82,13 +83,13 @@ public class CouponDAO {
 		return point;
 	}
 	
-	private int insertPurchaseRecord(Connection conn, String id, int no, String name, int price, int state) throws SQLException {
+	private int insertPurchaseRecord(Connection conn, String studentId, int couponNo, String couponName, int couponPrice, int state) throws SQLException {
 		PreparedStatement stmt = conn.prepareStatement(CouponQuery.BUY_COUPON_SQL);
-		stmt.setInt(1, price);
-		stmt.setString(2, name);
+		stmt.setInt(1, couponPrice);
+		stmt.setString(2, couponName);
 		stmt.setInt(3, state);
-		stmt.setString(4, id);
-		stmt.setInt(5, no);
+		stmt.setString(4, studentId);
+		stmt.setInt(5, couponNo);
 		int result = stmt.executeUpdate();
 		stmt.close();
 		return result;
