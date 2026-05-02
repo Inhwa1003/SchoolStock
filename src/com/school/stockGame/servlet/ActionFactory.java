@@ -44,6 +44,12 @@ public class ActionFactory {
 		case "CouponPersonalUI":
 			a = new CouponPersonalUIAction();
 			break;
+		case "CouponMarketUI":
+			a = new CouponMarketUIAction();
+			break;
+		case "CouponBuyAction":
+			a = new CouponBuyAction();
+			break;
 		case "MyPointHistoryUI":
 			a = new MyPointHistoryUI();
 			break;
