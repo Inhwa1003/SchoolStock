@@ -26,7 +26,7 @@
 		<div class="content">
 
 			<header class="hd">
-				<input class="back-btn" type="button" value="뒤로" />
+				<input class="back-btn" type="button" value="뒤로" onclick="location.href='${pageContext.request.contextPath}/controller?cmd=MyAssetsAction'"/>
 				<div class="hd-name">${info.name}의 보유 쿠폰</div>
 			</header>
 
