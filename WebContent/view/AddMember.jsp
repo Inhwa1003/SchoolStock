@@ -25,16 +25,16 @@
 			<div class="input-row">
 				<label>비밀번호 :</label>
 				<div class="input-field-group">
-					<input type="password" name="password"> <span
-						class="message info">비밀번호는 특수기호를 포함한 8자리 이상</span>
-				</div>
+					<input type="password" name="password" id="password" /> 
+					<span class="message info">비밀번호는 특수기호를 포함한 8자리 이상</span>
+				</div>	
 			</div>
 
 			<div class="input-row">
 				<label>비밀번호 확인 :</label>
 				<div class="input-field-group">
-					<input type="password"> <span class="message error">비밀번호를
-						확인 해주세요.</span>
+					<input type="password" id="passwordCheck">
+					<span id="pwd-check-msg" class="message"></span> 
 				</div>
 			</div>
 			<div class="input-row">

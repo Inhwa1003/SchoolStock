@@ -21,8 +21,7 @@
 			<p id="studentClassInfo">${info.grade}학년
 				${info.className}반
 				${info.classNumber}번</p>
-			<p class="point-info" id="studentPoints">보유 포인트 :
-				${info.totalPoint}P</p>
+			<p class="point-info" id="studentPoints">보유 포인트 :${info.totalPoint}P</p>
 		</div>
 
 		<div class="round-box">
