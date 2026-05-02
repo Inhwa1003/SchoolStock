@@ -44,7 +44,7 @@
 				onclick="location.href='${pageContext.request.contextPath}/controller?cmd=MyPointHistoryUI'">내
 				포인트 내역</button>
 			<button class="menu-button ${currentCmd == 'CouponMarketUI' ? 'active' : ''}"
-				onclick="location.href='${pageContext.request.contextPath}/view/CouponMarket.jsp'">쿠폰
+				onclick="location.href='${pageContext.request.contextPath}/controller?cmd=CouponMarketUI'">쿠폰
 				상점</button>
 		</nav>
 	</aside>

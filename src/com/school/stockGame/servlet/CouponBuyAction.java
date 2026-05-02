@@ -31,7 +31,7 @@ public class CouponBuyAction implements Action {
 			info.put("totalPoint", totalPoint - couponPrice);
 			request.setAttribute("buyMessage", "구매가 완료 되었습니다");
 		}else {
-			request.setAttribute("buymessage", "구매 실패했습니다");
+			request.setAttribute("buyMessage", "구매 실패했습니다");
 		}
 		return "controller?cmd=CouponMarketUI";
 	}
