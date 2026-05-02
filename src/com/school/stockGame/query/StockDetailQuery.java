@@ -113,7 +113,7 @@ public interface StockDetailQuery {
 			+ "WHERE stock_no = ?";
 	
 	// 매수 주문 요청 매칭 
-	String MATCH_BUY_ORDER_SQL = "SELECT order_no, content, price, amount, state, order_date, student_id, stock_no "
+	String MATCH_ORDER_SQL = "SELECT order_no, content, price, amount, state, order_date, student_id, stock_no "
 			+ "FROM orders "
 			+ "WHERE order_no = "
 			+ "(SELECT order_no "
@@ -121,7 +121,7 @@ public interface StockDetailQuery {
 			+ "FROM orders "
 			+ "WHERE stock_no = ? "
 			+ "AND state = '대기' "
-			+ "AND content = '매도' "
+			+ "AND content = ? "
 			+ "AND price = ? "
 			+ "AND amount = ? "
 			+ "AND student_id != ? "
