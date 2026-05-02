@@ -49,11 +49,17 @@ let getMyOrdersEvent = function() {
 							+ "<td>" + order.price + "</td>"
 							+ "<td>" + order.amount + "</td>"
 							+ "<td>" + order.orderDate + "</td>"
-							+ "<td><input type='button' class='cancelBtn' value='취소'/></td>";
+							+ "<td><input type='button' class='cancelBtn' " +
+									"data-order-no='"+ order.orderNo +"'value='취소'/></td>";
 				tbody.appendChild(tr);
 				
 				document.querySelectorAll(".cancelBtn").forEach(function(btn) {
 				    btn.onclick = function() {
+				    	let orderNo = btn.dataset.orderNo;
+				    	
+				    	if(confirm("취소되었습니다.")){123
+				    		 location.href = "controller?cmd=MyStockOrderCancel"+ "&orderNo=" + orderNo + "&stockNo=" + stockNo;
+				    	}
 				        btn.closest("tr").remove();
 				    };
 				});
