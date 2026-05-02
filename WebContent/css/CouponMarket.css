@@ -1,0 +1,46 @@
+@CHARSET "UTF-8";
+
+.main {
+	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	padding: 30px;
+}
+
+.cp-pannel {
+	background-color: #ffffff;
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	border: 1px solid #dddddd;
+	box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.cp-pannel:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+	border-color: #007dff;
+}
+
+.empty-msg {
+	grid-column: 1/-1;
+	text-align: center;
+	padding: 100px 0;
+	font-size: 20px;
+	color: #888888;
+}
+
+.buy-cp-btn {
+	font-weight: bold;
+	border-radius: 20px;
+	padding: 5px 15px;
+}
+
+.cp-name {
+	font-size: 22px;
+	font-wegiht: 700;
+	color: #333333;
+	margin-top: 5px;
+}
+
+.cp-price {
+	font-size: 18px;
+	color: #28a745;
+	font-weight: 600;
+}
