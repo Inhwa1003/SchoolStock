@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.school.stockGame.dao.CouponDAO;
+import com.school.stockGame.dao.StockDetailDAO;
 
 public class CouponBuyAction implements Action {
 
@@ -17,9 +18,9 @@ public class CouponBuyAction implements Action {
 		Map<String, Object> info = (Map<String, Object>) session.getAttribute("info");
 		
 		String studentId = (String) info.get("studentId");
-		int couponNo = Integer.parseInt(request.getParameter("no"));
-		int couponPrice = Integer.parseInt(request.getParameter("price"));
-		String couponName = request.getParameter("name");
+		int couponNo = Integer.parseInt(request.getParameter("couponNo"));
+		int couponPrice = Integer.parseInt(request.getParameter("couponPrice"));
+		String couponName = request.getParameter("couponName");
 		int state = 0;
 		
 		CouponDAO coupon = new CouponDAO();
@@ -32,7 +33,6 @@ public class CouponBuyAction implements Action {
 		}else {
 			request.setAttribute("buymessage", "구매 실패했습니다");
 		}
-		
 		return "controller?cmd=CouponMarketUI";
 	}
 }
