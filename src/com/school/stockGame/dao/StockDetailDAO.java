@@ -131,22 +131,31 @@ public class StockDetailDAO {
 			
 			// 1. 발행 개수가 남았는지 체크 있으면 실행
 			if (pubAmount >= buyAmount) {
-				// 1-1. 발행 개수 차감
-				setStockPubBalance(conn, buyAmount, stockNo);
-				// 1-2. 주문 체결로 바로 요청
-				setOrderRequest(conn, "매수", pubPrice, buyAmount, "체결", studentId, stockNo);
-				// 1-3. 매수 요청한 주문번호로 주문 완료 등록
-				setMatchedOrder(conn, getMyOrderNo(conn, "매수", studentId, stockNo, "체결", buyAmount, pubPrice),null);
-				// 1-4. 보유 포인트 차감
-				setStudentPointDown(conn, (pubPrice * buyAmount), studentId);
-				// 1-5. 커밋
-				conn.commit();
-				return "발행 잔량 매수가 완료 되었습니다.";
+				// 1-1. 입력한 값이 발행가격과 같거나 높을때 실행
+				if(pubPrice <= buyPrice){
+					// 1-2. 발행 개수 차감
+					setStockPubBalance(conn, buyAmount, stockNo);
+					// 1-3. 주문 체결로 바로 요청
+					setOrderRequest(conn, "매수", pubPrice, buyAmount, "체결", studentId, stockNo);
+					// 1-4. 매수 요청한 주문번호로 주문 완료 등록
+					setMatchedOrder(conn, getMyOrderNo(conn, "매수", studentId, stockNo, "체결", buyAmount, pubPrice),null);
+					// 1-5. 보유 포인트 차감
+					setStudentPointDown(conn, (pubPrice * buyAmount), studentId);
+					// 1-6. 커밋
+					conn.commit();
+					return "발행 가격 " + pubPrice + "P 매수가 완료 되었습니다. 남은 발행잔량은 " + (pubAmount - buyAmount) +"주 입니다.";
+				// 발행 잔량보다 높은 수량을 적을시
+				}else if(pubAmount < buyAmount){
+					return "남은 발행잔량은 " + pubAmount + "주, 발행가격은" + pubPrice +"P 입니다. "+ pubAmount + "주 이하로만 매수 가능합니다.";
+				}
 			}
+			
 			// 발행 잔량이 남아있으면 학생간 거래x
 			if (pubAmount > 0) {
 				return "발행 잔량이 남아 매수요청 할 수 없습니다.";
 			}
+			
+			
 
 			matchOrder = getMatchOrder(conn, stockNo, buyPrice, buyAmount, studentId, "매도");
 			// 2. 매수 요청에 따른 매도 요청이 있을경우 실행
