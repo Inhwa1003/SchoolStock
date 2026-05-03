@@ -16,53 +16,103 @@ import com.school.stockGame.vo.StockVO;
 
 public class StockPriceAjax implements Action {
 
-	@Override
-	public String execute(HttpServletRequest request) throws ServletException, IOException {
-		StockListDAO daoList = new StockListDAO();
-		StockDetailDAO daoDetail = new StockDetailDAO();
+    @Override
+    public String execute(HttpServletRequest request) throws ServletException, IOException {
 
-		// 1. 등록된 주식명 목록 조회
-		List<StockVO> stockNameList = daoList.getStockNameList();
+        StockListDAO daoList = new StockListDAO();
+        StockDetailDAO daoDetail = new StockDetailDAO();
 
-		// 2. JSON으로 보낼 데이터 생성
-		List<Map<String, Object>> stockList = new ArrayList<Map<String, Object>>();
+        // 1. 등록된 주식 목록 조회
+        List<StockVO> stockNameList = daoList.getStockNameList();
 
-		for (int i = 0; i < stockNameList.size(); i++) {
-			
+        // 2. JSON으로 보낼 데이터 생성
+        List<Map<String, Object>> stockList = new ArrayList<Map<String, Object>>();
 
-			// 현재 요구사항상 stock_no는 1번부터 순서대로 존재
-			// int stockNo = i + 1;
-			
-			int stockNo = stockNameList.get(i).getStockNo();
+        for (int i = 0; i < stockNameList.size(); i++) {
+
+            int stockNo = stockNameList.get(i).getStockNo();
             String stockName = stockNameList.get(i).getName();
 
-			int currentPrice = daoDetail.getStockPrice(stockNo);
-			int prevPrice = daoDetail.getPervPrice(stockNo);
-			int priceChange = daoDetail.getStockPriceChange(stockNo);
-			int changeRate = daoDetail.getChangeRate(stockNo);
+            /*
+             * 현재가격 기준
+             *
+             * 1. 발행잔량이 1개 이상이면 현재가격 = 발행가격
+             * 2. 발행잔량이 0개이면 현재가격 = 최신 거래가격
+             *
+             * 이전가격 기준
+             *
+             * 이전가격 = 이전 장 가격(STOCKS.PREV_PRICE)
+             *
+             * 계산 기준
+             *
+             * 현재가격 - 이전가격 = currentPrice - prevPrice
+             * 등락률 = (현재가격 - 이전가격) / 이전가격 * 100
+             */
 
-			Map<String, Object> stock = new LinkedHashMap<String, Object>();
+            // 3. 발행 정보 조회
+            Map<String, Object> pubInfo = daoDetail.getStockPubInfo(stockNo);
 
-			// JS에서 stock.stockName으로 쓰고 있으므로 key 이름 반드시 stockName
-			stock.put("stockNo", stockNo);
-			stock.put("stockName", stockName);
-			stock.put("currentPrice", currentPrice);
-			stock.put("prevPrice", prevPrice);
-			stock.put("priceChange", priceChange);
-			stock.put("changeRate", changeRate);
+            int pubAmount = 0;
+            int pubPrice = 0;
 
-			stockList.add(stock);
-		}
+            if (pubInfo != null && !pubInfo.isEmpty()) {
 
-		// 3. Java 객체를 JSON 문자열로 변환
-		Gson gson = new Gson();
-		String json = gson.toJson(stockList);
+                if (pubInfo.get("pubAmount") != null) {
+                    pubAmount = ((Number) pubInfo.get("pubAmount")).intValue();
+                }
 
-		//System.out.println("StockPriceAjax Json="+json);
-		// 4. JSP에서 출력할 수 있도록 request에 저장
-		request.setAttribute("jsonData", json);
+                if (pubInfo.get("pubPrice") != null) {
+                    pubPrice = ((Number) pubInfo.get("pubPrice")).intValue();
+                }
+            }
 
-		
-		return null;
-	}
+            // 4. 현재가격 결정
+            int currentPrice = 0;
+
+            if (pubAmount > 0) {
+                // 발행잔량이 남아 있으면 현재가격은 발행가격
+                currentPrice = pubPrice;
+            } else {
+                // 발행잔량이 없으면 최신 거래가격
+                currentPrice = daoDetail.getStockPrice(stockNo);
+            }
+
+            // 5. 이전 장 가격 조회
+            int prevPrice = daoDetail.getPervPrice(stockNo);
+
+            // 6. 현재가격 - 이전 장 가격 계산
+            int priceChange = currentPrice - prevPrice;
+
+            // 7. 등락률 계산
+            int changeRate = 0;
+
+            if (prevPrice != 0) {
+                changeRate = (int) Math.round(((double) priceChange / prevPrice) * 100);
+            }
+
+            // 8. JSON으로 보낼 데이터 구성
+            Map<String, Object> stock = new LinkedHashMap<String, Object>();
+
+            stock.put("stockNo", stockNo);
+            stock.put("stockName", stockName);
+            stock.put("currentPrice", currentPrice);
+            stock.put("prevPrice", prevPrice);
+            stock.put("priceChange", priceChange);
+            stock.put("changeRate", changeRate);
+
+            stockList.add(stock);
+        }
+
+        // 9. Java 객체를 JSON 문자열로 변환
+        Gson gson = new Gson();
+        String json = gson.toJson(stockList);
+
+        // 디버깅용
+        System.out.println("StockPriceAjax Json=" + json);
+
+        // 10. FrontControllerServlet에서 jsonData를 출력하는 구조라면 그대로 사용
+        request.setAttribute("jsonData", json);
+
+        return null;
+    }
 }
