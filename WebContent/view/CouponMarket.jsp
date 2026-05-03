@@ -10,6 +10,8 @@
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <link rel="stylesheet"
+    href="${pageContext.request.contextPath}/css/Common.css">
+<link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/StockStyle.css">
 <script
 	src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>

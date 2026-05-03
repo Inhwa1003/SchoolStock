@@ -1,0 +1,126 @@
+@CHARSET "UTF-8";
+/* ========================================
+   Common.css - 메인 화면 공통 스타일
+   StockDetail의 컴팩트 + Bootstrap 컨셉 기반
+   적용 대상: StockList, MyAssets, MyPointHistory
+======================================== */
+
+/* ---------- 색상/크기 변수 ---------- */
+:root {
+    --color-buy: #e05c5c;       /* 매수/상승 (빨강) */
+    --color-sell: #5c5ce0;      /* 매도/하락 (파랑) */
+    --color-primary: blue;
+    --color-active: skyblue;
+    --color-border: #ccc;
+    --color-border-strong: #777;
+    --font-title: 24px;
+    --font-body: 14px;
+    --font-small: 12px;
+    --sidebar-width: 400px;
+}
+* {
+    border-color: #ccc;
+}
+/* ---------- 페이지 레이아웃 ---------- */
+.app {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    min-height: 100vh;
+}
+body {
+	margin: 0;
+	padding: 0;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ---------- 헤더 ---------- */
+.hd {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+}
+
+.hd-name {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 10px 20px;
+}
+
+.back-btn {
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    font-size: 12px;
+    white-space: nowrap;
+    margin-left: 20px;
+}
+
+/* ---------- 메인 영역 ---------- */
+.main {
+    padding: 12px;
+}
+
+/* ---------- 패널 (공통 카드) ---------- */
+.panel {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 10px;
+}
+
+.ptitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* ---------- 테이블 (Bootstrap 호환) ---------- */
+.table {
+    font-size: 14px;
+    margin-bottom: 0;
+}
+
+.table th {
+    font-weight: 600;
+    text-align: center;
+    border-top: none;
+}
+
+.table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* ---------- 색상 강조 ---------- */
+.up, .buy, .plus {
+    color: var(--color-buy);
+}
+
+.down, .sell, .minus {
+    color: var(--color-sell);
+}
+
+/* ---------- 버튼 ---------- */
+.btn-action {
+    border: 1px solid;
+    color: white;
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btn-buy {
+    background-color: var(--color-buy);
+}
+
+.btn-sell {
+    background-color: var(--color-sell);
+}

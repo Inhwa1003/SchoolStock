@@ -24,9 +24,10 @@ public class StockListUI implements Action {
 		
 		String studentId = (String) session.getAttribute("studentId");
 
-        if (studentId == null) {
-            studentId = "abc";
-        }
+		//세션 체크
+		if(studentId == null){
+			return "controller?cmd=LoginUI";
+		}
         
         // 1. 주식명 목록조회
         List<StockVO> stockNameList = dao_list.getStockNameList();

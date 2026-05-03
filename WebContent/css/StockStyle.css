@@ -1,44 +1,17 @@
 @CHARSET "UTF-8";
-.app {
-	display: grid;
-	grid-template-columns: 1fr minmax(300px, auto);
-	min-height: 100vh;
-}
-.content {
-	display: flex;
-	flex-direction: column;
-}
+
 .main {
 	display: grid;
-	align-items: start;
+	align-items: stretch;
 	gap: 10px;
 	padding: 12px;
-	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
-.hd {
-	display: flex;
-	align-items: center;
-	border-bottom: 1px solid;
-}
-.hd-name {
-	font-size: 30px;
-	font-weight: 600;
-	margin: 10px 20px;
-}
-.back-btn {
-  align-items: center;
-  gap: 4px;
-  padding: 4px 10px;
-  font-size: 12px;
-  white-space: nowrap;
-  margin-left: 20px;
-}
-
 .stock {
 	display: flex;
 	padding: 14px 16px;
 	justify-content: space-between;
-	border-bottom: 1px solid;
+	border-bottom: 1px solid #ccc;
 }
 .price-now {
 	font-size: 19px; font-weight: 600; color: #e05c5c;
@@ -50,9 +23,11 @@
 	font-size: 11px; margin-top: 4px;
 }
 .panel, .cp-panel {
-	border: 1px solid;
+	border: 1px solid #ccc;
 	border-radius: 10px;
 	padding: 12px;
+	max-height: 400px;
+	overflow-y: auto;
 }
 .cp-panel{
 	display: flex;
@@ -90,20 +65,6 @@ input[type="number"], .sell-btn, .buy-btn{
 .table-hover {
 	text-align: center;
 }
-.ptitle {
-	display: flex;
-	justify-content: space-between;
-	margin-bottom: 3px;
-}
-.buy {
-	color: red;
-}
-.sell {
-	color: blue;
-}
-
-
-
 .cp-name, .cp-price {
 	text-align: center;
 	font-size: 20px;
