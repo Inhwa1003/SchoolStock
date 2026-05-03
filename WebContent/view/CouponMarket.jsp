@@ -9,18 +9,22 @@
 <title>쿠폰 상점</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/StockStyle.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/CouponMarket.css">
-
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/coupon-market.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet"
+    href="${pageContext.request.contextPath}/css/Common.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/StockStyle.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
     <div class="app">
+        <!-- 왼쪽 컨텐츠 구역 -->
         <div class="content">
             <header class="hd">
                 <div class="hd-name">쿠폰 상점</div>
@@ -29,7 +33,7 @@
             <div class="main">
                 <c:forEach var="coupon" items="${couponList}">
                     <div class="cp-panel">
-                        <input type="button" class="buy-cp-btn btn btn-primary" value="구매" 
+                        <input type="button" class="buy-cp-btn" value="구매" 
                             onclick="buyCoupon('${coupon.couponNo}', '${coupon.name}', '${coupon.price}')" />
                         <div class="cp-name">${coupon.name}</div>
                         <div class="cp-price">

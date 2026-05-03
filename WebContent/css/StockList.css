@@ -1,121 +1,41 @@
 @CHARSET "UTF-8";
-.page-container {
-  width: 1640px;
-  min-height: 900px;
-  display: flex;
-  background-color: white;
-}
-
-.stock-main {
-  width: 1235px;
-  padding: 65px 24px 30px 24px;
-  box-sizing: border-box;
-  border-right: 2px solid black;
-}
-
-.page-title {
-  margin: 0 0 52px 55px;
-  font-size: 38px;
-  font-weight: 800;
-}
+/* ========================================
+   StockList.css - 주식 목록 화면 전용
+   공통 스타일은 Common.css에서 가져옴
+======================================== */
 
 .stock-table {
-  width: 1176px;
-  border-collapse: collapse;
-  table-layout: fixed;
-  font-size: 28px;
-  text-align: center;
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 18px;
+    text-align: center;
 }
 
 .stock-table th,
 .stock-table td {
-  border: 2px solid #222;
-  height: 62px;
-  font-weight: 400;
+    border: 1px solid var(--color-border);
+    height: 56px;
+    font-weight: 400;
+    padding: 8px 10px;
 }
 
 .stock-table th {
-  height: 62px;
-  font-size: 27px;
+    font-size: 17px;
+    background-color: #f5f5f5;
+    font-weight: 600;
 }
 
 .stock-table td {
-  font-size: 28px;
+    font-size: 18px;
 }
 
-.stock-table .up {
-  color: red;
+.stock-table tbody tr {
+    cursor: pointer;
 }
 
-.stock-table .down {
-  color: blue;
+.stock-table tbody tr:hover {
+    background-color: #fafafa;
 }
 
-.right-sidebar {
-  width: 405px;
-  min-height: 900px;
-  background-color: white;
-  box-sizing: border-box;
-  padding: 20px 12px;
-}
-
-.user-info {
-  text-align: center;
-  font-weight: 800;
-  margin-bottom: 28px;
-}
-
-.user-name {
-  margin: 0 0 2px 0;
-  font-size: 42px;
-  font-weight: 900;
-}
-
-.user-info p {
-  margin: 6px 0;
-  font-size: 28px;
-  line-height: 1.15;
-}
-
-.round-box {
-  width: 378px;
-  height: 128px;
-  margin: 0 auto 24px auto;
-  background-color: white;
-  border: 2px solid #777;
-  border-radius: 16px;
-  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.35);
-  text-align: center;
-  box-sizing: border-box;
-  padding-top: 13px;
-}
-
-.round-box p {
-  margin: 8px 0 24px 0;
-  font-size: 25px;
-}
-
-.sidebar-menu {
-  width: 380px;
-}
-
-.menu-button {
-  width: 380px;
-  height: 84px;
-  margin-bottom: 24px;
-  border: 2px solid blue;
-  border-radius: 9px;
-  background-color: blue;
-  color: white;
-  font-size: 32px;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.menu-button.active {
-  background-color: skyblue;
-}
-
-.menu-button:hover {
-  filter: brightness(0.95);
-}
+/* 등락률 색상은 Common.css의 .up, .down 사용 */

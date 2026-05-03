@@ -22,32 +22,8 @@ import com.school.stockGame.vo.OrderVO;
  * 05.02 발행 잔량 다 팔리기 전엔 학생간 거래 막아야함(완료)
  */
 public class StockDetailDAO {
-	private Connection conn;
-	private PreparedStatement stmt;
-	private ResultSet rs;
 	
-	public StockDetailDAO(){
-		try {
-			conn = DBCP.getConnection();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 
-	// 닫아주는 기능
-	private void close() {
-		try {
-			if (rs != null)
-				rs.close();
-			if (stmt != null)
-				stmt.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
 	// 매도 주문요청
 	public String setSellOrder(String studentId, int sellPrice, int sellAmount, int stockNo){
 		Connection conn = null;
@@ -131,22 +107,31 @@ public class StockDetailDAO {
 			
 			// 1. 발행 개수가 남았는지 체크 있으면 실행
 			if (pubAmount >= buyAmount) {
-				// 1-1. 발행 개수 차감
-				setStockPubBalance(conn, buyAmount, stockNo);
-				// 1-2. 주문 체결로 바로 요청
-				setOrderRequest(conn, "매수", pubPrice, buyAmount, "체결", studentId, stockNo);
-				// 1-3. 매수 요청한 주문번호로 주문 완료 등록
-				setMatchedOrder(conn, getMyOrderNo(conn, "매수", studentId, stockNo, "체결", buyAmount, pubPrice),null);
-				// 1-4. 보유 포인트 차감
-				setStudentPointDown(conn, (pubPrice * buyAmount), studentId);
-				// 1-5. 커밋
-				conn.commit();
-				return "발행 잔량 매수가 완료 되었습니다.";
+				// 1-1. 입력한 값이 발행가격과 같거나 높을때 실행
+				if(pubPrice <= buyPrice){
+					// 1-2. 발행 개수 차감
+					setStockPubBalance(conn, buyAmount, stockNo);
+					// 1-3. 주문 체결로 바로 요청
+					setOrderRequest(conn, "매수", pubPrice, buyAmount, "체결", studentId, stockNo);
+					// 1-4. 매수 요청한 주문번호로 주문 완료 등록
+					setMatchedOrder(conn, getMyOrderNo(conn, "매수", studentId, stockNo, "체결", buyAmount, pubPrice),null);
+					// 1-5. 보유 포인트 차감
+					setStudentPointDown(conn, (pubPrice * buyAmount), studentId);
+					// 1-6. 커밋
+					conn.commit();
+					return "발행 가격 " + pubPrice + "P 매수가 완료 되었습니다. 남은 발행잔량은 " + (pubAmount - buyAmount) +"주 입니다.";
+				// 발행 잔량보다 높은 수량을 적을시
+				}else if(pubAmount < buyAmount){
+					return "남은 발행잔량은 " + pubAmount + "주, 발행가격은" + pubPrice +"P 입니다. "+ pubAmount + "주 이하로만 매수 가능합니다.";
+				}
 			}
+			
 			// 발행 잔량이 남아있으면 학생간 거래x
 			if (pubAmount > 0) {
 				return "발행 잔량이 남아 매수요청 할 수 없습니다.";
 			}
+			
+			
 
 			matchOrder = getMatchOrder(conn, stockNo, buyPrice, buyAmount, studentId, "매도");
 			// 2. 매수 요청에 따른 매도 요청이 있을경우 실행
@@ -201,7 +186,11 @@ public class StockDetailDAO {
 	// 주식 기본정보 조회
 	public Map<String, Object> getStockInfo(int stockNo) {
 		Map<String, Object> tmp = new HashMap<>();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		try {
+			conn = DBCP.getConnection();
 			stmt = conn.prepareStatement(StockDetailQuery.STOCK_INFO_SQL);
 			stmt.setInt(1, stockNo);
 			rs = stmt.executeQuery();
@@ -209,12 +198,14 @@ public class StockDetailDAO {
 			if (rs.next()) {
 				tmp.put("name", rs.getString(1));
 				tmp.put("content", rs.getString(2));
-				
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+			if (rs != null) try { rs.close(); } catch (SQLException ignore) {}
+	        if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
 		}
 		return tmp;
 	}
@@ -249,8 +240,12 @@ public class StockDetailDAO {
 
 	// 주식 현재 가격 조회
 	public int getStockPrice(int stockNo) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		int price = 0;
 		try {
+			conn = DBCP.getConnection();
 			stmt = conn.prepareStatement(StockDetailQuery.STOCK_PRICE_SQL);
 			stmt.setInt(1, stockNo);
 			rs = stmt.executeQuery();
@@ -261,15 +256,21 @@ public class StockDetailDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+			if (rs != null) try { rs.close(); } catch (SQLException ignore) {}
+	        if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
 		}
 		return price;
 	}
 
 	// 주식 이전 가격 대비 조회
 	public int getStockPriceChange(int stockNo) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		int price = 0;
 		try {
+			conn = DBCP.getConnection();
 			stmt = conn.prepareStatement(StockDetailQuery.STOCK_PRICE_CHANGE_SQL);
 			stmt.setInt(1, stockNo);
 			stmt.setInt(2, stockNo);
@@ -281,15 +282,21 @@ public class StockDetailDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+			if (rs != null) try { rs.close(); } catch (SQLException ignore) {}
+	        if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
 		}
 		return price;
 	}
 
 	// 주식 등락률 조회
 	public int getChangeRate(int StockNo) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		int percent = 0;
 		try {
+			conn = DBCP.getConnection();
 			stmt = conn.prepareStatement(StockDetailQuery.STOCK_CHANGE_RATE_SQL);
 			stmt.setInt(1, StockNo);
 			stmt.setInt(2, StockNo);
@@ -301,15 +308,21 @@ public class StockDetailDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+			if (rs != null) try { rs.close(); } catch (SQLException ignore) {}
+	        if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
 		}
 		return percent;
 	}
 
 	// 주식 이전가격 조회
 	public int getPervPrice(int stockNo) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		int prevPrice = 0;
 		try {
+			conn = DBCP.getConnection();
 			stmt = conn.prepareStatement(StockDetailQuery.STOCK_PREV_PRICE_SQL);
 			stmt.setInt(1, stockNo);
 			rs = stmt.executeQuery();
@@ -319,15 +332,21 @@ public class StockDetailDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+			if (rs != null) try { rs.close(); } catch (SQLException ignore) {}
+	        if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
 		}
 		return prevPrice;
 	}
 	
 	// 학생의 가용 보유 포인트 조회
 	public int getStudentPoint(String studentId){
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		int totalPoint = 0;
 		try {
+			conn = DBCP.getConnection();
 			stmt = conn.prepareStatement(StockDetailQuery.TOTAL_POINT_SQL);
 			stmt.setString(1, studentId);
 			rs = stmt.executeQuery();
@@ -337,7 +356,9 @@ public class StockDetailDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+			if (rs != null) try { rs.close(); } catch (SQLException ignore) {}
+	        if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
 		}
 		return totalPoint;
 	}
@@ -366,8 +387,12 @@ public class StockDetailDAO {
 	}
 	// 학생의 특정 주식 보유수량 조회
 	public int getStudentStockAmount(int stockNo, String studenId){
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		int amount = 0;
 		try {
+			conn = DBCP.getConnection();
 			stmt = conn.prepareStatement(StockDetailQuery.STOCK_AMOUNT_SQL);
 			stmt.setString(1, studenId);
 			stmt.setInt(2, stockNo);
@@ -377,15 +402,20 @@ public class StockDetailDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+			if (rs != null) try { rs.close(); } catch (SQLException ignore) {}
+	        if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
 		}
 		return amount;
 	} 
 
 	// 학생의 보유포인트 차감
 	public boolean setStudentPointDown(int totalPrice, String studentId) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
 		boolean flag = false;
 		try {
+			conn = DBCP.getConnection();
 			stmt = conn.prepareStatement(StockDetailQuery.POINT_DOWN_SQL);
 			stmt.setInt(1, totalPrice);
 			stmt.setString(2, studentId);
@@ -396,7 +426,8 @@ public class StockDetailDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+	        if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
 		}
 		return flag;
 	}
@@ -422,8 +453,11 @@ public class StockDetailDAO {
 
 	// 학생의 보유포인트 증가
 	public boolean setStudentPointUp(int totalPrice, String studentId) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
 		boolean flag = false;
 		try {
+			conn = DBCP.getConnection();
 			stmt = conn.prepareStatement(StockDetailQuery.POINT_UP_SQL);
 			stmt.setInt(1, totalPrice);
 			stmt.setString(2, studentId);
@@ -434,7 +468,8 @@ public class StockDetailDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+	        if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
 		}
 		return flag;
 	}
@@ -462,7 +497,10 @@ public class StockDetailDAO {
 	// 매도, 매수 주문 요청
 	public boolean setOrderRequest(String content, int price, int amount, String state, String studentId, int stockNo) {
 		boolean flag = false;
-		try {			
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		try {	
+			conn = DBCP.getConnection();
 			stmt = conn.prepareStatement(StockDetailQuery.ORDER_REQUEST);
 			stmt.setString(1, content);
 			stmt.setInt(2, price);
@@ -477,7 +515,8 @@ public class StockDetailDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+	        if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
 		}
 		return flag;
 	}
@@ -508,8 +547,12 @@ public class StockDetailDAO {
 	
 	// 특정 주식 대기중인 매도 매수 주문 모두 조회
 	public List<OrderVO> getTotalOrder(int stockNo) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		List<OrderVO> list = new ArrayList<>();
 		try {
+			conn = DBCP.getConnection();
 			stmt = conn.prepareStatement(StockDetailQuery.TOTAL_ORDER_REQUEST);
 			stmt.setInt(1, stockNo);
 			rs = stmt.executeQuery();
@@ -520,15 +563,21 @@ public class StockDetailDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+			if (rs != null) try { rs.close(); } catch (SQLException ignore) {}
+	        if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
 		}
 		return list;
 	}
 
 	// 특정 주식 대기중인 매도 주문 모두 조회
 	public List<OrderVO> getTotalSellOrder(int stockNo) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		List<OrderVO> list = new ArrayList<>();
 		try {
+			conn = DBCP.getConnection();
 			stmt = conn.prepareStatement(StockDetailQuery.TOTAL_SELL_ORDER_REQUEST);
 			stmt.setInt(1, stockNo);
 			rs = stmt.executeQuery();
@@ -539,15 +588,21 @@ public class StockDetailDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+			if (rs != null) try { rs.close(); } catch (SQLException ignore) {}
+	        if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
 		}
 		return list;
 	}
 
 	// 특정 주식 대기중인 매수 주문 모두 조회
 	public List<OrderVO> getTotalBuyOrder(int stockNo) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		List<OrderVO> list = new ArrayList<>();
 		try {
+			conn = DBCP.getConnection();
 			stmt = conn.prepareStatement(StockDetailQuery.TOTAL_BUY_ORDER_REQUEST);
 			stmt.setInt(1, stockNo);
 			rs = stmt.executeQuery();
@@ -558,15 +613,21 @@ public class StockDetailDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+			if (rs != null) try { rs.close(); } catch (SQLException ignore) {}
+	        if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
 		}
 		return list;
 	}
 	
 	// 내 주문 요청 조회
 	public List<OrderVO> getTotalMyOrder(int stockNo, String studentId) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		List<OrderVO> list = new ArrayList<>();
 		try {
+			conn = DBCP.getConnection();
 			stmt = conn.prepareStatement(StockDetailQuery.MY_ORDER_REQUEST);
 			stmt.setString(1, studentId);
 			stmt.setInt(2, stockNo);
@@ -578,7 +639,9 @@ public class StockDetailDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+			if (rs != null) try { rs.close(); } catch (SQLException ignore) {}
+	        if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
 		}
 		return list;
 	}
@@ -616,8 +679,12 @@ public class StockDetailDAO {
 	
 	// 직전에 등록한 주문요청 no 조회
 	public int getMyOrderNo(String content, String studentId, int stockNo, String state, int amount, int price) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		int orderNo = 0;
 		try {
+			conn = DBCP.getConnection();
 			stmt = conn.prepareStatement(StockDetailQuery.FIND_MY_ORDER_SQL);
 			stmt.setString(1, content);
 			stmt.setString(2, studentId);
@@ -633,7 +700,9 @@ public class StockDetailDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+			if (rs != null) try { rs.close(); } catch (SQLException ignore) {}
+	        if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
 		}
 		return orderNo;
 	}
@@ -686,8 +755,12 @@ public class StockDetailDAO {
 
 	// 주식 발행 정보 조회
 	public Map<String, Object> getStockPubInfo(int stockNo){
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		Map<String, Object> map = new HashMap<>();
 		try {
+			conn = DBCP.getConnection();
 			stmt = conn.prepareStatement(StockDetailQuery.PUBLICATION_DATA_SELECT_SQL);
 			stmt.setInt(1, stockNo);
 			
@@ -699,7 +772,9 @@ public class StockDetailDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+			if (rs != null) try { rs.close(); } catch (SQLException ignore) {}
+	        if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
 		}
 		return map;		
 	}
@@ -732,8 +807,11 @@ public class StockDetailDAO {
 
 	// 주식 발행 개수 차감 
 	public boolean setStockPubBalance(int buyAmount, int stockNo) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
 		boolean flag = false;
 		try {
+			conn = DBCP.getConnection();
 			stmt = conn.prepareStatement(StockDetailQuery.PUBLICATION_DATA_UPDATE_SQL);
 			stmt.setInt(1, buyAmount);
 			stmt.setInt(2, stockNo);
@@ -743,7 +821,8 @@ public class StockDetailDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+	        if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
 		}
 		return flag;
 	}
@@ -769,8 +848,11 @@ public class StockDetailDAO {
 
 	// 주문 요청 완료
 	public boolean setMatchedOrder(int buyOrderNo, Integer sellOrderNo){
+		Connection conn = null;
+		PreparedStatement stmt = null;
 		boolean flag = false;
 		try {
+			conn = DBCP.getConnection();
 			stmt = conn.prepareStatement(StockDetailQuery.MATCH_COMPLETE_INSERT_SQL);
 			stmt.setInt(1, buyOrderNo);
 			stmt.setInt(2, sellOrderNo);
@@ -780,7 +862,8 @@ public class StockDetailDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+	        if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
 		}		
 		return flag;
 	}
@@ -810,8 +893,11 @@ public class StockDetailDAO {
 	
 	// 주문 요청 상태 '대기'변경
 	public boolean setOrderStatePending(int orderNo){
+		Connection conn = null;
+		PreparedStatement stmt = null;
 		boolean flag = false;
 		try {
+			conn = DBCP.getConnection();
 			stmt = conn.prepareStatement(StockDetailQuery.ORDER_STATE_PENDING_UPDATE_SQL);
 			stmt.setInt(1, orderNo);
 			if(stmt.executeUpdate() == 1)
@@ -819,15 +905,19 @@ public class StockDetailDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+	        if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
 		}		
 		return flag;
 	}
 	
 	// 주문 요청 상태 '체결'변경
 	public boolean setOrderStateMatched(int orderNo){
+		Connection conn = null;
+		PreparedStatement stmt = null;
 		boolean flag = false;
 		try {
+			conn = DBCP.getConnection();
 			stmt = conn.prepareStatement(StockDetailQuery.ORDER_STATE_MATCHED_UPDATE_SQL);
 			stmt.setInt(1, orderNo);
 			if(stmt.executeUpdate() == 1)
@@ -835,7 +925,8 @@ public class StockDetailDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+	        if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
 		}		
 		return flag;
 	}
@@ -859,8 +950,11 @@ public class StockDetailDAO {
 
 	// 주문 요청 상태 '취소'변경
 	public boolean setOrderStateCancel(int orderNo){
+		Connection conn = null;
+		PreparedStatement stmt = null;
 		boolean flag = false;
 		try {
+			conn = DBCP.getConnection();
 			stmt = conn.prepareStatement(StockDetailQuery.ORDER_STATE_CANCEL_UPDATE_SQL);
 			stmt.setInt(1, orderNo);
 			if(stmt.executeUpdate() == 1)
@@ -868,14 +962,19 @@ public class StockDetailDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+	        if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
 		}		
 		return flag;
 	}
 	// 매수 주문 요청 매칭
 	public Map<String, Object> getMatchOrder(int stockNo, int orderPrice, int orderAmount, String studentId, String content){
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		Map<String, Object> map = new HashMap<>();
 		try {
+			conn = DBCP.getConnection();
 			stmt = conn.prepareStatement(StockDetailQuery.MATCH_ORDER_SQL);
 			stmt.setInt(1, stockNo);
 			stmt.setString(2, content);
@@ -895,7 +994,9 @@ public class StockDetailDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+			if (rs != null) try { rs.close(); } catch (SQLException ignore) {}
+	        if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
 		}
 		return map;
 	}

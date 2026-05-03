@@ -11,6 +11,8 @@
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <link rel="stylesheet"
+    href="${pageContext.request.contextPath}/css/Common.css">
+<link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/StockStyle.css">
 <script
 	src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
@@ -26,7 +28,7 @@
 		<div class="content">
 
 			<header class="hd">
-				<input class="back-btn" type="button" value="뒤로" onclick="location.href='${pageContext.request.contextPath}/controller?cmd=MyAssetsAction'"/>
+				<input id="backBtn" class="back-btn" type="button" value="뒤로" />
 				<div class="hd-name">${info.name}의 보유 쿠폰</div>
 			</header>
 
@@ -47,6 +49,8 @@
 		</div>
 		<jsp:include page="SideBar.jsp" />
 	</div>
-
+	<script type="text/javascript">
+		document.querySelector("#backBtn").onclick = function(){history.back();};
+	</script>
 </body>
 </html>

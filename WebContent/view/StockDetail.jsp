@@ -11,6 +11,7 @@
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/StockStyle.css">
+<link rel="stylesheet" href="css/Common.css">
 <script
 	src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
 <script
@@ -68,8 +69,12 @@
 				</div>
 				<!-- 내 주문 -->
 				<div class="panel">
-					<div class="ptitle">내 요청 주문</div>
-					<input type="button" id="refreshBtn" value="새로고침" />
+					<div class="ptitle">
+						<span>내 요청 주문</span>
+						<input type="button" id="refreshBtn" value="조회" />
+						
+					</div>
+					
 					<table class="table table-hover">
 						<thead>
 							<tr>
