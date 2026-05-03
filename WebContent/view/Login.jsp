@@ -11,7 +11,7 @@
 </head>
 <body>
 	<div class="login-container">
-		<h1>초등학생 대상 모의 투자 시스템</h1>
+		<h1 class="project-name">SchoolStock</h1>
 		<c:if test="${not empty errorMessage}">
 			<div class="error-msg"> ${errorMessage}</div>
 		</c:if>

@@ -14,55 +14,50 @@ public class StockDetailDAOTest {
 	static StockDetailDAO dao;
 	static Connection conn;
 	@Test
-	public void 주식기본정보조회테스트() throws ClassNotFoundException, SQLException {
+	public void getStockInfoTest() throws ClassNotFoundException, SQLException {
 		dao = new StockDetailDAO();
 		System.out.println(dao.getStockInfo(3));
 	}
 	@Test
-	public void 주식현재가격조회테스트() throws ClassNotFoundException, SQLException {
+	public void getStockPriceTest() throws ClassNotFoundException, SQLException {
 		dao = new StockDetailDAO();
 		System.out.println(dao.getStockPrice(3));
 	}
 	@Test
-	public void 주식이전가격대비조회테스트() throws ClassNotFoundException, SQLException{
+	public void getStockPriceChangeTest() throws ClassNotFoundException, SQLException{
 		dao = new StockDetailDAO();
 		System.out.println(dao.getStockPriceChange(3));
 	}
 	@Test
-	public void 주식등락률조회테스트() throws ClassNotFoundException, SQLException{
+	public void getChangeRateTest() throws ClassNotFoundException, SQLException{
 		dao = new StockDetailDAO();
 		System.out.println(dao.getChangeRate(3)+"%");
 	}
 	@Test
-	public void 주식이전가격조회테스트() throws ClassNotFoundException, SQLException {
+	public void getPervPriceTest() throws ClassNotFoundException, SQLException {
 		dao = new StockDetailDAO();
 		System.out.println(dao.getPervPrice(3));
 	}
 	@Test
-	public void 매도매수총조회테스트() throws ClassNotFoundException, SQLException {
+	public void getTotalOrderTest() throws ClassNotFoundException, SQLException {
 		dao = new StockDetailDAO();
 		System.out.println(dao.getTotalOrder(1));
 	}
 	@Test
-	public void 매도총조회테스트() throws ClassNotFoundException, SQLException {
+	public void getTotalSellOrderTest() throws ClassNotFoundException, SQLException {
 		dao = new StockDetailDAO();
 		System.out.println(dao.getTotalSellOrder(1));
 	}
 	@Test
-	public void 매수총조회테스트() throws ClassNotFoundException, SQLException {
+	public void getTotalBuyOrderTest() throws ClassNotFoundException, SQLException {
 		dao = new StockDetailDAO();
 		System.out.println(dao.getTotalBuyOrder(1));
 	}
 	@Test
-	public void 내주문조회() throws ClassNotFoundException, SQLException {
+	public void getTotalMyOrderTest() throws ClassNotFoundException, SQLException {
 		dao = new StockDetailDAO();
 		System.out.println(dao.getTotalMyOrder(1, "abc"));
 	}
-//	@Test 테스트 잘못함
-//	public void 내주문취소() throws ClassNotFoundException, SQLException {
-//		dao = new StockDetailDAO();
-//		//System.out.println(dao.myOrderCancel(12));
-//	}
 	@Test
 	public void getPublishInfoTest() {
 		dao = new StockDetailDAO();

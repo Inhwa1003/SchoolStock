@@ -7,7 +7,7 @@ function updateStockPrices() {
       stockList.forEach(function(stock) {
         const row = document.querySelector(
           'tr[data-stock-name="' + stock.stockName + '"]'
-        );
+        )
 
         if (row == null) {
           return;
@@ -46,7 +46,7 @@ function updateStockPrices() {
 window.onload = function() {
   updateStockPrices();
 
-  setInterval(function() {
+   setInterval(function() {
     updateStockPrices();
   }, 10000);
 };

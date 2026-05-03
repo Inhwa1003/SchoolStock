@@ -69,6 +69,68 @@ let getMyOrdersEvent = function() {
 	xhr2.send(null);
 };
 
+//===== 가격 자동 업데이트 =====
+let priceUpdateTimer = null;
+let priceXhr = new XMLHttpRequest();
+
+// 등락률 계산 함수
+function calculateChange() {
+    const stockPriceEl = document.querySelector('.stock-price');
+    if (!stockPriceEl) return;
+    
+    const prevPrice = parseInt(stockPriceEl.dataset.prevPrice);
+    const nowPriceText = document.querySelector('.price-now').textContent;
+    const nowPrice = parseInt(nowPriceText.replace('P', ''));
+    
+    const change = nowPrice - prevPrice;
+    const percent = ((change / prevPrice) * 100).toFixed(2);
+    
+    const priceChangeEl = document.querySelector('.price-change');
+    const priceNowEl = document.querySelector('.price-now');
+    const sign = change >= 0 ? '+' : '';
+    priceChangeEl.textContent = sign + change + 'P(' + sign + percent + '%)';
+    
+    priceChangeEl.classList.remove('up', 'down');
+    priceNowEl.classList.remove('up', 'down'); 
+    if (change > 0) {
+        priceChangeEl.classList.add('up');
+        priceNowEl.classList.add('up'); 
+    } else if (change < 0) {
+        priceChangeEl.classList.add('down');
+        priceNowEl.classList.add('down');
+    }
+}
+
+// 현재가 업데이트 함수 (XMLHttpRequest 패턴)
+function updateNowPrice() {
+    const stockPriceEl = document.querySelector('.stock-price');
+    if (!stockPriceEl) return;
+    
+    const sNo = stockPriceEl.dataset.stockNo;
+    
+    priceXhr.open('GET', 'controller?cmd=GetNowPrice&stockNo=' + sNo, true);
+    priceXhr.onreadystatechange = function() {
+        if (priceXhr.readyState === 4 && priceXhr.status === 200) {
+            try {
+                const data = JSON.parse(priceXhr.responseText);
+                document.querySelector('.price-now').textContent = data.nowPrice + 'P';
+                calculateChange();
+            } catch (e) {
+                console.error('가격 데이터 파싱 실패:', e);
+            }
+        }
+    };
+    priceXhr.send(null);
+}
+
+// 타이머 정리 함수
+function stopPriceUpdate() {
+    if (priceUpdateTimer !== null) {
+        clearInterval(priceUpdateTimer);
+        priceUpdateTimer = null;
+    }
+}
+
 
 // 2. 페이지 로드 시 이벤트 연결
 window.onload = function() {
@@ -125,4 +187,14 @@ window.onload = function() {
 		// 처음에 '매도' 리스트를 바로 보여주고 싶다면 초기 실행 호출
 		getOrdersEvent();
 	}
+	
+	if (document.querySelector('.stock-price')) {
+        calculateChange();  // 처음 한 번 계산
+        
+        stopPriceUpdate();  // 혹시 모를 기존 타이머 정리
+        priceUpdateTimer = setInterval(updateNowPrice, 10000);
+    }
 };
+
+window.addEventListener('beforeunload', stopPriceUpdate);
+window.addEventListener('pagehide', stopPriceUpdate);

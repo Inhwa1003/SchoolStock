@@ -5,6 +5,7 @@ body {
 	align-items: center;
 }
 
+
 .login-container {
 	text-align: center;
 	width: 500px;
@@ -79,4 +80,8 @@ input {
     margin-bottom: 5px;
     font-weight: bold;
     font-size: 0.85em;
+}
+
+.project-name{
+	font-size: 60px;
 }
