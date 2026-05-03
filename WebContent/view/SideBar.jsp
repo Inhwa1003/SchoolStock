@@ -21,8 +21,7 @@
 			<p id="studentClassInfo">${info.grade}학년
 				${info.className}반
 				${info.classNumber}번</p>
-			<p class="point-info" id="studentPoints">보유 포인트 :
-				${info.totalPoint}P</p>
+			<p class="point-info" id="studentPoints">보유 포인트 :${info.totalPoint}P</p>
 		</div>
 
 		<div class="round-box">
@@ -44,7 +43,7 @@
 				onclick="location.href='${pageContext.request.contextPath}/controller?cmd=MyPointHistoryUI'">내
 				포인트 내역</button>
 			<button class="menu-button ${currentCmd == 'CouponMarketUI' ? 'active' : ''}"
-				onclick="location.href='${pageContext.request.contextPath}/view/CouponMarket.jsp'">쿠폰
+				onclick="location.href='${pageContext.request.contextPath}/controller?cmd=CouponMarketUI'">쿠폰
 				상점</button>
 		</nav>
 	</aside>

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,43 +23,39 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-	<div class="app">
+    <div class="app">
+        <!-- 왼쪽 컨텐츠 구역 -->
+        <div class="content">
+            <header class="hd">
+                <div class="hd-name">쿠폰 상점</div>
+            </header>
 
-		<!-- 왼쪽 컨텐츠 구역 -->
-		<div class="content">
+            <div class="main">
+                <c:forEach var="coupon" items="${couponList}">
+                    <div class="cp-panel">
+                        <input type="button" class="buy-cp-btn" value="구매" 
+                            onclick="buyCoupon('${coupon.couponNo}', '${coupon.name}', '${coupon.price}')" />
+                        <div class="cp-name">${coupon.name}</div>
+                        <div class="cp-price">
+                            <fmt:formatNumber value="${coupon.price}" pattern="#,###" /> P
+                        </div>
+                    </div>
+                </c:forEach>
+                
+                <c:if test="${empty couponList}">
+                    <div class="empty-msg">현재 판매 중인 쿠폰이 없습니다.</div>
+                </c:if>
+            </div>
+        </div>
 
-			<header class="hd">
-				<div class="hd-name">쿠폰 상점</div>
-			</header>
+        <jsp:include page="SideBar.jsp" />
+    </div>
 
-			<div class="main">
-				<div class="cp-panel">
-					<input type="button" class="buy-cp-btn" value="구매" />
-					<div class="cp-name">간식교환권</div>
-					<div class="cp-price">3,000 P</div>
-				</div>
-				<div class="cp-panel">
-					<input type="button" class="buy-cp-btn" value="구매" />
-					<div class="cp-name">청소 당번 면제권</div>
-					<div class="cp-price">10,000 P</div>
-				</div>
-				<div class="cp-panel">
-					<input type="button" class="buy-cp-btn" value="구매" />
-					<div class="cp-name">자리 선택권</div>
-					<div class="cp-price">100,000 P</div>
-				</div>
-				<div class="cp-panel">
-					<input type="button" class="buy-cp-btn" value="구매" />
-					<div class="cp-name">분리수거 면제권</div>
-					<div class="cp-price">8,000 P</div>
-				</div>
-
-			</div>
-
-
-		</div>
-		<jsp:include page="SideBar.jsp" />
-	</div>
-
+    <c:if test="${not empty sessionScope.buyMessage}">
+    <script type="text/javascript">
+        alert("${sessionScope.buyMessage}");
+        <% session.removeAttribute("buyMessage"); %>
+    </script>
+</c:if>
 </body>
 </html>

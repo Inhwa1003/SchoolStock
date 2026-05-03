@@ -25,16 +25,16 @@
 			<div class="input-row">
 				<label>비밀번호 :</label>
 				<div class="input-field-group">
-					<input type="password" name="password"> <span
-						class="message info">비밀번호는 특수기호를 포함한 8자리 이상</span>
-				</div>
+					<input type="password" name="password" id="password" /> 
+					<span class="message info">비밀번호는 특수기호를 포함한 8자리 이상</span>
+				</div>	
 			</div>
 
 			<div class="input-row">
 				<label>비밀번호 확인 :</label>
 				<div class="input-field-group">
-					<input type="password"> <span class="message error">비밀번호를
-						확인 해주세요.</span>
+					<input type="password" id="passwordCheck">
+					<span id="pwd-check-msg" class="message"></span> 
 				</div>
 			</div>
 			<div class="input-row">
@@ -64,35 +64,6 @@
 		</div>
 	</div>
 
-	<script>
-		const
-		today = new Date();
-		document.getElementById('current-year').innerText = today.getFullYear();
-	</script>
-	<script type="text/javascript">
-	let xhr= new XMLHttpRequest();
-	let callbackMethod = function(){
-		if(xhr.readyState ==4){
-			if(xhr.status ==200 || xhr.status ==300){
-				let r=JSON.parse(xhr.responseText);
-				let message='사용가능';
-				if(r.result)
-					message='사용 불가능';
-					document.querySelector("#id-check-msg").innerHTML=message;
-					
-					
-					
-			}
-		}
-		
-	}
-	xhr.onreadystatechange = callbackMethod;
-	let inputs= document.querySelectorAll("input[name='studentId']");
-	let idEvent = function(){
-		xhr.open("get","controller?cmd=idCheck&studentId="+this.value, true);
-		xhr.send(null);
-	}
-	inputs[0].onchange = idEvent;
-	</script>
+	<script src="${pageContext.request.contextPath}/js/add-member.js"></script>
 </body>
 </html>
