@@ -77,6 +77,9 @@ public class ActionFactory {
 		case "MyStockOrderCancel":
 			a = new MyStockOrderCancelAction();
 			break;
+		case "GetNowPrice":
+			a = new GetNowPriceAction();
+			break;
 		default:
 			a = new LoginUIAction();
 		}

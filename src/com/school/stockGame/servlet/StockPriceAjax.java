@@ -108,7 +108,7 @@ public class StockPriceAjax implements Action {
         String json = gson.toJson(stockList);
 
         // 디버깅용
-        System.out.println("StockPriceAjax Json=" + json);
+        //System.out.println("StockPriceAjax Json=" + json);
 
         // 10. FrontControllerServlet에서 jsonData를 출력하는 구조라면 그대로 사용
         request.setAttribute("jsonData", json);

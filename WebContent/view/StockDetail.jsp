@@ -38,9 +38,9 @@
 					<h2>${stockName}</h2>
 					<p>${stockContent}</p>
 				</div>
-				<div class="stock-price">
+				<div class="stock-price" data-prev-price="${prevPrice}" data-stock-no="${stockNo}">
 					<div class="price-now">${nowPrice}P</div>
-					<div class="price-change">${changePrice}P(${percent}%)</div>
+					<div class="price-change"></div>
 					<div class="price-base">${prevPrice}</div>
 				</div>
 			</div>
