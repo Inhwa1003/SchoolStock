@@ -67,7 +67,8 @@ body {
 }
 
 /* ---------- 패널 (공통 카드) ---------- */
-.panel {
+.panel,
+.cp-panel {
     border: 1px solid #ccc;
     border-radius: 10px;
     padding: 12px;

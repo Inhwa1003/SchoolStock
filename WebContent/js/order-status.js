@@ -86,14 +86,18 @@ function calculateChange() {
     const percent = ((change / prevPrice) * 100).toFixed(2);
     
     const priceChangeEl = document.querySelector('.price-change');
+    const priceNowEl = document.querySelector('.price-now');
     const sign = change >= 0 ? '+' : '';
     priceChangeEl.textContent = sign + change + 'P(' + sign + percent + '%)';
     
     priceChangeEl.classList.remove('up', 'down');
+    priceNowEl.classList.remove('up', 'down'); 
     if (change > 0) {
         priceChangeEl.classList.add('up');
+        priceNowEl.classList.add('up'); 
     } else if (change < 0) {
         priceChangeEl.classList.add('down');
+        priceNowEl.classList.add('down');
     }
 }
 
@@ -188,7 +192,7 @@ window.onload = function() {
         calculateChange();  // 처음 한 번 계산
         
         stopPriceUpdate();  // 혹시 모를 기존 타이머 정리
-        priceUpdateTimer = setInterval(updateNowPrice, 5000);
+        priceUpdateTimer = setInterval(updateNowPrice, 10000);
     }
 };
 

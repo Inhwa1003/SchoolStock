@@ -116,3 +116,10 @@ input[type="number"], .sell-btn, .buy-btn{
 .text-center{
 	padding: 20px;
 }
+.price-change.up::before {
+    content: "▲ ";
+}
+
+.price-change.down::before {
+    content: "▼ ";
+}
