@@ -74,10 +74,11 @@ public class StockListUI implements Action {
             // 현재가격 - 이전가격은 Action에서 계산 (거래가 없는 주식은 action에서 계산하라고 함)
             int priceChange = currentPrice - prevPrice;          
             // 등락률도 Action에서 계산
-            int changeRate = 0;
+            double changeRate = 0.0;
 
             if (prevPrice != 0) {
-                changeRate = (int) Math.round(((double) priceChange / prevPrice) * 100);
+                changeRate = ((double) priceChange / prevPrice) * 100;
+                changeRate = Math.round(changeRate * 100) / 100.0;
             }
 
             Map<String, Object> stock = new HashMap<String, Object>();
