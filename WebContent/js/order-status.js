@@ -69,7 +69,7 @@ let getMyOrdersEvent = function() {
 	xhr2.send(null);
 };
 
-//===== 가격 자동 업데이트 =====
+// 가격 자동 업데이트
 let priceUpdateTimer = null;
 let priceXhr = new XMLHttpRequest();
 
