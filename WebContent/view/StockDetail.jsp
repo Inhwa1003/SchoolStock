@@ -41,7 +41,7 @@
 				<div class="stock-price" data-prev-price="${prevPrice}" data-stock-no="${param.no}">
 					<div class="price-now">${nowPrice}P</div>
 					<div class="price-change"></div>
-					<div class="price-base">${prevPrice}</div>
+					<div class="price-base">${prevPrice}P</div>
 				</div>
 			</div>
 			<!-- 메인 구역 -->
