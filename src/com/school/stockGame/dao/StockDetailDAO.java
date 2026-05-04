@@ -290,11 +290,11 @@ public class StockDetailDAO {
 	}
 
 	// 주식 등락률 조회
-	public int getChangeRate(int StockNo) {
+	public double getChangeRate(int StockNo) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		int percent = 0;
+		double percent = 0.0;
 		try {
 			conn = DBCP.getConnection();
 			stmt = conn.prepareStatement(StockDetailQuery.STOCK_CHANGE_RATE_SQL);
