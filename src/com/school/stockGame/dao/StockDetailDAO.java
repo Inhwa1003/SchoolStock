@@ -106,7 +106,7 @@ public class StockDetailDAO {
 			int pubPrice = ((Number) pubInfo.get("pubPrice")).intValue();
 			
 			// 1. 발행 개수가 남았는지 체크 있으면 실행
-			if (pubAmount >= buyAmount) {
+			if (pubAmount != 0) {
 				// 1-1. 입력한 값이 발행가격과 같거나 높을때 실행
 				if (pubPrice <= buyPrice) {
 					// 1-2. 발행 개수 차감
@@ -122,11 +122,11 @@ public class StockDetailDAO {
 					conn.commit();
 					return "발행 가격 " + pubPrice + "P 매수가 완료 되었습니다. 남은 발행잔량은 " + (pubAmount - buyAmount) + "주 입니다.";
 					// 발행 잔량보다 높은 수량을 적을시
-				}else if(pubPrice > buyPrice){
+				} else if (pubPrice > buyPrice) {
 					return "남은 발행잔량은 " + pubAmount + "주, 발행가격은" + pubPrice + "P 입니다. " + pubPrice + "P 가격으로 요청 가능합니다.";
+				} else if (pubAmount < buyAmount) {
+					return "남은 발행잔량은 " + pubAmount + "주, 발행가격은" + pubPrice + "P 입니다. " + pubAmount + "주 이하로만 매수 가능합니다.";
 				}
-			} else if (pubAmount < buyAmount) {
-				return "남은 발행잔량은 " + pubAmount + "주, 발행가격은" + pubPrice + "P 입니다. " + pubAmount + "주 이하로만 매수 가능합니다.";
 			}
 			
 			// 발행 잔량이 남아있으면 학생간 거래x
