@@ -84,10 +84,11 @@ public class StockPriceAjax implements Action {
             int priceChange = currentPrice - prevPrice;
 
             // 7. 등락률 계산
-            int changeRate = 0;
+            double changeRate = 0.0;
 
             if (prevPrice != 0) {
-                changeRate = (int) Math.round(((double) priceChange / prevPrice) * 100);
+                changeRate = ((double) priceChange / prevPrice) * 100;
+                changeRate = Math.round(changeRate * 100) / 100.0;
             }
 
             // 8. JSON으로 보낼 데이터 구성
