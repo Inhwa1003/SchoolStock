@@ -26,7 +26,7 @@
 				<label>비밀번호 :</label>
 				<div class="input-field-group">
 					<input type="password" name="password" id="password" /> 
-					<span class="message info">비밀번호는 특수기호를 포함한 8자리 이상</span>
+					<span class="message info">비밀번호는 8자리 이상</span>
 				</div>	
 			</div>
 
