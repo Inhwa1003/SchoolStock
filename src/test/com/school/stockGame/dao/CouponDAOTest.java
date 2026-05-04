@@ -1,7 +1,9 @@
 package test.com.school.stockGame.dao;
 
 import static org.junit.Assert.*;
+
 import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -39,6 +41,7 @@ public class CouponDAOTest {
         }
     }
 
+    // 테스트할 때, 보유 쿠폰이 3개 이상일 경우에는 실패로 뜨는 게 맞음.
     @Test
     public void testGetCouponList_성공() {
         List<CouponVO> list = dao.getCouponList();
@@ -50,30 +53,32 @@ public class CouponDAOTest {
 
     @Test
     public void testSetBuyCoupon_성공() {
-
-        boolean result = dao.setBuyCoupon(validId, testPrice, testCouponName, 0, testCouponNo);
+        String result = dao.setBuyCoupon(validId, testPrice, testCouponName, 0, testCouponNo);
         System.out.println("쿠폰 구매 성공 테스트 결과: " + result);
         
-        assertTrue("정상적인 정보와 충분한 포인트가 있다면 성공해야 합니다.", result);
+        assertEquals("정상적인 정보와 충분한 포인트가 있다면 성공 메시지가 반환되어야 합니다.",
+                "쿠폰 구매가 완료되었습니다.", result);
     }
 
     @Test
     public void testSetBuyCoupon_실패_포인트부족() {
         int expensivePrice = 99999999;
-        boolean result = dao.setBuyCoupon(validId, expensivePrice, testCouponName, 0, testCouponNo);
+
+        String result = dao.setBuyCoupon(validId, expensivePrice, testCouponName, 0, testCouponNo);
         System.out.println("포인트 부족 구매 실패 테스트 결과: " + result);
         
-        assertFalse("포인트가 부족하면 구매 결과가 false여야 합니다.", result);
+        assertEquals("포인트가 부족하면 포인트 부족 메시지가 반환되어야 합니다.",
+                "보유 포인트가 부족합니다.", result);
     }
 
     @Test
     public void testSetBuyCoupon_실패_잘못된아이디() {
-        boolean result = dao.setBuyCoupon(invalidId, 100, testCouponName, 0, testCouponNo);
+        String result = dao.setBuyCoupon(invalidId, 100, testCouponName, 0, testCouponNo);
         System.out.println("잘못된 아이디 구매 실패 테스트 결과: " + result);
         
-        assertFalse("존재하지 않는 학생은 구매에 실패해야 합니다.", result);
+        assertEquals("존재하지 않는 학생은 구매에 실패해야 합니다.",
+                "보유 포인트가 부족합니다.", result);
     }
-
 
     @Test
     public void testMyCouponList_데이터없음() {
