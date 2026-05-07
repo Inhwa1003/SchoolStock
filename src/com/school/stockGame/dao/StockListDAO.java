@@ -8,7 +8,7 @@ import java.util.List;
 
 import com.school.stockGame.query.StockListQuery;
 import com.school.stockGame.vo.StockVO;
-
+//1
 public class StockListDAO {
 
     public StockListDAO() {}

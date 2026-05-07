@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.school.stockGame.query.NewsQuery;
-
+//1
 public class NewsDAO {
 	public NewsDAO() {}
 	

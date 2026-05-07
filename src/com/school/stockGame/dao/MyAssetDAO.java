@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.school.stockGame.query.MyAssetQuery;
-
+//11
 public class MyAssetDAO {
 	public MyAssetDAO(){}
 	

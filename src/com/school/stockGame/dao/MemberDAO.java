@@ -8,7 +8,7 @@ import java.util.Map;
 
 import com.school.stockGame.query.MemberQuery;
 
-//import com.school.stockGame.vo.studentVO
+//3
 public class MemberDAO {
 	public MemberDAO(){}
 	public boolean addMember(String studentId, String password,

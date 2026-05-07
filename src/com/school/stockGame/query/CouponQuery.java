@@ -12,8 +12,5 @@ public interface CouponQuery {
 	String UPDATE_STUDENT_PURCHASE_SQL = "UPDATE students SET total_point = total_point - ?, total_coupon = total_coupon + 1 "
 			+ "WHERE student_id = ? AND total_point >= ?";
 	// 나의 보유 쿠폰 조회
-	String MY_COUPON_SQL = "SELECT c.name, cp.price "
-			+ "FROM coupon_purchase cp "
-			+ "INNER JOIN coupons c ON cp.coupon_no = c.coupon_no "
-			+ "WHERE student_id= ? ";
+	String MY_COUPON_SQL = "SELECT name, price FROM coupon_purchase WHERE student_id= ? ";
 }

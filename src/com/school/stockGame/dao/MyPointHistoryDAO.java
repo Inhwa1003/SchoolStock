@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.school.stockGame.query.MyPointHistoryQuery;
-
+//1
 public class MyPointHistoryDAO {
 
     public MyPointHistoryDAO() {}

@@ -6,11 +6,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.school.stockGame.dao.CouponDAO;
+import com.school.stockGame.dao.CouponDAOInterface;
+import com.school.stockGame.dao.CouponDAOMybatis;
 import com.school.stockGame.vo.CouponPurchaseVO;
 import com.school.stockGame.vo.CouponVO;
 
 public class CouponDAOTest {
-    private CouponDAO dao;
+    private CouponDAOInterface dao;
     
     private String validId = "dldlsghk123";
     private String invalidId = "none";
@@ -20,7 +22,7 @@ public class CouponDAOTest {
 
     @Before
     public void setUp() {
-        dao = new CouponDAO();
+        dao = new CouponDAOMybatis();
     }
 
     @Test

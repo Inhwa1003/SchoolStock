@@ -7,14 +7,14 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.school.stockGame.dao.NewsDAO;
+import com.school.stockGame.dao.NewsDAOMybatis;
 
 public class NewsDAOTest {
-	public NewsDAO dao;
+	public NewsDAOMybatis dao;
 	
 	@Before
 	public void setUp() {
-		dao = new NewsDAO();
+		dao = new NewsDAOMybatis();
 	}
 	
 	@Test

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="stockGameMapper">
+	<!-- MyAssetDAO -->
+	<select id="getTotalPrice" parameterType="map" resultType="int">
+		SELECT (s.total_point + COALESCE(SUM(MY_VALUE.value), 0)) AS totalPrice"
+			+ "FROM students s LEFT JOIN (SELECT o.student_id, "
+			+ "SUM(CASE WHEN o.content = '매수' THEN o.amount ELSE -o.amount END) * "
+			+ "COALESCE((SELECT price FROM (SELECT price FROM orders WHERE stock_no = #{stockNo} "
+			+ "AND state = '체결' ORDER BY order_date DESC) WHERE ROWNUM = 1), "
+			+ "st.publication_price) AS value FROM orders o "
+			+ "JOIN stocks st ON o.stock_no = st.stock_no WHERE o.state = '체결' "
+			+ "GROUP BY o.student_id, o.stock_no, st.publication_price) MY_VALUE "
+			+ "ON s.student_id = MY_VALUE.student_id WHERE s.student_id = #{studentId} "
+			+ "GROUP BY s.total_point
+	</select>
+	<select id="getTotalPoint" parameterType="String" resultType="int">
+		SELECT total_point as totalPoint FROM students WHERE student_id = #{studentId}
+	</select>
+	<select id="getTotalProfit" parameterType="map" resultType="int">
+		SELECT COALESCE(SUM(stock_profit), 0) AS totalProfit "
+			+ "FROM (SELECT (SUM(CASE WHEN o.content = '매수' THEN o.amount "
+			+ "ELSE -o.amount END) * COALESCE((SELECT price FROM (SELECT price FROM orders "
+			+ "WHERE stock_no = #{stockNo} AND state = '체결' ORDER BY order_date DESC) "
+			+ "WHERE ROWNUM = 1), st.publication_price)) - SUM(CASE WHEN o.content = '매수' "
+			+ "THEN o.price * o.amount ELSE 0 END) AS stock_profit FROM orders o "
+			+ "JOIN stocks st ON o.stock_no = st.stock_no WHERE o.student_id = #{studentId} "
+			+ "AND o.state = #{state} GROUP BY o.stock_no, st.publication_price)
+	</select>
+	<select id="getTotalCoupon" parameterType="String" resultType="int">
+		SELECT total_coupon AS totalCoupon FROM students WHERE student_id = #{studentId}
+	</select>
+	<select id="getStockName" parameterType="int" resultType="String">
+		SELECT name FROM stocks WHERE stock_no = #{stockNo}
+	</select>
+	<select id="getStockAmount" parameterType="map" resultType="int">
+		SELECT SUM(CASE WHEN content = '매수' THEN amount ELSE -amount END) AS amount 
+		FROM orders WHERE student_id = #{studentId} AND stock_no = #{stockNo} AND state = #{state}
+	</select>
+	<select id="getAverragePrice" parameterType="map" resultType="int">
+		SELECT (SUM(price * amount) / SUM(amount)) AS average FROM orders 
+		WHERE student_id = #{studentId} AND stock_no = #{stockNo} AND state = #{state} AND content = #{content}
+	</select>
+	<select id="getPurchasePrice" parameterType="map" resultType="int">
+		SELECT SUM(price * amount) AS purchasePrice FROM orders 
+		WHERE student_id = #{studentId} AND stock_no = #{stockNo} AND state = #{state} AND content = #{}
+	</select>
+	<select id="getStockProfit" parameterType="map" resultType="int">
+		SELECT ((SUM(CASE WHEN content = '매수' "
+			+ "THEN amount ELSE -amount END) * (SELECT COALESCE((SELECT price FROM "
+			+ "(SELECT price FROM orders WHERE stock_no = #{stockNo} AND state = '체결' "
+			+ "ORDER BY order_date DESC) WHERE ROWNUM = 1), st.publication_price) "
+			+ "FROM stocks st WHERE st.stock_no = o.stock_no)) - "
+			+ "SUM(CASE WHEN content = '매수' THEN price * amount ELSE 0 END)) AS profit "
+			+ "FROM orders o WHERE o.student_id = #{studentId} AND o.stock_no = #{stockNo} AND o.state = #{state} "
+			+ "GROUP BY stock_no
+	</select>
+	<select id="getStockNo" parameterType="com.school.stockGame.vo.OrderVO" resultType="int">
+		SELECT DISTINCT stock_no AS stockNo FROM orders WHERE student_id = #{studentId} AND state = #{state}
+	</select>
+	<!-- CouponDAO -->
+	<select id="getCouponList" resultType="com.school.stockGame.vo.CouponVO">
+		SELECT coupon_no, name, price FROM coupons
+	</select>
+	<select id="getStudentPoint" parameterType="String" resultType="int">
+		SELECT total_point AS totalPoint FROM students WHERE student_id=#{studentId}
+	</select>
+	<insert id="buyCoupon" parameterType="com.school.stockGame.vo.CouponPurchaseVO">
+		INSERT INTO coupon_purchase (coupon_purchase_no, purchase_date, price, name, state, student_id, coupon_no) 
+		VALUES(coupon_purchase_no_seq.NEXTVAL, sysdate, #{price}, #{name}, #{state}, #{studentId}, #{couponNo})
+	</insert>
+	<update id="updatePurchase" parameterType="com.school.stockGame.vo.CouponPurchaseVO">
+		UPDATE students SET total_point = total_point - #{price}, total_coupon = total_coupon + 1 
+		WHERE student_id = #{studentId} AND total_point >= #{price}
+	</update>
+	<select id="getMyCoupon" parameterType="String" resultType="com.school.stockGame.vo.CouponPurchaseVO">
+		SELECT name, price FROM coupon_purchase WHERE student_id = #{studentId} 
+	</select>
+	<!-- NewsDAO -->
+	<select id="getContent" resultType="String">
+		SELECT content FROM news
+	</select>
+</mapper>
