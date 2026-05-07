@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberMapper">
+	<select id="getMemberId" parameterType="String" resultType="String">
+		select member_id as memberId from members where member_id = #{memberId}
+	</select>
+	<select id="getMemberList" resultType="com.oopsw.shop.model.Member">
+		select member_id as memberId, name from members
+	</select>
+	<insert id="addMember" parameterType="com.oopsw.shop.model.Member">
+		insert into members (member_id, pw, name, in_date, state) 
+		values(#{memberId}, #{pw}, #{name}, #{inDate}, #{state})
+	</insert>
+	<update id="updateMember" parameterType="com.oopsw.shop.model.Member">
+		update members set pw = #{pw} where member_id = #{memberId}
+	</update>
+	<delete id="deleteMember" parameterType="String">
+		delete from members where member_id = #{memberId}
+	</delete>
+</mapper>
