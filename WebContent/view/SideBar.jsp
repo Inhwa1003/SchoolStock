@@ -4,7 +4,7 @@
 <c:if test="${loginOK==null}">
 	<script>
 		alert('로그인이 필요합니다.');
-		location.href = "controller?cmd=LoginAction";
+		location.href = "controller?cmd=LoginUI";
 	</script>
 </c:if>
 <!DOCTYPE html>
@@ -16,7 +16,7 @@
 <body>
 	<aside class="right-sidebar">
 		<div class="user-info">
-			<a href="controller?cmd=logoutAction" class="logout-btn">로그아웃</a>
+			<a href="controller?cmd=LogoutAction" class="logout-btn">로그아웃</a>
 			<h2 class="user-name" id="studentName">${info.name}</h2>
 			<p id="studentClassInfo">${info.grade}학년
 				${info.className}반

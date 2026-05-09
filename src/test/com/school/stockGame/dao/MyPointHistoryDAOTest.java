@@ -39,11 +39,10 @@ public class MyPointHistoryDAOTest {
         System.out.println("조회된 내 포인트 내역 개수: " + historyList.size());
 
         for (Map<String, Object> history : historyList) {
-            // MyBatis resultType="map"은 기본적으로 오라클에서 대문자 키를 반환합니다.
-            System.out.println("날짜: " + history.get("HISTORY_DATE"));
-            System.out.println("유형: " + history.get("HISTORY_TYPE"));
-            System.out.println("내용: " + history.get("HISTORY_CONTENT"));
-            System.out.println("포인트 변화: " + history.get("POINT_CHANGE"));
+            System.out.println("날짜: " + history.get("historyDate"));
+            System.out.println("유형: " + history.get("historyType"));
+            System.out.println("내용: " + history.get("historyContent"));
+            System.out.println("포인트 변화: " + history.get("pointChange"));
             System.out.println("-----------------------------");
         }
     }

@@ -103,7 +103,7 @@
 	</insert>
 
 	<select id="login" parameterType="map" resultType="map">
-		SELECT name, grade, class as className, class_number as classNumber, total_point as totalPoint
+		SELECT name as "name", grade as "grade", class as "className", class_number as "classNumber", total_point as "totalPoint"
 		FROM students
 		WHERE student_id = #{studentId} AND password = #{password}
 	</select>
@@ -114,7 +114,7 @@
 
 	<!-- MyPointHistoryDAO -->
 	<select id="getMyPointHistory" parameterType="String" resultType="map">
-		SELECT history_date, history_type, history_content, point_change
+		SELECT history_date as "historyDate", history_type as "historyType", history_content as "historyContent", point_change as "pointChange"
 		FROM (
 		    SELECT
 		        cp.purchase_date AS history_date,
@@ -157,7 +157,7 @@
 
 	<!-- StockDetailDAO -->
 	<select id="getStockInfo" parameterType="int" resultType="map">
-		SELECT name, content FROM stocks WHERE stock_no = #{stockNo}
+		SELECT name as "name", content as "content" FROM stocks WHERE stock_no = #{stockNo}
 	</select>
 
 	<select id="getStockPrice" parameterType="int" resultType="int">
@@ -209,7 +209,7 @@
 	</insert>
 
 	<select id="getTotalOrderRequest" parameterType="int" resultType="map">
-		SELECT price, amount, content
+		SELECT price as "price", amount as "amount", content as "content"
 		FROM orders
 		WHERE stock_no = #{stockNo}
 		AND STATE = '대기'
@@ -217,7 +217,7 @@
 	</select>
 
 	<select id="getTotalSellOrderRequest" parameterType="int" resultType="map">
-		SELECT price, amount, content
+		SELECT price as "price", amount as "amount", content as "content"
 		FROM orders
 		WHERE stock_no = #{stockNo}
 		AND STATE = '대기'
@@ -226,7 +226,7 @@
 	</select>
 
 	<select id="getTotalBuyOrderRequest" parameterType="int" resultType="map">
-		SELECT price, amount, content
+		SELECT price as "price", amount as "amount", content as "content"
 		FROM orders
 		WHERE stock_no = #{stockNo}
 		AND STATE = '대기'
@@ -235,7 +235,7 @@
 	</select>
 
 	<select id="getMyOrderRequest" parameterType="map" resultType="map">
-		SELECT order_no, CONTENT, PRICE, AMOUNT, ORDER_DATE, STATE
+		SELECT order_no as "orderNo", CONTENT as "content", PRICE as "price", AMOUNT as "amount", ORDER_DATE as "orderDate", STATE as "state"
 		FROM ORDERS
 		WHERE STUDENT_ID = #{studentId}
 		AND STOCK_NO = #{stockNo}
@@ -271,7 +271,7 @@
 	</update>
 
 	<select id="getPublicationData" parameterType="int" resultType="map">
-		SELECT publication_balance, publication_price
+		SELECT publication_balance as "pubAmount", publication_price as "pubPrice"
 		FROM stocks
 		WHERE stock_no = #{stockNo}
 	</select>
@@ -282,7 +282,7 @@
 	</update>
 
 	<select id="getMatchOrder" parameterType="map" resultType="map">
-		SELECT order_no, content, price, amount, state, order_date, student_id, stock_no
+		SELECT order_no as "orderNo", content as "content", price as "price", amount as "amount", state as "state", order_date as "orderDate", student_id as "studentId", stock_no as "stockNo"
 		FROM orders
 		WHERE order_no =
 		(SELECT order_no
@@ -312,7 +312,7 @@
 
 	<!-- StockListDAO -->
 	<select id="getStockNameList" resultType="map">
-		SELECT stock_no, name FROM stocks ORDER BY stock_no
+		SELECT stock_no as "stockNo", name as "name" FROM stocks ORDER BY stock_no
 	</select>
 
 </mapper>
