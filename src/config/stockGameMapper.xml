@@ -111,4 +111,208 @@
 	<select id="idCheck" parameterType="String" resultType="int">
 		SELECT COUNT(*) FROM students WHERE student_id = #{studentId}
 	</select>
+
+	<!-- MyPointHistoryDAO -->
+	<select id="getMyPointHistory" parameterType="String" resultType="map">
+		SELECT history_date, history_type, history_content, point_change
+		FROM (
+		    SELECT
+		        cp.purchase_date AS history_date,
+		        '쿠폰' AS history_type,
+		        cp.name AS history_content,
+		        -cp.price AS point_change
+		    FROM COUPON_PURCHASE cp
+		    WHERE cp.student_id = #{studentId}
+		    UNION ALL
+		    SELECT
+		        gp.get_date AS history_date,
+		        '지급' AS history_type,
+		        gp.content AS history_content,
+		        gp.point AS point_change
+		    FROM GET_POINT gp
+		    WHERE gp.student_id = #{studentId}
+		    UNION ALL
+		    SELECT
+		        t.transaction_date AS history_date,
+		        '매수' AS history_type,
+		        s.name AS history_content,
+		        -(o.price * o.amount) AS point_change
+		    FROM TRANSACTION t, ORDERS o, STOCKS s
+		    WHERE t.buy_order_no = o.order_no
+		      AND o.stock_no = s.stock_no
+		      AND o.student_id = #{studentId}
+		    UNION ALL
+		    SELECT
+		        t.transaction_date AS history_date,
+		        '매도' AS history_type,
+		        s.name AS history_content,
+		        (o.price * o.amount) AS point_change
+		    FROM TRANSACTION t, ORDERS o, STOCKS s
+		    WHERE t.sell_order_no = o.order_no
+		      AND o.stock_no = s.stock_no
+		      AND o.student_id = #{studentId}
+		)
+		ORDER BY history_date DESC
+	</select>
+
+	<!-- StockDetailDAO -->
+	<select id="getStockInfo" parameterType="int" resultType="map">
+		SELECT name, content FROM stocks WHERE stock_no = #{stockNo}
+	</select>
+
+	<select id="getStockPrice" parameterType="int" resultType="int">
+		SELECT price
+		FROM (SELECT o.price
+		FROM TRANSACTION t JOIN ORDERS o ON t.buy_order_no = o.order_no
+		WHERE o.stock_no = #{stockNo}
+		ORDER BY t.TRANSACTION_DATE DESC)
+		WHERE ROWNUM = 1
+	</select>
+
+	<select id="getStockPriceChange" parameterType="map" resultType="int">
+		SELECT price-s.prev_price
+		FROM (SELECT o.price
+		FROM TRANSACTION t JOIN ORDERS o ON t.buy_order_no = o.order_no
+		WHERE o.stock_no = #{stockNo} ORDER BY t.TRANSACTION_DATE DESC), stocks s
+		WHERE ROWNUM = 1 AND s.stock_no = #{stockNo}
+	</select>
+
+	<select id="getStockChangeRate" parameterType="map" resultType="int">
+		SELECT ROUND((price-s.prev_price)/s.prev_price*100) as Range
+		FROM (SELECT o.price
+		FROM TRANSACTION t JOIN ORDERS o ON t.buy_order_no = o.order_no
+		WHERE o.stock_no = #{stockNo} ORDER BY t.TRANSACTION_DATE DESC), stocks s
+		WHERE ROWNUM = 1 AND s.stock_no = #{stockNo}
+	</select>
+
+	<select id="getStockPrevPrice" parameterType="int" resultType="int">
+		SELECT prev_price FROM stocks WHERE stock_no = #{stockNo}
+	</select>
+
+	<select id="getStudentStockAmount" parameterType="map" resultType="int">
+		SELECT SUM(CASE WHEN content='매수' THEN amount ELSE -amount END) AS amount
+		FROM orders
+		WHERE student_id = #{studentId}
+		AND stock_no = #{stockNo}
+		AND state='체결'
+	</select>
+
+	<select id="getStudentTotalPoint" parameterType="String" resultType="int">
+		SELECT total_point
+		FROM students
+		WHERE student_id = #{studentId}
+	</select>
+
+	<insert id="insertOrderRequest" parameterType="map">
+		INSERT INTO ORDERS (order_no, content, price, amount, state, order_date, student_id, stock_no)
+		VALUES (order_no_seq.NEXTVAL, #{content}, #{price}, #{amount}, #{state}, SYSDATE, #{studentId}, #{stockNo})
+	</insert>
+
+	<select id="getTotalOrderRequest" parameterType="int" resultType="map">
+		SELECT price, amount, content
+		FROM orders
+		WHERE stock_no = #{stockNo}
+		AND STATE = '대기'
+		ORDER BY order_date ASC
+	</select>
+
+	<select id="getTotalSellOrderRequest" parameterType="int" resultType="map">
+		SELECT price, amount, content
+		FROM orders
+		WHERE stock_no = #{stockNo}
+		AND STATE = '대기'
+		AND content = '매도'
+		ORDER BY order_date ASC
+	</select>
+
+	<select id="getTotalBuyOrderRequest" parameterType="int" resultType="map">
+		SELECT price, amount, content
+		FROM orders
+		WHERE stock_no = #{stockNo}
+		AND STATE = '대기'
+		AND content = '매수'
+		ORDER BY order_date ASC
+	</select>
+
+	<select id="getMyOrderRequest" parameterType="map" resultType="map">
+		SELECT order_no, CONTENT, PRICE, AMOUNT, ORDER_DATE, STATE
+		FROM ORDERS
+		WHERE STUDENT_ID = #{studentId}
+		AND STOCK_NO = #{stockNo}
+		AND state ='대기'
+		ORDER BY ORDER_DATE ASC
+	</select>
+
+	<update id="pointUp" parameterType="map">
+		UPDATE students SET total_point = total_point + (#{point})
+		WHERE student_id = #{studentId}
+	</update>
+
+	<update id="pointDown" parameterType="map">
+		UPDATE students SET total_point = total_point - (#{point})
+		WHERE student_id = #{studentId}
+	</update>
+
+	<insert id="insertMatchComplete" parameterType="map">
+		INSERT INTO transaction (transaction_no, transaction_date, buy_order_no, sell_order_no)
+		VALUES (transaction_no_seq.NEXTVAL, SYSDATE, #{buyOrderNo}, #{sellOrderNo})
+	</insert>
+
+	<update id="updateOrderStatePending" parameterType="int">
+		UPDATE orders SET state = '대기' WHERE order_no = #{orderNo}
+	</update>
+
+	<update id="updateOrderStateMatched" parameterType="int">
+		UPDATE orders SET state = '체결' WHERE order_no = #{orderNo}
+	</update>
+
+	<update id="updateOrderStateCancel" parameterType="int">
+		UPDATE orders SET state = '취소' WHERE order_no = #{orderNo}
+	</update>
+
+	<select id="getPublicationData" parameterType="int" resultType="map">
+		SELECT publication_balance, publication_price
+		FROM stocks
+		WHERE stock_no = #{stockNo}
+	</select>
+
+	<update id="updatePublicationData" parameterType="map">
+		UPDATE stocks SET publication_balance = publication_balance - #{amount}
+		WHERE stock_no = #{stockNo}
+	</update>
+
+	<select id="getMatchOrder" parameterType="map" resultType="map">
+		SELECT order_no, content, price, amount, state, order_date, student_id, stock_no
+		FROM orders
+		WHERE order_no =
+		(SELECT order_no
+		FROM (SELECT order_no
+		FROM orders
+		WHERE stock_no = #{stockNo}
+		AND state = '대기'
+		AND content = #{content}
+		AND price = #{price}
+		AND amount = #{amount}
+		AND student_id != #{studentId}
+		ORDER BY order_date ASC)
+		WHERE ROWNUM = 1)
+		FOR UPDATE
+	</select>
+
+	<select id="findMyOrder" parameterType="map" resultType="int">
+		SELECT order_no
+		FROM orders
+		WHERE content = #{content}
+		AND student_id = #{studentId}
+		AND stock_no = #{stockNo}
+		AND state = #{state}
+		AND amount = #{amount}
+		AND price = #{price} ORDER BY order_date DESC
+	</select>
+
+	<!-- StockListDAO -->
+	<select id="getStockNameList" resultType="map">
+		SELECT stock_no, name FROM stocks ORDER BY stock_no
+	</select>
+
 </mapper>
