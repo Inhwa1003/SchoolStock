@@ -98,12 +98,12 @@
 
 	<!-- MemberDAO -->
 	<insert id="addMember" parameterType="map">
-		INSERT INTO students (student_id, password, name, grade, class_name, class_number, total_point, total_coupon)
-		VALUES (#{studentId}, #{password}, #{name}, #{grade}, #{className}, #{classNumber}, 10000000, 0)
+		INSERT INTO students (student_id, password, name, grade, class, class_number, register_year, total_coupon, total_point)
+		VALUES (#{studentId}, #{password}, #{name}, #{grade}, #{className}, #{classNumber}, EXTRACT(YEAR FROM SYSDATE), 0, 30000)
 	</insert>
 
 	<select id="login" parameterType="map" resultType="map">
-		SELECT name, grade, class_name as className, class_number as classNumber, total_point as totalPoint
+		SELECT name, grade, class as className, class_number as classNumber, total_point as totalPoint
 		FROM students
 		WHERE student_id = #{studentId} AND password = #{password}
 	</select>
@@ -178,7 +178,7 @@
 	</select>
 
 	<select id="getStockChangeRate" parameterType="map" resultType="int">
-		SELECT ROUND((price-s.prev_price)/s.prev_price*100) as Range
+		SELECT COALESCE(ROUND((price-s.prev_price)/NULLIF(s.prev_price, 0)*100), 0) as Range
 		FROM (SELECT o.price
 		FROM TRANSACTION t JOIN ORDERS o ON t.buy_order_no = o.order_no
 		WHERE o.stock_no = #{stockNo} ORDER BY t.TRANSACTION_DATE DESC), stocks s

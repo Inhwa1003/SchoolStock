@@ -5,38 +5,56 @@ import static org.junit.Assert.*;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Before;
 import org.junit.Test;
 
-import com.school.stockGame.dao.MyPointHistoryDAO;
+import com.school.stockGame.dao.MyPointHistoryDAOInterface;
+import com.school.stockGame.dao.MyPointHistoryDAOMybatis;
 
 public class MyPointHistoryDAOTest {
 
+    private MyPointHistoryDAOInterface dao;
+    // 이전 쿠폰 테스트에서 구매 이력이 확실하게 존재하는 아이디를 사용
+    private final String validStudentId = "dldlsghk123";
+    private final String invalidStudentId = "none";
+
+    @Before
+    public void setUp() {
+        // 기존 JDBC DAO 대신 MyBatis DAO 구현체 주입
+        dao = new MyPointHistoryDAOMybatis();
+    }
+
     @Test
-    public void testGetMyPointHistoryList() {
-        // 1. DAO 객체 생성
-        MyPointHistoryDAO dao = new MyPointHistoryDAO();
+    public void testGetMyPointHistoryList_성공() {
+        // 1. 내 포인트 내역 조회
+        List<Map<String, Object>> historyList = dao.getMyPointHistoryList(validStudentId);
 
-        // 2. 테스트할 학생 ID
-        String studentId = "abc";
-
-        // 3. 내 포인트 내역 조회
-        List<Map<String, Object>> historyList = dao.getMyPointHistoryList(studentId);
-
-        // 4. null이 아니어야 함
+        // 2. null이 아니어야 함 (MyBatis는 결과가 없어도 빈 리스트 반환)
         assertNotNull(historyList);
 
-        // 5. abc 학생은 포인트 내역이 최소 1개 있다고 했으므로 1개 이상이어야 함
-        assertTrue(historyList.size() > 0);
+        // 3. dldlsghk123 학생은 쿠폰 구매 내역이 최소 1개 이상 존재해야 함
+        assertFalse("내역이 최소 1개 이상 존재해야 합니다.", historyList.isEmpty());
 
-        // 6. 조회 결과 출력
+        // 4. 조회 결과 출력
         System.out.println("조회된 내 포인트 내역 개수: " + historyList.size());
 
         for (Map<String, Object> history : historyList) {
-            System.out.println("날짜: " + history.get("historyDate"));
-            System.out.println("유형: " + history.get("historyType"));
-            System.out.println("내용: " + history.get("historyContent"));
-            System.out.println("포인트 변화: " + history.get("pointChange"));
+            // MyBatis resultType="map"은 기본적으로 오라클에서 대문자 키를 반환합니다.
+            System.out.println("날짜: " + history.get("HISTORY_DATE"));
+            System.out.println("유형: " + history.get("HISTORY_TYPE"));
+            System.out.println("내용: " + history.get("HISTORY_CONTENT"));
+            System.out.println("포인트 변화: " + history.get("POINT_CHANGE"));
             System.out.println("-----------------------------");
         }
+    }
+
+    @Test
+    public void testGetMyPointHistoryList_데이터없음() {
+        // 1. 존재하지 않거나 거래 내역이 없는 학생 ID
+        List<Map<String, Object>> historyList = dao.getMyPointHistoryList(invalidStudentId);
+
+        // 2. 결과가 빈 리스트여야 함
+        assertNotNull(historyList);
+        assertTrue("거래 내역이 없는 학생은 빈 리스트가 반환되어야 합니다.", historyList.isEmpty());
     }
 }

@@ -4,22 +4,25 @@ import static org.junit.Assert.*;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
-import com.school.stockGame.dao.MyAssetDAO;
+
+import com.school.stockGame.dao.MyAssetDAOInterface;
+import com.school.stockGame.dao.MyAssetDAOMybatis;
 
 public class MyAssetDAOTset {
-    private MyAssetDAO dao;
+    private MyAssetDAOInterface dao;
     
     // 테스트용 기준 데이터
-    private String validStudentId = "abc";    // DB에 존재하는 아이디
-    private String invalidStudentId = "none"; // 존재하지 않는 아이디
-    private int validStockNo = 1;             // DB에 존재하는 종목 번호
-    private int invalidStockNo = 999;         // 존재하지 않는 종목 번호
-    private String state = "체결";
-    private String content = "매수";
+    private final String validStudentId = "abc";    // DB에 존재하는 아이디
+    private final String invalidStudentId = "none"; // 존재하지 않는 아이디
+    private final int validStockNo = 1;             // DB에 존재하는 종목 번호
+    private final int invalidStockNo = 999;         // 존재하지 않는 종목 번호
+    private final String state = "체결";
+    private final String content = "매수";
 
     @Before
     public void setUp() {
-        dao = new MyAssetDAO();
+        // 기존 JDBC DAO 대신 새롭게 만든 MyBatis DAO 구현체를 주입합니다.
+        dao = new MyAssetDAOMybatis();
     }
 
     // --- [1. 총 자산 가치 조회 테스트] ---
@@ -63,7 +66,7 @@ public class MyAssetDAOTset {
     public void testGetStockName_성공() {
         String name = dao.getStockName(validStockNo);
         System.out.println("4. 조회된 종목명: " + name);
-        assertNotNull("종목명이 조회되어야 합니다.", name);
+        assertNotNull("종목명이 조회되어야 합니다. (DB에 1번 종목이 존재해야 함)", name);
     }
 
     @Test
@@ -80,7 +83,7 @@ public class MyAssetDAOTset {
         assertTrue(amount >= 0);
     }
 
-    // --- [6. 평균 단가 및 구매 비용 테스트] ---
+    // --- [6. 평균 단가 테스트] ---
     @Test
     public void testGetAveragePrice_성공() {
         int avgPrice = dao.getAveragePrice(validStudentId, validStockNo, state, content);
@@ -88,19 +91,34 @@ public class MyAssetDAOTset {
         assertTrue(avgPrice >= 0);
     }
 
-    // --- [7. 종목별 손익 조회 테스트 (신규 추가)] ---
+    // --- [7. 종목별 손익 조회 테스트] ---
     @Test
     public void testGetStockProfit_성공() {
         int profit = dao.getStockProfit(validStudentId, validStockNo, state);
         System.out.println("7. 종목 수익금: " + profit);
     }
 
-    // --- [8. 보유 중인 종목 번호 리스트 테스트 (신규 추가)] ---
+    // --- [8. 총 수익 조회 테스트 (누락되어 있어 추가)] ---
+    @Test
+    public void testGetTotalProfit_성공() {
+        int totalProfit = dao.getTotalProfit(validStockNo, validStudentId, state);
+        System.out.println("8. 총 수익금: " + totalProfit);
+    }
+
+    // --- [9. 총 구매 비용 조회 테스트 (누락되어 있어 추가)] ---
+    @Test
+    public void testGetPurchasePrice_성공() {
+        int purchasePrice = dao.getPurchasePrice(validStudentId, validStockNo, state, content);
+        System.out.println("9. 총 구매 비용: " + purchasePrice);
+        assertTrue(purchasePrice >= 0);
+    }
+
+    // --- [10. 보유 중인 종목 번호 리스트 테스트] ---
     @Test
     public void testGetMyStockNos_성공() {
         List<Integer> stockNos = dao.getMyStockNos(validStudentId, state);
-        System.out.println("8. 보유 종목 리스트 크기: " + stockNos.size());
-        assertNotNull(stockNos);
+        System.out.println("10. 보유 종목 리스트 크기: " + stockNos.size());
+        assertNotNull("MyBatis의 selectList는 결과가 없어도 빈 리스트를 반환합니다.", stockNos);
     }
 
     @Test

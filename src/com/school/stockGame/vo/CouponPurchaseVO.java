@@ -8,6 +8,10 @@ public class CouponPurchaseVO extends CouponVO{
 	private String state;
 	private String studentId;
 
+	// 기본 생성자 (MyBatis 객체 매핑용 필수)
+	public CouponPurchaseVO() {
+	}
+
 	//내 보유쿠폰에서 가져올  생성자
 	public CouponPurchaseVO(int price, String name) {
 		setPrice(price);
@@ -73,8 +77,5 @@ public class CouponPurchaseVO extends CouponVO{
 	public void setStudentId(String studentId) {
 		this.studentId = studentId;
 	}
-
-
-
 
 }
