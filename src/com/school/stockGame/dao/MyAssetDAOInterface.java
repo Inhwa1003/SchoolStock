@@ -2,31 +2,15 @@ package com.school.stockGame.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 public interface MyAssetDAOInterface {
-	int getMyValue(@Param("stockNo") int stockNo, 
-			@Param("studentId") String studentId);
-	int getPointValue(@Param("studentId") String studentId);
-	int getTotalProfit(@Param("stockNo") int stockNo, 
-			@Param("studentId") String studentId, 
-			@Param("state") String state);
-	int getTotalCoupon(@Param("studentId") String studentId);
-	String getStockName(@Param("stockNo") int stockNo);
-	int getStockAmount(@Param("studentId") String studentId, 
-			@Param("stockNo") int stockNo, 
-			@Param("state") String state);
-	int getAveragePrice(@Param("studentId") String studentId, 
-			@Param("stockNo") int stockNo, 
-			@Param("state") String state, 
-			@Param("content") String content);
-	int getPurchasePrice(@Param("studnetId") String studentId, 
-			@Param("stockNo") int stockNo, 
-			@Param("state") String state, 
-			@Param("content") String content);
-	int getStockProfit(@Param("studentId") String studentId, 
-			@Param("stockNo") int stockNo, 
-			@Param("state") String state);
-	List<Integer> getMyStockNos(@Param("studentId") String studentId, 
-			@Param("state") String state);
+	int getMyValue(int stockNo, String studentId);
+	int getPointValue(String studentId);
+	int getTotalProfit(int stockNo, String studentId, String state);
+	int getTotalCoupon(String studentId);
+	String getStockName(int stockNo);
+	int getStockAmount(String studentId, int stockNo, String state);
+	int getAveragePrice(String studentId, int stockNo, String state, String content);
+	int getPurchasePrice(String studentId, int stockNo, String state, String content);
+	int getStockProfit(String studentId, int stockNo, String state);
+	List<Integer> getMyStockNos(String studentId, String state);
 }

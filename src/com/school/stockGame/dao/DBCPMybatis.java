@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
@@ -20,10 +21,14 @@ public class DBCPMybatis {
 			try {
 				in = Resources.getResourceAsStream(resource);
 			} catch (IOException e) {
-				throw new NullPointerException("ȯ�� ����");
+				throw new NullPointerException("ȯ ");
 			}
 			factory = new SqlSessionFactoryBuilder().build(in);
 		}
 		return factory;
+	}
+
+	public static SqlSession getSqlSession() {
+		return getSqlSessionFactory().openSession();
 	}
 }
