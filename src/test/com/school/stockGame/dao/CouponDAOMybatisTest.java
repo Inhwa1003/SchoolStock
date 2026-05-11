@@ -23,6 +23,19 @@ public class CouponDAOMybatisTest {
 		assertNotNull(dao.getCouponList());
 		assertTrue(dao.getCouponList().size() > 0);
 	}
+	
+	// 내가 구매한 쿠폰 수량
+	@Test
+	public void getMyCouponCountTest(){
+		dao = new CouponDAOMybatis();
+		// NO
+		// 없는 아이디 조회
+		assertTrue(dao.getMyCouponCount("keks") == 0); 
+		// YES
+		assertTrue(dao.getMyCouponCount("abc") > 0);
+		assertNotNull(dao.getMyCouponCount("abc"));
+	}
+	
 	// 쿠폰 구매 (쿠폰구매내역 추가)
 	@Test
 	public void setPurchaseRecordTest() {

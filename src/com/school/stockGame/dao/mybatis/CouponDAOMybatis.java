@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import com.school.stockGame.dao.CouponDAOInterface;
+import com.school.stockGame.dao.jdbc.DBCP;
 import com.school.stockGame.vo.CouponPurchaseVO;
 import com.school.stockGame.vo.CouponVO;
 
@@ -28,11 +29,18 @@ public class CouponDAOMybatis implements CouponDAOInterface{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	// 내가 구매한 쿠폰 수량
 	@Override
 	public int getMyCouponCount(String studentId) {
-		// TODO Auto-generated method stub
-		return 0;
+		SqlSession session = DBCPMybatis.getSqlSessionFactory().openSession();
+		int couponCount = 0;
+		try {
+			couponCount = session.selectOne("couponMapper.getMyCouponCount", studentId);
+		} finally {
+			session.close();
+ 		}
+		return couponCount;
 	}
 
 	@Override
