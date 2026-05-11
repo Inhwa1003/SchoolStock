@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
-import com.school.stockGame.dao.jdbc.StockDetailDAO;
+import com.school.stockGame.dao.jdbc.StockDetailDAOJdbc;
 import com.school.stockGame.vo.OrderVO;
 
 public class MyStockOrderAction implements Action {
@@ -21,7 +21,7 @@ public class MyStockOrderAction implements Action {
 		int stockNo = Integer.parseInt(request.getParameter("no"));
 		String studentId = (String) session.getAttribute("studentId");
 		
-		StockDetailDAO stockDetailDAO = new StockDetailDAO();
+		StockDetailDAOJdbc stockDetailDAO = new StockDetailDAOJdbc();
 	
 		List<OrderVO> list = stockDetailDAO.getTotalMyOrder(stockNo, studentId);
 		

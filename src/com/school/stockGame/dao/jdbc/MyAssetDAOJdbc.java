@@ -9,8 +9,8 @@ import java.util.List;
 
 import com.school.stockGame.query.MyAssetQuery;
 
-public class MyAssetDAO {
-	public MyAssetDAO(){}
+public class MyAssetDAOJdbc {
+	public MyAssetDAOJdbc(){}
 	
 	public int getMyValue(int stockNo, String studentId) {
 		int result = 0;

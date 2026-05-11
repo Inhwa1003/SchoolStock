@@ -10,8 +10,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.school.stockGame.dao.jdbc.MyAssetDAO;
-import com.school.stockGame.dao.jdbc.StockDetailDAO;;
+import com.school.stockGame.dao.jdbc.MyAssetDAOJdbc;
+import com.school.stockGame.dao.jdbc.StockDetailDAOJdbc;;
 
 public class MyAssetsAction implements Action {
 
@@ -21,8 +21,8 @@ public class MyAssetsAction implements Action {
 		try {
 			HttpSession session = request.getSession();
 			String studentId = (String) session.getAttribute("studentId");
-			MyAssetDAO myAsset = new MyAssetDAO();
-			StockDetailDAO detail = new StockDetailDAO();
+			MyAssetDAOJdbc myAsset = new MyAssetDAOJdbc();
+			StockDetailDAOJdbc detail = new StockDetailDAOJdbc();
 
 			if(studentId == null) studentId = "abc";
 			List<Integer> myStockNos = myAsset.getMyStockNos(studentId, "체결");

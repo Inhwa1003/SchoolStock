@@ -21,7 +21,7 @@ import com.school.stockGame.vo.OrderVO;
  * 04.29 발행 잔량이 남아있다면 이라는 조건을 주기위해 발행 잔량 체크 하는 SQL 추가해야함 (완료)
  * 05.02 발행 잔량 다 팔리기 전엔 학생간 거래 막아야함(완료)
  */
-public class StockDetailDAO {
+public class StockDetailDAOJdbc {
 	
 
 	// 매도 주문요청
@@ -33,7 +33,7 @@ public class StockDetailDAO {
 			conn = DBCP.getConnection();
 			conn.setAutoCommit(false);
 			
-			MyAssetDAO myAssetDAO = new MyAssetDAO();
+			MyAssetDAOJdbc myAssetDAO = new MyAssetDAOJdbc();
 			pubInfo = getStockPubInfo(conn, stockNo);
 			
 			//1. 발행 잔량 확인 있으면 학생간 거래x 매도 요청x return false;
