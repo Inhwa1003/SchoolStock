@@ -3,7 +3,7 @@
 <mapper namespace="couponMapper">
 
 	<!-- 만들어져있는 쿠폰 모두 조회 -->
-	<select id="getCouponList" resultType="List">
+	<select id="getCouponList" resultType="com.school.stockGame.vo.CouponVO">
 		SELECT coupon_no, name, price FROM coupons
 	</select>
 	
