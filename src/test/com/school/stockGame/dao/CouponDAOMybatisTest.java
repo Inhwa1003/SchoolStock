@@ -36,6 +36,18 @@ public class CouponDAOMybatisTest {
 		assertNotNull(dao.getMyCouponCount("abc"));
 	}
 	
+	// 나의 가용포인트 조회
+	@Test
+	public void getStudentPointTest() {
+		dao = new CouponDAOMybatis();
+		// NO
+		// 없는 아이디 조회
+		assertTrue(dao.getStudentPoint("keksee") == 0);
+		// YES
+		assertTrue(dao.getStudentPoint("abc") > 0);
+		assertNotNull(dao.getStudentPoint("abc"));
+	}
+
 	// 쿠폰 구매 (쿠폰구매내역 추가)
 	@Test
 	public void setPurchaseRecordTest() {

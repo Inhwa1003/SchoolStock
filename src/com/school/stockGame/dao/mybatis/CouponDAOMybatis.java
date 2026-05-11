@@ -43,10 +43,17 @@ public class CouponDAOMybatis implements CouponDAOInterface{
 		return couponCount;
 	}
 
+	// 나의 가용포인트 조회
 	@Override
 	public int getStudentPoint(String studentId) {
-		// TODO Auto-generated method stub
-		return 0;
+		SqlSession session = DBCPMybatis.getSqlSessionFactory().openSession();
+		int point = 0;
+		try {
+			point = session.selectOne("couponMapper.getStudentPoint", studentId);
+		} finally {
+			session.close();
+ 		}
+		return point;
 	}
 
 	@Override
