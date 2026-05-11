@@ -55,11 +55,18 @@ public class CouponDAOMybatis implements CouponDAOInterface{
  		}
 		return point;
 	}
-
+	
+	// 쿠폰 구매 (쿠폰구매내역 추가)
 	@Override
 	public int setPurchaseRecord(String studentId, int couponNo, String couponName, int couponPrice, int state) {
-		// TODO Auto-generated method stub
-		return 0;
+		SqlSession session = DBCPMybatis.getSqlSessionFactory().openSession();
+		int result = 0;
+		try {
+			result = session.insert("couponMapper.setPurchaseRecord", new CouponPurchaseVO(couponPrice, couponName, state, studentId, couponNo));
+		} finally {
+			session.close();
+ 		}
+		return result;
 	}
 
 	@Override
