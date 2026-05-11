@@ -7,12 +7,12 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.school.stockGame.dao.CouponDAO;
+import com.school.stockGame.dao.jdbc.CouponDAOJdbc;
 import com.school.stockGame.vo.CouponPurchaseVO;
 import com.school.stockGame.vo.CouponVO;
 
 public class CouponDAOTest {
-    private CouponDAO dao;
+    private CouponDAOJdbc dao;
     
     private String validId = "dldlsghk123";
     private String invalidId = "none";
@@ -22,7 +22,7 @@ public class CouponDAOTest {
 
     @Before
     public void setUp() {
-        dao = new CouponDAO();
+        dao = new CouponDAOJdbc();
     }
 
     @Test

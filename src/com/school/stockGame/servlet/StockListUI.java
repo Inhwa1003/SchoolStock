@@ -10,8 +10,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.school.stockGame.dao.StockDetailDAO;
-import com.school.stockGame.dao.StockListDAO;
+import com.school.stockGame.dao.jdbc.StockDetailDAO;
+import com.school.stockGame.dao.jdbc.StockListDAO;
 import com.school.stockGame.vo.StockVO;
 
 public class StockListUI implements Action {

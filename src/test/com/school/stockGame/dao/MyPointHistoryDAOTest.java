@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import com.school.stockGame.dao.MyPointHistoryDAO;
+import com.school.stockGame.dao.jdbc.MyPointHistoryDAO;
 
 public class MyPointHistoryDAOTest {
 

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
-import com.school.stockGame.dao.StockDetailDAO;
+import com.school.stockGame.dao.jdbc.StockDetailDAO;
 import com.school.stockGame.vo.OrderVO;
 
 public class MyStockOrderAction implements Action {

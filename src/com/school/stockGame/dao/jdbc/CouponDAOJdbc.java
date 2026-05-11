@@ -1,4 +1,4 @@
-package com.school.stockGame.dao;
+package com.school.stockGame.dao.jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +11,7 @@ import com.school.stockGame.query.CouponQuery;
 import com.school.stockGame.vo.CouponPurchaseVO;
 import com.school.stockGame.vo.CouponVO;
 
-public class CouponDAO {
+public class CouponDAOJdbc {
 	private Connection conn;
 	
 	// 등록된 쿠폰 모두 조회

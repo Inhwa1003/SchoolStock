@@ -8,7 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.Gson;
-import com.school.stockGame.dao.StockDetailDAO;
+import com.school.stockGame.dao.jdbc.StockDetailDAO;
 
 public class GetNowPriceAction implements Action {
 	@Override

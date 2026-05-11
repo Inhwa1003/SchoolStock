@@ -7,7 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.school.stockGame.dao.CouponDAO;
+import com.school.stockGame.dao.jdbc.CouponDAOJdbc;
 
 public class CouponBuyAction implements Action {
 
@@ -27,7 +27,7 @@ public class CouponBuyAction implements Action {
 		String couponName = request.getParameter("couponName");
 		int state = 0;
 		
-		CouponDAO coupon = new CouponDAO();
+		CouponDAOJdbc coupon = new CouponDAOJdbc();
 		
 		// DAO에서 성공/실패 메시지를 받아옴
 		String resultMessage = coupon.setBuyCoupon(studentId, couponPrice, couponName, state, couponNo);
