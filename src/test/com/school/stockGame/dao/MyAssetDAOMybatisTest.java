@@ -69,11 +69,17 @@ public class MyAssetDAOMybatisTest {
     // 특정 학생이 보유한 특정 주식 보유 수량 조회
     @Test
     public void getStockAmountTest() {
-        int amount = dao.getStockAmount("abc", 1, "매수");
-        System.out.println("보유 수량: " + amount);
-        assertTrue(amount >= 0);
-        assertFalse(amount < 0);
-        assertNotNull(amount);
+        // success
+        int successAmount = dao.getStockAmount("abc", 1, "매수");
+        System.out.println("정상 데이터 보유 수량: " + successAmount);
+
+        assertTrue(successAmount >= 0);
+
+        // fail - 추후 실패 테스트도 다양하게 작성해서 추가하면 좋을 듯합니다. ex) 없는 아이디일 때만, 없는 주식일 때만
+        int failAmount = dao.getStockAmount("없는아이디", 999, "매수");
+        System.out.println("없는 데이터 조회 결과: " + failAmount);
+
+        assertFalse(failAmount > 0);
     }
 
     // 특정 학생이 주문한, 주식의 평균단가 계산한 값을 조회
