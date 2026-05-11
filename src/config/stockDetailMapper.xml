@@ -1,1 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="stockDetailMapper">
+	<select id="getStockInfo" parameterType="int" resultType="map">
+		SELECT name, content FROM stocks WHERE stock_no = #{stockNo}
+	</select>
+	<select id="getStockPrice" parameterType="int" resultType="int">
+		SELECT price FROM (SELECT o.price FROM TRANSACTION t 
+		JOIN ORDERS o ON t.buy_order_no = o.order_no WHERE o.stock_no = #{stockNo} 
+		ORDER BY t.TRANSACTION_DATE DESC)WHERE ROWNUM = 1
+	</select>
+	<select id="getStockPriceChange" parameterType="int" resultType="int">
+		SELECT price-s.prev_price FROM (SELECT o.price FROM TRANSACTION t 
+		JOIN ORDERS o ON t.buy_order_no = o.order_no WHERE o.stock_no = #{stockNo} 
+		ORDER BY t.TRANSACTION_DATE DESC), stocks s WHERE ROWNUM = 1 AND s.stock_no = #{stockNo}
+	</select>
+	<select id="getChangeRate" parameterType="int" resultType="double">
+		SELECT ROUND((price-s.prev_price)/s.prev_price*100) as Range FROM 
+		(SELECT o.price FROM TRANSACTION t JOIN ORDERS o ON t.buy_order_no = o.order_no 
+		WHERE o.stock_no = #{stockNo} ORDER BY t.TRANSACTION_DATE DESC), stocks s 
+		WHERE ROWNUM = 1 AND s.stock_no = #{stockNo}
+	</select>
+	<select id="getPervPrice" parameterType="int" resultType="int">
+		SELECT prev_price FROM stocks WHERE stock_no = #{stockNo}
+	</select>
+	<select id="getStudentStockAmount" parameterType="map" resultType="int">
+		SELECT SUM(CASE WHEN content='매수' THEN amount ELSE -amount END) AS amount 
+		FROM orders WHERE student_id = #{studentId} AND stock_no = #{stockNo} AND state='체결'
+	</select>
+	<select id="getStudentPoint" parameterType="String" resultType="int">
+		SELECT total_point FROM students WHERE student_id = #{studentId}
+	</select>
+	<insert id="setOrderRequest" parameterType="com.school.stockGame.vo.OrderVO">
+		INSERT INTO ORDERS (order_no, content, price, amount, state, order_date, student_id, stock_no) 
+		VALUES (order_no_seq.NEXTVAL, #{content}, #{price}, #{amount}, #{state}, SYSDATE, #{studentId}, #{stockNo})
+	</insert>
+	<select id="getTotalOrder" parameterType="int" resultType="com.school.stockGame.vo.OrderVO">
+		SELECT price, amount, content FROM orders 
+		WHERE stock_no = #{stockNo} AND STATE = '대기' ORDER BY order_date ASC
+	</select>
+	<select id="getTotalSellOrder" parameterType="int" resultType="com.school.stockGame.vo.OrderVO">
+		SELECT price, amount, content FROM orders 
+		WHERE stock_no = #{stockNo} AND STATE = '대기' AND content = '매도' ORDER BY order_date ASC
+	</select>
+	<select id="getTotalBuyOrder" parameterType="int" resultType="com.school.stockGame.vo.OrderVO">
+		SELECT price, amount, content FROM orders 
+		WHERE stock_no = #{stockNo} AND STATE = '대기' AND content = '매수' ORDER BY order_date ASC
+	</select>
+	<select id="getTotalMyOrder" parameterType="com.school.stockGame.vo.OrderVO" resultType="com.school.stockGame.vo.OrderVO">
+		SELECT order_no, CONTENT, PRICE, AMOUNT, ORDER_DATE, STATE FROM ORDERS 
+		WHERE STUDENT_ID = #{studentId} AND STOCK_NO = #{stockNo} AND state ='대기' ORDER BY ORDER_DATE ASC
+	</select>
+	<update id="setStudentPointUp" parameterType="com.school.stockGame.vo.OrderVO">
+		UPDATE students SET total_point = total_point + (#{totalPrice}) WHERE student_id = #{studentId}
+	</update>
+	<update id="setStudentPointDown" parameterType="com.school.stockGame.vo.OrderVO">
+		UPDATE students SET total_point = total_point - (#{totalPoint}) WHERE student_id = #{studentId}
+	</update>
+	<insert id="setMatchedOrder" parameterType="com.school.stockGame.vo.TransactionVO">
+		INSERT INTO transaction (transaction_no, transaction_date, buy_order_no, sell_order_no) 
+		VALUES (transaction_no_seq.NEXTVAL, SYSDATE, #{buyOrderNo}, #{sellOrderNo})
+	</insert>
+	<update id="setOrderStatePending" parameterType="int">
+		UPDATE orders SET state = '대기' WHERE order_no = #{orderNo}
+	</update>
+	<update id="setOrderStateMatched" parameterType="int">
+		UPDATE orders SET state = '체결' WHERE order_no = #{orderNo}
+	</update>
+	<update id="setOrderStateCancel" parameterType="int">
+		UPDATE orders SET state = '취소' WHERE order_no = #{orderNo}
+	</update>
+	<select id="getStockPubInfo" parameterType="int" resultType="map">
+		SELECT publication_balance, publication_price FROM stocks WHERE stock_no = #{stockNo}
+	</select>
+	<update id="setStockPubBalance" parameterType="com.school.stockGame.vo.OrderVO">
+		UPDATE stocks SET publication_balance = publication_balance - #{amount} WHERE stock_no = #{stockNo}
+	</update>
+	<select id="getMatchOrder">
+		SELECT order_no, content, price, amount, state, order_date, student_id, stock_no 
+		FROM orders WHERE order_no = (SELECT order_no FROM (SELECT order_no FROM orders 
+		WHERE stock_no = #{stockNo} AND state = '대기' AND content = #{content} AND price = #{price} 
+		AND amount = #{amount} AND student_id != #{studentId} ORDER BY order_date ASC) 
+		WHERE ROWNUM = 1) FOR UPDATE
+	</select>
+	<select id="getMyOrderNo">
+		SELECT order_no FROM orders 
+		WHERE content = #{content} AND student_id = #{studentId} "AND stock_no = #{stockNo} 
+		AND state = #{state} AND amount = #{amount} AND price = #{price} ORDER BY order_date DESC
+	</select>
+</mapper>
