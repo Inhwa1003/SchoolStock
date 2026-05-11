@@ -29,8 +29,7 @@
 			</div>
 		</form>
 		<div class="html-button">
-			<a href="controller?cmd=AddMemberUI">회원가입 </a> / <span> 아이디 찾기
-			</span> / <span> 비밀번호 찾기</span>
+			<a href="controller?cmd=AddMemberUI">회원가입 </a>
 		</div>
 	</div>
 </body>
