@@ -12,8 +12,8 @@ import com.school.stockGame.query.MyAssetQuery;
 
 // 각각의 매서드 무슨 기능을 수행하는 건지, 작성해주면 좋겠다고 생각함.
 
-public class MyAssetDAO implements MyAssetDAOInterface {
-	public MyAssetDAO(){}
+public class MyAssetDAOJdbc implements MyAssetDAOInterface {
+	public MyAssetDAOJdbc(){}
 	
 	public int getMyValue(int stockNo, String studentId) {
 		int result = 0;

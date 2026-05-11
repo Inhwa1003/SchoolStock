@@ -5,10 +5,10 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.school.stockGame.dao.jdbc.MyAssetDAO;
+import com.school.stockGame.dao.jdbc.MyAssetDAOJdbc;
 
 public class MyAssetDAOTest {
-    private MyAssetDAO dao;
+    private MyAssetDAOJdbc dao;
     
     // 테스트용 기준 데이터
     private String validStudentId = "abc";    // DB에 존재하는 아이디
@@ -20,7 +20,7 @@ public class MyAssetDAOTest {
 
     @Before
     public void setUp() {
-        dao = new MyAssetDAO();
+        dao = new MyAssetDAOJdbc();
     }
 
     // --- [1. 총 자산 가치 조회 테스트] ---
