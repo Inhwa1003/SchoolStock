@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.school.stockGame.dao.StockDetailDAOInterface;
 import com.school.stockGame.query.StockDetailQuery;
 import com.school.stockGame.vo.OrderVO;
 
@@ -21,7 +22,7 @@ import com.school.stockGame.vo.OrderVO;
  * 04.29 발행 잔량이 남아있다면 이라는 조건을 주기위해 발행 잔량 체크 하는 SQL 추가해야함 (완료)
  * 05.02 발행 잔량 다 팔리기 전엔 학생간 거래 막아야함(완료)
  */
-public class StockDetailDAO {
+public class StockDetailDAO implements StockDetailDAOInterface {
 	
 
 	// 매도 주문요청
