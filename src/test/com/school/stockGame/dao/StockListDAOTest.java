@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.school.stockGame.dao.StockListDAO;
+import com.school.stockGame.dao.jdbc.StockListDAO;
 import com.school.stockGame.vo.StockVO;
 
 public class StockListDAOTest {

@@ -4,7 +4,8 @@ import static org.junit.Assert.*;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
-import com.school.stockGame.dao.MyAssetDAO;
+
+import com.school.stockGame.dao.jdbc.MyAssetDAO;
 
 public class MyAssetDAOTset {
     private MyAssetDAO dao;

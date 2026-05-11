@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import com.school.stockGame.dao.NewsDAO;
+import com.school.stockGame.dao.jdbc.NewsDAO;
 
 public class NewsUIAction implements Action {
 

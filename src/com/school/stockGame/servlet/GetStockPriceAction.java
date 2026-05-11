@@ -6,8 +6,9 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import com.school.stockGame.dao.StockDetailDAO;
-import com.school.stockGame.dao.MyAssetDAO;
+
+import com.school.stockGame.dao.jdbc.MyAssetDAO;
+import com.school.stockGame.dao.jdbc.StockDetailDAO;
 
 public class GetStockPriceAction implements Action {
 	@Override

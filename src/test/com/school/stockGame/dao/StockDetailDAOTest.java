@@ -7,8 +7,8 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
-import com.school.stockGame.dao.DBCP;
-import com.school.stockGame.dao.StockDetailDAO;
+import com.school.stockGame.dao.jdbc.DBCP;
+import com.school.stockGame.dao.jdbc.StockDetailDAO;
 
 public class StockDetailDAOTest {
 	static StockDetailDAO dao;

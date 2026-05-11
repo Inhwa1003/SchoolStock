@@ -7,7 +7,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.school.stockGame.dao.NewsDAO;
+import com.school.stockGame.dao.jdbc.NewsDAO;
 
 public class NewsDAOTest {
 	public NewsDAO dao;

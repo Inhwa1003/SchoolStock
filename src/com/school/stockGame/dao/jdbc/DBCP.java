@@ -1,4 +1,4 @@
-package com.school.stockGame.dao;
+package com.school.stockGame.dao.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
