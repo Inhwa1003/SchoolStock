@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import com.school.stockGame.dao.jdbc.MyAssetDAO;
 
-public class MyAssetDAOTset {
+public class MyAssetDAOTest {
     private MyAssetDAO dao;
     
     // 테스트용 기준 데이터
