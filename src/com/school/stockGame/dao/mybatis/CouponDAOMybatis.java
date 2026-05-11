@@ -69,10 +69,17 @@ public class CouponDAOMybatis implements CouponDAOInterface{
 		return result;
 	}
 
+	// 쿠폰 구매시 학생의 가용포인트 차감 및 보유쿠폰 개수 업데이트(가용포인트 부족시 구매 불가)
 	@Override
 	public int setStudentAssets(String studentId, int price) {
-		// TODO Auto-generated method stub
-		return 0;
+		SqlSession session = DBCPMybatis.getSqlSessionFactory().openSession();
+		int result = 0;
+		try {
+			result = session.update("couponMapper.setStudentAssets", new CouponVO(price, studentId));
+		} finally {
+			session.close();
+ 		}
+		return result;
 	}
 
 	@Override
