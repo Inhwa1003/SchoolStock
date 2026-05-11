@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="euc-kr"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  <!-- JDBC 드라이버 정보 및 데이터베이스 연결정보 -->
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="oracle.jdbc.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:XE"/>
+        <property name="username" value="hr"/>
+        <property name="password" value="hr"/>
+      </dataSource>
+    </environment>
+  </environments>
+  
+  <mappers>
+    <mapper resource="config/memberMapper.xml"/>
+   <!--     ml
+    <mapper resource="config/memberMapper.xml"/>
+    <mapper resource="config/memberMapper.xml"/>  
+    -->
+  </mappers>
+  
+</configuration>
+ 
