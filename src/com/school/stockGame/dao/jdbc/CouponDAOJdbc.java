@@ -7,11 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.school.stockGame.dao.CouponDAOInterface;
 import com.school.stockGame.query.CouponQuery;
 import com.school.stockGame.vo.CouponPurchaseVO;
 import com.school.stockGame.vo.CouponVO;
 
-public class CouponDAOJdbc {
+public class CouponDAOJdbc implements CouponDAOInterface{
 	private Connection conn;
 	
 	// 등록된 쿠폰 모두 조회
@@ -57,10 +58,10 @@ public class CouponDAOJdbc {
 
 			if (totalPoint >= couponPrice) {
 				// 3. 쿠폰 구매 내역 등록
-				int insertRecord = insertPurchaseRecord(conn, studentId, couponNo, couponName, couponPrice, state);
+				int insertRecord = setPurchaseRecord(conn, studentId, couponNo, couponName, couponPrice, state);
 
 				// 4. 학생 포인트 차감
-				int updateAssets = updateStudentAssets(conn, studentId, couponPrice);
+				int updateAssets = setStudentAssets(conn, studentId, couponPrice);
 
 				// 5. 둘 다 성공하면 commit
 				if (insertRecord == 1 && updateAssets == 1) {
@@ -97,9 +98,36 @@ public class CouponDAOJdbc {
 
 		return message;
 	}
-	
 	// 학생이 구매한 쿠폰 개수 조회
-	private int getMyCouponCount(Connection conn, String studentId) throws SQLException {
+	public int getMyCouponCount(String studentId){
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		int count = 0;
+		
+		try { 
+			conn = DBCP.getConnection();
+			stmt = conn.prepareStatement(CouponQuery.MY_COUPON_COUNT_SQL);
+			stmt.setString(1, studentId);
+			rs = stmt.executeQuery();
+         
+			if (rs.next()) {
+				count = rs.getInt(1);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) try { rs.close(); } catch (SQLException ignore) {}
+	        if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
+		}
+		return count;
+	}
+	
+	// 학생이 구매한 쿠폰 개수 조회(트랜잭션 관리용)
+	public int getMyCouponCount(Connection conn, String studentId) throws SQLException {
 		PreparedStatement stmt = conn.prepareStatement(CouponQuery.MY_COUPON_COUNT_SQL);
 		stmt.setString(1, studentId);
 		ResultSet rs = stmt.executeQuery();
@@ -117,7 +145,35 @@ public class CouponDAOJdbc {
 	}
 	
 	// 학생 보유 포인트 조회
-	private int getStudentPoint(Connection conn, String studentId) throws SQLException {
+	public int getStudentPoint(String studentId){
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		int point = 0;
+		
+		try {
+			conn = DBCP.getConnection();
+			stmt = conn.prepareStatement(CouponQuery.MY_POINT_SQL);
+			stmt.setString(1, studentId);
+			rs = stmt.executeQuery();	
+
+			if (rs.next()) {
+				point = rs.getInt(1);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) try { rs.close(); } catch (SQLException ignore) {}
+	        if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
+		}
+		return point;
+	}
+
+	// 학생 보유 포인트 조회 (트랜잭션 관리용)
+	public int getStudentPoint(Connection conn, String studentId) throws SQLException {
 		PreparedStatement stmt = conn.prepareStatement(CouponQuery.MY_POINT_SQL);
 		stmt.setString(1, studentId);
 		ResultSet rs = stmt.executeQuery();
@@ -135,7 +191,33 @@ public class CouponDAOJdbc {
 	}
 	
 	// 쿠폰 구매 내역 등록
-	private int insertPurchaseRecord(Connection conn, String studentId, int couponNo, String couponName, int couponPrice, int state) throws SQLException {
+	public int setPurchaseRecord(String studentId, int couponNo, String couponName, int couponPrice, int state){
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		int result = 0;
+		
+		try {
+			conn = DBCP.getConnection();
+			stmt = conn.prepareStatement(CouponQuery.BUY_COUPON_SQL);
+			stmt.setInt(1, couponPrice);
+			stmt.setString(2, couponName);
+			stmt.setInt(3, state);
+			stmt.setString(4, studentId);
+			stmt.setInt(5, couponNo);
+
+			result = stmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
+		}
+		return result;
+	}
+	
+	// 쿠폰 구매 내역 등록 (트랜잭션 관리용)
+	public int setPurchaseRecord(Connection conn, String studentId, int couponNo, String couponName, int couponPrice, int state) throws SQLException {
 		PreparedStatement stmt = conn.prepareStatement(CouponQuery.BUY_COUPON_SQL);
 		stmt.setInt(1, couponPrice);
 		stmt.setString(2, couponName);
@@ -151,7 +233,31 @@ public class CouponDAOJdbc {
 	}
 	
 	// 학생 포인트 차감
-	private int updateStudentAssets(Connection conn, String studentId, int price) throws SQLException {
+	public int setStudentAssets(String studentId, int price){
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		
+		int result = 0;
+		
+		try {
+			conn = DBCP.getConnection();
+			stmt = conn.prepareStatement(CouponQuery.UPDATE_STUDENT_PURCHASE_SQL);
+			stmt.setInt(1, price);
+			stmt.setString(2, studentId);
+			stmt.setInt(3, price);
+
+			result = stmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+	        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
+		}
+		return result;
+	}
+
+	// 학생 포인트 차감 (트랜잭션 관리용)
+	public int setStudentAssets(Connection conn, String studentId, int price) throws SQLException {
 		PreparedStatement stmt = conn.prepareStatement(CouponQuery.UPDATE_STUDENT_PURCHASE_SQL);
 		stmt.setInt(1, price);
 		stmt.setString(2, studentId);
@@ -165,7 +271,7 @@ public class CouponDAOJdbc {
 	}
 
 	// 내가 보유한 쿠폰 조회
-	public List<CouponPurchaseVO> MyCouponList(String studentId){
+	public List<CouponPurchaseVO> getMyCouponList(String studentId){
 		List<CouponPurchaseVO> list = new ArrayList<>();
 		try {
 			conn = DBCP.getConnection();
@@ -186,4 +292,5 @@ public class CouponDAOJdbc {
 		}
 		return list;
 	}
+
 }

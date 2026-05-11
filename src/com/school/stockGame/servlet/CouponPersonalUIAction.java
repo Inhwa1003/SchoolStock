@@ -20,7 +20,7 @@ public class CouponPersonalUIAction implements Action {
 
 		
 		CouponDAOJdbc dao = new CouponDAOJdbc();
-		List<CouponPurchaseVO> list = dao.MyCouponList((String) studentInfo.get("studentId"));
+		List<CouponPurchaseVO> list = dao.getMyCouponList((String) studentInfo.get("studentId"));
 		request.setAttribute("couponlist", list);
 
 		
