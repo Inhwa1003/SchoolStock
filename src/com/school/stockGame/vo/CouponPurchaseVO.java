@@ -6,16 +6,24 @@ public class CouponPurchaseVO extends CouponVO{
 	private int price;
 	private String name;
 	private String state;
-	private int studentId;
+	private String studentId;
 
 	//내 보유쿠폰에서 가져올  생성자
 	public CouponPurchaseVO(int price, String name) {
 		setPrice(price);
 		setName(name);
 	}
+	
+	public CouponPurchaseVO(int price, String name, String state, String studentId, int couponNo){
+		super(couponNo);
+		setPrice(price);
+		setName(name);
+		setState(state);
+		setStudentId(studentId);
+	}
 
 	public CouponPurchaseVO(int couponNo, int couponPurchaseNo, String purchaseDate, int price, String name,
-			String state, int studentId) {
+			String state, String studentId) {
 		super(couponNo);
 		setCouponPurchaseNo(couponPurchaseNo);
 		setPurchaseDate(purchaseDate);
@@ -54,10 +62,10 @@ public class CouponPurchaseVO extends CouponVO{
 	public void setState(String state) {
 		this.state = state;
 	}
-	public int getStudentId() {
+	public String getStudentId() {
 		return studentId;
 	}
-	public void setStudentId(int studentId) {
+	public void setStudentId(String  studentId) {
 		this.studentId = studentId;
 	}
 
