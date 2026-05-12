@@ -13,14 +13,22 @@ public class MyAssetDAOMybatis implements MyAssetDAOInterface {
 	@Override
 	public int getMyValue(int stockNo, String studentId) {
 		SqlSession session = DBCPMybatis.getSqlSessionFactory().openSession();
-		Map<String, Object> param = new HashMap<String, Object>();
-	    param.put("stockNo", stockNo);
-	    param.put("studentId", studentId);
-	    
-	    int result = session.selectOne("myAssetMapper.getMyValue", param);
-		
-	    session.close();
-		return result;
+		try {
+	        Map<String, Object> param = new HashMap<String, Object>();
+	        param.put("stockNo", stockNo);
+	        param.put("studentId", studentId);
+	        // null값을 받을 수 있도록 하기 위해, int를 Integer로 변경함.
+	        Integer result = session.selectOne("myAssetMapper.getMyValue", param);
+
+	        if (result == null) {
+	            return 0;
+	        }
+
+	        return result;
+
+	    } finally {
+	        session.close();
+	    }
 	}
 
 	@Override

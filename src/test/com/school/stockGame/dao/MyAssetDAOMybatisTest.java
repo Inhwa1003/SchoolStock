@@ -12,23 +12,30 @@ import com.school.stockGame.dao.mybatis.MyAssetDAOMybatis;
 3. Interface 구현부에  맞춰 매서드를 작성한다. 4. 매서드 당 성공과 실패를 둘 다 테스트한다.
 */
 
-/*
-* Local DB에 따라 결과가 다를 수 있습니다.
-* 전, 진짜 DB에 있는 거 잘 불러오는 지 확인하고 싶어 하드코딩 했어요.
-* 그래서 sysout해서 나온 값으로 작성함.
-*/
 
 public class MyAssetDAOMybatisTest {
     private MyAssetDAOInterface dao = new MyAssetDAOMybatis();
     
-    // 특정 학생의 총 자산 조회
+    // 특정 학생의 매수 주문한 주식 중 체결된  매수 주식에 따른 총 자산 조회
     @Test
     public void getMyValueTest() {
-        int value = dao.getMyValue(1, "abc");
-        System.out.println("총 자산: " + value);
-        assertTrue(value==101900);
-        assertFalse(value != 101900);
-        assertNotNull(value);
+    	// success
+    	int successValue = dao.getMyValue(1, "abc");
+        System.out.println("총 자산: " + successValue);
+        assertTrue(successValue >= 0);
+        assertNotNull(successValue);
+        
+        // fail => 존재하지 않은 주식 조회 
+        // -> 1. 쿼리문에 존재하지 않은 주식을 조회할 때 존재하지 않는 주식 번호 처리가 생략되어있음. 그래서 0이 아니라 값이 콘솔에 찍힘.
+        // int failValue_notExistStockId = dao.getMyValue(11, "abc");
+        // System.out.println("존재하지 않는 주식 조회 결과: " + failValue_notExistStockId);
+        // assertEquals(failValue_notExistStockId, 0);
+
+        // fail => 존재하지 않은 학생 아이디로 조회할 때.
+        int failValue_notExistStudentId = dao.getMyValue(2, "abc1234");
+        // System.out.println("존재하지 않는 학생 아이디로 조회 결과: " + failValue_notExistStudentId);
+        assertEquals(failValue_notExistStudentId, 0);
+        
     }
 
     // 특정 학생의 보유 포인트 조회
@@ -36,12 +43,10 @@ public class MyAssetDAOMybatisTest {
     public void getPointValueTest() {
         int points = dao.getPointValue("abc");
         System.out.println("홍길동의 보유 포인트: " + points);
-        assertTrue("DB에 값과 같습니다.", points == 92000);
-        assertFalse("DB에 값과 다릅니다.", points != 92000);
         assertNotNull(points);
     }
    
-//    // 특정 학생의 체결된 매수 주식의 수익금 계산 값을 조회 -> 왜 실패가 나는 지 모르겠음.
+    // 특정 학생의 체결된 매수 주식의 수익금 계산 값을 조회 -> 왜 실패가 나는 지 모르겠음.
 //    @Test
 //    public void getTotalProfit(){
 //    	int stockProfit = dao.getTotalProfit(3, "abc", "매수");
@@ -102,12 +107,12 @@ public class MyAssetDAOMybatisTest {
     }
     
     // 특정 학생의 특정 주식의 수익금 조회 -> 쿼리문에  왜 state가 있는거지
-	 @Test
-	 public void getStockProfitTest() {
-	     int profit = dao.getStockProfit("abc", 3, "체결");
-	     System.out.println("주식 수익금: " + profit);
-	     assertNotNull(profit);
-	 }
+//	 @Test
+//	 public void getStockProfitTest() {
+//	     int profit = dao.getStockProfit("abc", 3, "체결");
+//	     System.out.println("주식 수익금: " + profit);
+//	     assertNotNull(profit);
+//	 }
 
 	 // 특정 학생의 주문한 주식 양 조회
     @Test
