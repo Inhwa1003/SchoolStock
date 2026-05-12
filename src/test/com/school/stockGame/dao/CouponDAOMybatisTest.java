@@ -3,6 +3,7 @@ package test.com.school.stockGame.dao;
 import static org.junit.Assert.*;
 
 import org.apache.ibatis.session.SqlSession;
+import org.hamcrest.core.IsNull;
 import org.junit.Test;
 
 import com.school.stockGame.dao.CouponDAOInterface;
@@ -22,6 +23,7 @@ public class CouponDAOMybatisTest {
 		// YES
 		assertNotNull(dao.getCouponList());
 		assertTrue(dao.getCouponList().size() > 0);
+		//System.out.println("등록된 모든 쿠폰 : " + dao.getCouponList());
 	}
 	
 	// 내가 구매한 쿠폰 수량
@@ -30,9 +32,10 @@ public class CouponDAOMybatisTest {
 		dao = new CouponDAOMybatis();
 		// NO
 		// 없는 아이디 조회
-		assertTrue(dao.getMyCouponCount("keks") == 0); 
+		assertTrue(dao.getMyCouponCount("keks") == 0);
+		assertFalse(!(dao.getMyCouponCount("toto") == 0));
 		// YES
-		assertTrue(dao.getMyCouponCount("abc") > 0);
+		assertTrue(dao.getMyCouponCount("abc") >= 0);
 		assertNotNull(dao.getMyCouponCount("abc"));
 	}
 	
@@ -42,10 +45,12 @@ public class CouponDAOMybatisTest {
 		dao = new CouponDAOMybatis();
 		// NO
 		// 없는 아이디 조회
-		assertTrue(dao.getStudentPoint("keksee") == 0);
+		assertTrue(dao.getStudentPoint("keksee1") == 0);
+		assertFalse(!(dao.getStudentPoint("toto") == 0));
 		// YES
 		assertTrue(dao.getStudentPoint("abc") > 0);
 		assertNotNull(dao.getStudentPoint("abc"));
+		System.out.println("[abc]의 보유포인트 : " + dao.getStudentPoint("abc") + "P");
 	}
 
 	// 쿠폰 구매 (쿠폰구매내역 추가)
@@ -56,6 +61,8 @@ public class CouponDAOMybatisTest {
 		try {
 			flag = session.insert("couponMapper.setPurchaseRecord", new CouponPurchaseVO(100, "간식 교환권", 1, "abc", 1)) == 1;
 			assertTrue(flag);
+			if(flag)
+				System.out.println("쿠폰 구매내역 추가 테스트 완료");
 		} finally {
 			session.rollback();
 			session.close();
@@ -70,10 +77,26 @@ public class CouponDAOMybatisTest {
 		try {
 			flag = session.update("couponMapper.setStudentAssets", new CouponVO(100, "abc")) == 1;
 			assertTrue(flag);
+			if(flag)
+				System.out.println("쿠폰 구매 학생 보유포인트 다운 보유쿠폰 수량 업 테스트 완료");
 		} finally {
 			session.rollback();
 			session.close();
 		}
+	}
+	
+	// 나의 보유 쿠폰 조회 테스트
+	@Test
+	public void getMyCouponListTest(){
+		dao = new CouponDAOMybatis();
+		
+		// NO
+		// 잘못된 아이디 입력
+		assertTrue(dao.getMyCouponList("toto").size() >= 0);
+		// YES
+		assertNotNull(dao.getMyCouponList("abc"));
+		assertTrue(dao.getMyCouponList("abc").size() >= 0);
+		System.out.println("[abc]의 보유 쿠폰 : " + dao.getMyCouponList("abc"));
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.school.stockGame.dao.mybatis;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -47,13 +49,14 @@ public class CouponDAOMybatis implements CouponDAOInterface{
 	@Override
 	public int getStudentPoint(String studentId) {
 		SqlSession session = DBCPMybatis.getSqlSessionFactory().openSession();
-		int point = 0;
+		Integer point = 0;
 		try {
 			point = session.selectOne("couponMapper.getStudentPoint", studentId);
 		} finally {
 			session.close();
  		}
-		return point;
+		// 잘못된 아이디 입력시 null 방지
+		return point == null? 0:point;
 	}
 	
 	// 쿠폰 구매 (쿠폰구매내역 추가)
@@ -81,11 +84,19 @@ public class CouponDAOMybatis implements CouponDAOInterface{
  		}
 		return result;
 	}
-
+	
+	// 나의 보유 쿠폰 조회
 	@Override
 	public List<CouponPurchaseVO> getMyCouponList(String studentId) {
-		// TODO Auto-generated method stub
-		return null;
+		SqlSession session = DBCPMybatis.getSqlSessionFactory().openSession();
+		List<CouponPurchaseVO> list = null;
+		try {
+			list = session.selectList("couponMapper.getMyCouponList", studentId);
+		} finally {
+			session.close();
+		}
+		// 오류로 인한 null 상황 발생시 빈 리스트 반환
+		return list == null? Collections.emptyList():list;
 	}
 
 }
