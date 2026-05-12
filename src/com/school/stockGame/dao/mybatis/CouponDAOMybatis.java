@@ -44,21 +44,32 @@ public class CouponDAOMybatis implements CouponDAOInterface{
  		}
 		return couponCount;
 	}
+	
+	// 내가 구매한 쿠폰 수량 (트랜잭션 관리용)
+	public int getMyCouponCount(SqlSession session, String studentId) {
+		int couponCount = session.selectOne("couponMapper.getMyCouponCount", studentId);
+		return couponCount;
+	}
 
 	// 나의 가용포인트 조회
 	@Override
 	public int getStudentPoint(String studentId) {
 		SqlSession session = DBCPMybatis.getSqlSessionFactory().openSession();
-		Integer point = 0;
+		int point = 0;
 		try {
 			point = session.selectOne("couponMapper.getStudentPoint", studentId);
 		} finally {
 			session.close();
  		}
-		// 잘못된 아이디 입력시 null 방지
-		return point == null? 0:point;
+		return point;
 	}
 	
+	// 나의 가용포인트 조회 (트랜잭션 관리용)
+	public int getStudentPoint(SqlSession session, String studentId) {
+		int point = session.selectOne("couponMapper.getStudentPoint", studentId);
+		return point;
+	}
+
 	// 쿠폰 구매 (쿠폰구매내역 추가)
 	@Override
 	public int setPurchaseRecord(String studentId, int couponNo, String couponName, int couponPrice, int state) {
@@ -71,6 +82,12 @@ public class CouponDAOMybatis implements CouponDAOInterface{
  		}
 		return result;
 	}
+	
+	// 쿠폰 구매 내역 추가 (트랜잭션 관리용)
+		public int setPurchaseRecord(SqlSession session, String studentId, int couponNo, String couponName, int couponPrice, int state) {
+			int result = session.insert("couponMapper.setPurchaseRecord", new CouponPurchaseVO(couponPrice, couponName, state, studentId, couponNo));
+			return result;
+		}
 
 	// 쿠폰 구매시 학생의 가용포인트 차감 및 보유쿠폰 개수 업데이트(가용포인트 부족시 구매 불가)
 	@Override
@@ -84,6 +101,12 @@ public class CouponDAOMybatis implements CouponDAOInterface{
  		}
 		return result;
 	}
+	
+	// 쿠폰 구매시 학생의 가용포인트 차감 및 보유쿠폰 개수 업데이트 (트랜잭션 관리용)
+		public int setStudentAssets(SqlSession session, String studentId, int price) {
+			int result = session.update("couponMapper.setStudentAssets", new CouponVO(price, studentId));
+			return result;
+		}
 	
 	// 나의 보유 쿠폰 조회
 	@Override
