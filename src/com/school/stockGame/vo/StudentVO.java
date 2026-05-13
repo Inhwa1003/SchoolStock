@@ -19,8 +19,18 @@ public class StudentVO {
 		this.className = className;
 	}
 	public StudentVO() {}
+	
 	public StudentVO(String studentId) {
 		setStudentId(studentId);
+	}
+	
+	public StudentVO(String studentId, String password, String name, int grade, String className, String classNumber){
+		setStudentId(studentId);
+		setPassword(password);
+		setName(className);
+		setGrade(grade);
+		setClassName(className);
+		setClassNumber(classNumber);
 	}
 	public StudentVO(String studentId, String password, String name, int grade, String className, String classNumber, int studentNumber,
 			int registerYear, int totalCoupon, int totalPoint) {
