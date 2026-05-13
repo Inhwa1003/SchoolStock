@@ -58,6 +58,8 @@ public class MemberDAOJdbc {
 		}
 		return tmp;
 	}
+	
+	// 아이디 중복체크
 	public boolean getIdCheck(String studentId) {
 		boolean result=false;
 		try {
