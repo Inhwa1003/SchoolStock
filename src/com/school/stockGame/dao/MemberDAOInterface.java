@@ -8,7 +8,7 @@ public interface MemberDAOInterface {
 	public boolean setMember(String studentId, String password, String name, int grade, String className, int classNumber);
 
 	// 로그인
-	public Map<String, Object> login(String studentId, String password);
+	public Map<String, Object> Login(String studentId, String password);
 
 	// 아이디 중복체크
 	public boolean getIdCheck(String studentId);

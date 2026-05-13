@@ -6,10 +6,11 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.school.stockGame.dao.MemberDAOInterface;
 import com.school.stockGame.query.MemberQuery;
 
 //import com.school.stockGame.vo.studentVO
-public class MemberDAOJdbc {
+public class MemberDAOJdbc implements MemberDAOInterface{
 	public MemberDAOJdbc(){}
 	public boolean setMember(String studentId, String password,
 			String name,int grade, String className,
@@ -34,7 +35,7 @@ public class MemberDAOJdbc {
 		}
 		return flag;
 		}
-	public Map<String, Object> login(String studentId, String password) {		
+	public Map<String, Object> Login(String studentId, String password) {		
 		Map<String, Object> tmp=new HashMap<>();
 		try {
 			Connection conn=DBCP.getConnection();			
