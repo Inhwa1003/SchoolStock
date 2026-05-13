@@ -6,8 +6,7 @@ public class StudentVO {
 	private String name;
 	private int grade;
 	private String className;
-	private String classNumber;
-	private int studentNumber;
+	private int classNumber;
 	private int registerYear;
 	private int totalCoupon;
 	private int totalPoint;
@@ -24,7 +23,7 @@ public class StudentVO {
 		setPassword(password);
 	}
 	
-	public StudentVO(String studentId, String password, String name, int grade, String className, String classNumber){
+	public StudentVO(String studentId, String password, String name, int grade, String className, int classNumber){
 		setStudentId(studentId);
 		setPassword(password);
 		setName(className);
@@ -32,15 +31,13 @@ public class StudentVO {
 		setClassName(className);
 		setClassNumber(classNumber);
 	}
-	public StudentVO(String studentId, String password, String name, int grade, String className, String classNumber, int studentNumber,
-			int registerYear, int totalCoupon, int totalPoint) {
+	public StudentVO(String studentId, String password, String name, int grade, String className, int classNumber, int registerYear, int totalCoupon, int totalPoint) {
 		setStudentId(studentId);
 		setPassword(password);
 		setName(name);
 		setGrade(grade);
 		setClassName(className);
 		setClassNumber(classNumber);
-		setStudentNumber(studentNumber);
 		setRegisterYear(registerYear);
 		setTotalCoupon(totalCoupon);
 		setTotalPoint(totalPoint);
@@ -77,17 +74,11 @@ public class StudentVO {
 	public void setClassName(String className) {
 		this.className = className;
 	}
-	public String getClassNumber() {
+	public int getClassNumber() {
 		return classNumber;
 	}
-	public void setClassNumber(String classNumber) {
+	public void setClassNumber(int classNumber) {
 		this.classNumber = classNumber;
-	}
-	public int getStudentNumber() {
-		return studentNumber;
-	}
-	public void setStudentNumber(int studentNumber) {
-		this.studentNumber = studentNumber;
 	}
 	public int getRegisterYear() {
 		return registerYear;
