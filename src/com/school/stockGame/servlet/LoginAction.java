@@ -20,7 +20,7 @@ public class LoginAction implements Action {
 
 		try{
 			MemberDAOJdbc dao=new MemberDAOJdbc();
-			Map<String, Object> m=dao.Login(studentId, password);
+			Map<String, Object> m=dao.login(studentId, password);
 			if(m != null && m.size() > 0){
 				HttpSession session=request.getSession(true);
 				session.setAttribute("studentId", studentId);

@@ -35,7 +35,7 @@ public class MemberDAOJdbc implements MemberDAOInterface{
 		}
 		return flag;
 		}
-	public Map<String, Object> Login(String studentId, String password) {		
+	public Map<String, Object> login(String studentId, String password) {		
 		Map<String, Object> tmp=new HashMap<>();
 		try {
 			Connection conn=DBCP.getConnection();			
