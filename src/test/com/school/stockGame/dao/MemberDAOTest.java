@@ -50,21 +50,21 @@ public class MemberDAOTest {
 	//@Test
 	public void 로그인_테스트() throws Exception{
 		MemberDAOJdbc dao=new MemberDAOJdbc();
-		Map<String, Object> m=dao.Login("kosta", "1234!");
+		Map<String, Object> m=dao.login("kosta", "1234!");
 		assertEquals(m.get("name"), "최현곤");
 		System.out.println(m);
 	}
 	//@Test
 	public void 로그인_실패_테스트() throws Exception{
 		MemberDAOJdbc dao=new MemberDAOJdbc();
-		Map<String, Object> m=dao.Login("kosta", "1235!");
+		Map<String, Object> m=dao.login("kosta", "1235!");
 		assertEquals(m.get("name"), "최현곤");
 		System.out.println(m);
 	}
 	//@Test
 	public void 로그인_실패_테스트2() throws Exception{
 		MemberDAOJdbc dao=new MemberDAOJdbc();
-		Map<String, Object> m=dao.Login("kost", "1234!");
+		Map<String, Object> m=dao.login("kost", "1234!");
 		assertEquals(m.get("name"), "최현곤");
 		System.out.println(m);
 	}

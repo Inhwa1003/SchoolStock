@@ -18,6 +18,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   
   <mappers>
     <mapper resource="config/couponMapper.xml"/>
+    <mapper resource="config/memberMapper.xml"/>
   </mappers>
   
 </configuration>
