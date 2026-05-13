@@ -10,7 +10,7 @@ import java.util.Map;
 
 import com.school.stockGame.query.MyPointHistoryQuery;
 
-public class MyPointHistoryDAOJdbc {
+public class MyPointHistoryDAOJdbc implements MyPointHistoryQuery{
 
     public MyPointHistoryDAOJdbc() {}
 
