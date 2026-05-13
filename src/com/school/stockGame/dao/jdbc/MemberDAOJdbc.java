@@ -11,7 +11,7 @@ import com.school.stockGame.query.MemberQuery;
 //import com.school.stockGame.vo.studentVO
 public class MemberDAOJdbc {
 	public MemberDAOJdbc(){}
-	public boolean addMember(String studentId, String password,
+	public boolean setMember(String studentId, String password,
 			String name,int grade, String className,
 			int classNumber){
 		boolean flag = false;
@@ -58,7 +58,7 @@ public class MemberDAOJdbc {
 		}
 		return tmp;
 	}
-	public boolean idCheck(String studentId) {
+	public boolean getIdCheck(String studentId) {
 		boolean result=false;
 		try {
 			Connection conn=DBCP.getConnection();			

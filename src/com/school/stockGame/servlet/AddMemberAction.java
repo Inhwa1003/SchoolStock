@@ -15,7 +15,7 @@ public class AddMemberAction implements Action {
 		String url="AddMember.jsp";
 		try {
 			MemberDAOJdbc dao=new MemberDAOJdbc();
-			if(dao.addMember(request.getParameter("studentId"),
+			if(dao.setMember(request.getParameter("studentId"),
 					request.getParameter("password"),
 					request.getParameter("name"),
 					Integer.parseInt(request.getParameter("grade")),
