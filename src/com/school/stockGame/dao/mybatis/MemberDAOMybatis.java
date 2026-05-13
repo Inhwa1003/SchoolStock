@@ -29,15 +29,22 @@ public class MemberDAOMybatis implements MemberDAOInterface {
 		} finally {
 			session.close();
 		}
-		return false;
+		return flag;
 	}
 
+	// 로그인
 	@Override
 	public Map<String, Object> login(String studentId, String password) {
-		// TODO Auto-generated method stub
-		return null;
+		SqlSession session = DBCPMybatis.getSqlSessionFactory().openSession();
+		Map<String, Object> student = null;
+		try {
+			student = session.selectOne("memberMapper.login", new StudentVO(studentId, password));
+		} finally {
+			session.close();
+		}
+		return student;
 	}
-
+	
 	@Override
 	public boolean getIdCheck(String studentId) {
 		// TODO Auto-generated method stub

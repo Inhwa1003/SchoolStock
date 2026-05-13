@@ -9,7 +9,7 @@
 	</insert>
 	
 	<!-- 로그인 -->
-	<select id="Login" parameterType="com.school.stockGame.vo.StudentVO" resultType="Map" >
+	<select id="login" parameterType="com.school.stockGame.vo.StudentVO" resultType="Map" >
 		SELECT name, grade, class, class_number, total_point FROM students WHERE student_id = #{studentId} AND password = #{password}
 	</select>
 	

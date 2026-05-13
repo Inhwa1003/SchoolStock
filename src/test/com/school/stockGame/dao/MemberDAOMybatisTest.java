@@ -7,10 +7,12 @@ import org.junit.Test;
 
 import com.school.stockGame.dao.MemberDAOInterface;
 import com.school.stockGame.dao.mybatis.DBCPMybatis;
+import com.school.stockGame.dao.mybatis.MemberDAOMybatis;
 import com.school.stockGame.vo.StudentVO;
 
 public class MemberDAOMybatisTest {
 	MemberDAOInterface dao;
+	
 	// 회원가입 테스트
 	@Test
 	public void setMemberTest() {
@@ -34,6 +36,15 @@ public class MemberDAOMybatisTest {
 	// 로그인 테스트
 	@Test
 	public void loginTest() {
+		dao = new MemberDAOMybatis();
+		// NO
+		// 없는 회원정보
+		assertNull(dao.login("toto", "toto"));
+		assertTrue(dao.login("keke", "1234") == null);
+		// YES
+		assertTrue(dao.login("abc", "abc123!").get("NAME").equals("홍길동"));
+		assertNotNull(dao.login("def", "def123!"));
+		//System.out.println(dao.login("abc", "abc123!"));
 	}
 	
 	// 아이디 중복체크 테스트
