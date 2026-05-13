@@ -26,42 +26,43 @@ public class CouponDAOMybatis implements CouponDAOInterface{
 		return list;
 	}
 
+	// 쿠폰 구매
 	@Override
 	public String setBuyCoupon(String studentId, int couponPrice, String couponName, int state, int couponNo) {
 		SqlSession session = DBCPMybatis.getSqlSessionFactory().openSession();
 		String message = "";
+		int maxCoupon = 3;
 		try {
 			// 1. 학생이 이미 구매한 쿠폰 개수 확인
-			if(getMyCouponCount(session, studentId) >= 3){
+			if (getMyCouponCount(session, studentId) >= maxCoupon) {
 				message = "쿠폰은 최대 3개 까지만 구매할 수 있습니다.";
 				return message;
 			}
-			
-			// 2. 학생 보유 포인트 확인
-			if(getStudentPoint(session, studentId) >= couponPrice){
-				// 보유포인트 충분하다면
-				// 2-1. 쿠폰 구매 내역 등록
-				int addRecord = setPurchaseRecord(session, studentId, couponNo, couponName, couponPrice, state);
-				// 2-2. 학생 포인트 차감
-				int pointDown = setStudentAssets(session, studentId, couponPrice);
-				// 2-3. 둘 다 성공시 commit
-				if(addRecord == 1 && pointDown == 1){
-					session.commit();
-					message = "쿠폰 구매가 완료 되었습니다.";
-				} else {
-					session.rollback();
-					message = "쿠폰 구매에 실패했습니다.";
-				}
-			// 보유포인트 부족하다면
-			} else {
-				// 2-4. 포인트 부족 알림
-				session.rollback();
-				message = "보유 포인트가 부족합니다.";
-			}
 
+			// 2. 학생 보유 포인트 확인
+			if (getStudentPoint(session, studentId) < couponPrice) {
+				message = "보유 포인트가 부족합니다.";
+				return message;
+			}
+			
+			// 보유포인트 충분하다면
+			// 2-1. 쿠폰 구매 내역 등록
+			int addRecord = setPurchaseRecord(session, studentId, couponNo, couponName, couponPrice, state);
+			// 2-2. 학생 포인트 차감
+			int pointDown = setStudentAssets(session, studentId, couponPrice);
+			
+			// 2-3. 둘 다 성공시 commit
+			if (addRecord == 1 && pointDown == 1) {
+				session.commit();
+				message = "쿠폰 구매가 완료 되었습니다.";
+			} else {
+				session.rollback();
+				message = "쿠폰 구매에 실패했습니다.";
+			}
 		} catch (Exception e) {
 			session.rollback();
 			e.printStackTrace();
+			message = "쿠폰 구매 처리 중 오류가 발생했습니다.";
 		} finally {
 			session.close();
 		}
