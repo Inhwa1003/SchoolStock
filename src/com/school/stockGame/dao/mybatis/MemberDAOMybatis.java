@@ -45,10 +45,18 @@ public class MemberDAOMybatis implements MemberDAOInterface {
 		return student;
 	}
 	
+	// 아이디 중복체크
 	@Override
 	public boolean getIdCheck(String studentId) {
-		// TODO Auto-generated method stub
-		return false;
+		SqlSession session = DBCPMybatis.getSqlSessionFactory().openSession();
+		boolean flag = false;
+		try {
+			if(session.selectOne("memberMapper.getIdCheck", studentId) == null)
+				flag = true;
+		} finally {
+			session.close();
+		}
+		return flag;
 	}
 
 }

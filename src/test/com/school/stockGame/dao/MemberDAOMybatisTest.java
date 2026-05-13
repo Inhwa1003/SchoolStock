@@ -50,6 +50,14 @@ public class MemberDAOMybatisTest {
 	// 아이디 중복체크 테스트
 	@Test
 	public void getIdCheckTest() {
+		dao = new MemberDAOMybatis();
+		// NO
+		assertFalse(dao.getIdCheck("abc"));
+		assertFalse(dao.getIdCheck("def"));
+		// YES
+		assertTrue(dao.getIdCheck("toto"));
+		assertTrue(dao.getIdCheck("kekek"));
+		assertTrue(dao.getIdCheck("tosse"));
 	}
 
 }
