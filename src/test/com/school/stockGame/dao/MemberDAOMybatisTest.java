@@ -17,7 +17,7 @@ public class MemberDAOMybatisTest {
 		SqlSession session = DBCPMybatis.getSqlSessionFactory().openSession();
 		boolean flag = false;
 		try {
-			flag = session.insert("memberMapper.setMember", new StudentVO("test01", "123", "테스트", 5, "3", "33")) == 1;
+			flag = session.insert("memberMapper.setMember", new StudentVO("test01", "123", "테스트", 5, "3", 33)) == 1;
 			assertTrue(flag);
 			if(flag){
 				System.out.println("회원가입 테스트 완료");
