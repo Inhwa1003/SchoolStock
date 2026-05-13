@@ -5,22 +5,30 @@ public class StudentVO {
 	private String password;
 	private String name;
 	private int grade;
+	private String className;
 	private String classNumber;
 	private int studentNumber;
 	private int registerYear;
 	private int totalCoupon;
 	private int totalPoint;
 	
+	public String getClassName() {
+		return className;
+	}
+	public void setClassName(String className) {
+		this.className = className;
+	}
 	public StudentVO() {}
 	public StudentVO(String studentId) {
 		setStudentId(studentId);
 	}
-	public StudentVO(String studentId, String password, String name, int grade, String classNumber, int studentNumber,
+	public StudentVO(String studentId, String password, String name, int grade, String className, String classNumber, int studentNumber,
 			int registerYear, int totalCoupon, int totalPoint) {
 		setStudentId(studentId);
 		setPassword(password);
 		setName(name);
 		setGrade(grade);
+		setClassName(className);
 		setClassNumber(classNumber);
 		setStudentNumber(studentNumber);
 		setRegisterYear(registerYear);
