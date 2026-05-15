@@ -48,7 +48,7 @@ public class CouponDAOMybatis implements CouponDAOInterface{
 			// 보유포인트 충분하다면
 			// 2-1. 쿠폰 구매 내역 등록
 			int addRecord = setPurchaseRecord(session, studentId, couponNo, couponName, couponPrice, state);
-			// 2-2. 학생 포인트 차감
+			// 2-2. 학생 포인트 차감 및 보유쿠폰 증가
 			int pointDown = setStudentAssets(session, studentId, couponPrice);
 			
 			// 2-3. 둘 다 성공시 commit
