@@ -15,7 +15,7 @@
 		ORDER BY t.TRANSACTION_DATE DESC), stocks s WHERE ROWNUM = 1 AND s.stock_no = #{stockNo}
 	</select>
 	<select id="getChangeRate" parameterType="int" resultType="double">
-		SELECT ROUND((price-s.prev_price)/s.prev_price*100) as Range FROM 
+		SELECT NVL(ROUND((price - s.prev_price) / NULLIF(s.prev_price, 0) * 100), 0) as Range FROM 
 		(SELECT o.price FROM TRANSACTION t JOIN ORDERS o ON t.buy_order_no = o.order_no 
 		WHERE o.stock_no = #{stockNo} ORDER BY t.TRANSACTION_DATE DESC), stocks s 
 		WHERE ROWNUM = 1 AND s.stock_no = #{stockNo}
@@ -51,10 +51,10 @@
 		WHERE STUDENT_ID = #{studentId} AND STOCK_NO = #{stockNo} AND state ='대기' ORDER BY ORDER_DATE ASC
 	</select>
 	<update id="setStudentPointUp" parameterType="com.school.stockGame.vo.OrderVO">
-		UPDATE students SET total_point = total_point + (#{totalPrice}) WHERE student_id = #{studentId}
+		UPDATE students SET total_point = total_point + (#{price} * #{amount}) WHERE student_id = #{studentId}
 	</update>
 	<update id="setStudentPointDown" parameterType="com.school.stockGame.vo.OrderVO">
-		UPDATE students SET total_point = total_point - (#{totalPoint}) WHERE student_id = #{studentId}
+		UPDATE students SET total_point = total_point - (#{price} * #{amount}) WHERE student_id = #{studentId}
 	</update>
 	<insert id="setMatchedOrder" parameterType="com.school.stockGame.vo.TransactionVO">
 		INSERT INTO transaction (transaction_no, transaction_date, buy_order_no, sell_order_no) 
@@ -84,7 +84,7 @@
 	</select>
 	<select id="getMyOrderNo" parameterType="map" resultType="int">
 		SELECT order_no FROM orders 
-		WHERE content = #{content} AND student_id = #{studentId} "AND stock_no = #{stockNo} 
+		WHERE content = #{content} AND student_id = #{studentId} AND stock_no = #{stockNo} 
 		AND state = #{state} AND amount = #{amount} AND price = #{price} ORDER BY order_date DESC
 	</select>
 </mapper>

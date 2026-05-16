@@ -26,13 +26,13 @@ public class StockDetailDAOMybatisTest {
 		//Given
 		String studentId = "abc";
 		int sellPrice = 1500;
-		int sellAmount = 1;
+		int sellAmount = 2;
 		int stockNo = 1;
 		//When
 		String successResult = dao.setSellOrder(studentId, sellPrice, sellAmount, stockNo);
 		//Then
 		assertNotNull(successResult);
-		assertTrue(successResult.contains("완료") || successResult.contains("등록"));
+		assertTrue(successResult.contains("완료") || successResult.contains("대기"));
 		
 		//매도 - 실패 - 보유 주식량 초과 매도
 		//Given
@@ -284,7 +284,7 @@ public class StockDetailDAOMybatisTest {
 		//When
 		List<OrderVO> activeSells = dao.getTotalSellOrder(stockNo);
 		//Then
-		assertNull(activeSells);
+		assertNotNull(activeSells);
 		//특정 주식의 대기중인 매도 주문 조회 실패 - 없는 주식 번호 입력
 		//Given
 		int invalidStockNo = -999;

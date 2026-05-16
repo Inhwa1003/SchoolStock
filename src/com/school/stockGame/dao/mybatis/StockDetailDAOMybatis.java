@@ -106,10 +106,10 @@ public class StockDetailDAOMybatis implements StockDetailDAOInterface {
 			//학생이 주문 요청한 가격보다 보유포인트가 적을때 실행
 			Integer point = session.selectOne("stockDetailMapper.getStudentPoint", studentId);
 			if (point == null || point < (buyPrice * buyAmount)) {
-				return "보유포인트가 부족합니다.";
+				return "보유 포인트가 부족합니다.";
 			}
 
-			Map<String, Object> publicationInfo = session.selectOne("stockDetailMapper.getStudentPoint", stockNo);
+			Map<String, Object> publicationInfo = session.selectOne("stockDetailMapper.getStockPubInfo", stockNo);
 			Integer pubAmount = ((Number) publicationInfo.get("PUBLICATION_BALANCE")).intValue();	//publicatonBalance
 			Integer pubPrice = ((Number) publicationInfo.get("PUBLICATION_PRICE")).intValue();	//publicatonPrice
 
@@ -228,87 +228,87 @@ public class StockDetailDAOMybatis implements StockDetailDAOInterface {
 	@Override
 	public int getStockPrice(int stockNo) {
 		SqlSession session = null;
-		int result = 0;
+		Integer result = 0;
 		try {
 			session = DBCPMybatis.getSqlSessionFactory().openSession();
 			result = session.selectOne("stockDetailMapper.getStockPrice", stockNo);
+			return (result == null) ? 0 : result;
 		} finally {
 			if (session != null) session.close();
 		}
-		return result;
 	}
 
 	// 주식 이전 가격 대비 조회
 	@Override
 	public int getStockPriceChange(int stockNo) {
 		SqlSession session = null;
-		int result = 0;
+		Integer result = 0;
 		try {
 			session = DBCPMybatis.getSqlSessionFactory().openSession();
 			result = session.selectOne("stockDetailMapper.getStockPriceChange", stockNo);
+			return (result == null) ? 0 : result;
 		} finally {
 			if (session != null) session.close();
 		}
-		return result;
 	}
 
 	// 주식 등락률 조회
 	@Override
 	public double getChangeRate(int stockNo) {
 		SqlSession session = null;
-		double result = 0;
+		Double result = 0.0;
 		try {
 			session = DBCPMybatis.getSqlSessionFactory().openSession();
 			result = session.selectOne("stockDetailMapper.getChangeRate", stockNo);
+			return (result == null) ? 0.0 : result;
 		} finally {
 			if (session != null) session.close();
 		}
-		return result;
 	}
 
 	// 주식 이전가격 조회
 	@Override
 	public int getPervPrice(int stockNo) {
 		SqlSession session = null;
-		int result = 0;
+		Integer result = 0;
 		try {
 			session = DBCPMybatis.getSqlSessionFactory().openSession();
 			result = session.selectOne("stockDetailMapper.getPervPrice", stockNo);
+			return (result == null) ? 0 : result;
 		} finally {
 			if (session != null) session.close();
 		}
-		return result;
 	}
 
 	// 학생의 가용 보유 포인트 조회
 	@Override
 	public int getStudentPoint(String studentId) {
 		SqlSession session = null;
-		int result = 0;
+		Integer result = 0;
 		try {
 			session = DBCPMybatis.getSqlSessionFactory().openSession();
 			result = session.selectOne("stockDetailMapper.getStudentPoint", studentId);
+			return (result == null) ? 0 : result;
 		} finally {
 			if(session != null) session.close();
 		}
-		return result;
 	}
 
 	// 학생의 특정 주식 보유수량 조회
 	@Override
 	public int getStudentStockAmount(int stockNo, String studenId) {
 		SqlSession session = null;
-		int result = 0;
+		Integer result = 0;
 		try {
 			session = DBCPMybatis.getSqlSessionFactory().openSession();
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("stockNo", stockNo);
 			map.put("studentId", studenId);
 			result = session.selectOne("stockDetailMapper.getStudentStockAmount", map);
+			return (result == null) ? 0 : result;
 		} finally {
 			if(session != null) session.close();
 		}
-		return result;
 	}
 
 	// 학생의 보유포인트 차감
@@ -321,7 +321,7 @@ public class StockDetailDAOMybatis implements StockDetailDAOInterface {
 			OrderVO orderVo = new OrderVO();
 			orderVo.setStudentId(studentId);
 			orderVo.setTotalPoint(totalPrice);
-			int savedMap = session.selectOne("stockDetailMapper.setStudentPointDown", orderVo);
+			int savedMap = session.update("stockDetailMapper.setStudentPointDown", orderVo);
 			if(savedMap > 0) result = true;
 		} finally {
 			if(session != null) session.close();
@@ -339,7 +339,7 @@ public class StockDetailDAOMybatis implements StockDetailDAOInterface {
 			OrderVO orderVo = new OrderVO();
 			orderVo.setStudentId(studentId);
 			orderVo.setTotalPoint(totalPrice);
-			int savedMap = session.selectOne("stockDetailMapper.setStudentPointUp", orderVo);
+			int savedMap = session.update("stockDetailMapper.setStudentPointUp", orderVo);
 			if(savedMap > 0) result = true;
 		} finally {
 			if(session != null) session.close();
@@ -432,7 +432,7 @@ public class StockDetailDAOMybatis implements StockDetailDAOInterface {
 	@Override
 	public int getMyOrderNo(String content, String studentId, int stockNo, String state, int amount, int price) {
 		SqlSession session = null;
-		int result = 0; //orderNo
+		Integer result = 0; //orderNo
 		try {
 			session = DBCPMybatis.getSqlSessionFactory().openSession();
 			Map<String, Object> map = new HashMap<String, Object>();
@@ -443,10 +443,10 @@ public class StockDetailDAOMybatis implements StockDetailDAOInterface {
 			map.put("amount", amount);
 			map.put("price", price);
 			result = session.selectOne("stockDetailMapper.getMyOrderNo", map);
+			return (result == null) ? 0 : result;
 		} finally {
 			if(session != null) session.close();
 		}
-		return result;
 	}
 
 	// 주식 발행 정보 조회
