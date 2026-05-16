@@ -30,7 +30,7 @@
 	<select id="getStudentPoint" parameterType="String" resultType="int">
 		SELECT total_point FROM students WHERE student_id = #{studentId}
 	</select>
-	<insert id="setOrderRequest" parameterType="com.school.stockGame.vo.OrderVO">
+	<insert id="setOrderRequest" parameterType="map">
 		INSERT INTO ORDERS (order_no, content, price, amount, state, order_date, student_id, stock_no) 
 		VALUES (order_no_seq.NEXTVAL, #{content}, #{price}, #{amount}, #{state}, SYSDATE, #{studentId}, #{stockNo})
 	</insert>
@@ -46,7 +46,7 @@
 		SELECT price, amount, content FROM orders 
 		WHERE stock_no = #{stockNo} AND STATE = '대기' AND content = '매수' ORDER BY order_date ASC
 	</select>
-	<select id="getTotalMyOrder" parameterType="com.school.stockGame.vo.OrderVO" resultType="com.school.stockGame.vo.OrderVO">
+	<select id="getTotalMyOrder" parameterType="map" resultType="com.school.stockGame.vo.OrderVO">
 		SELECT order_no, CONTENT, PRICE, AMOUNT, ORDER_DATE, STATE FROM ORDERS 
 		WHERE STUDENT_ID = #{studentId} AND STOCK_NO = #{stockNo} AND state ='대기' ORDER BY ORDER_DATE ASC
 	</select>
@@ -72,17 +72,17 @@
 	<select id="getStockPubInfo" parameterType="int" resultType="map">
 		SELECT publication_balance, publication_price FROM stocks WHERE stock_no = #{stockNo}
 	</select>
-	<update id="setStockPubBalance" parameterType="com.school.stockGame.vo.OrderVO">
+	<update id="setStockPubBalance" parameterType="map">
 		UPDATE stocks SET publication_balance = publication_balance - #{amount} WHERE stock_no = #{stockNo}
 	</update>
-	<select id="getMatchOrder">
+	<select id="getMatchOrder" parameterType="map" resultType="map">
 		SELECT order_no, content, price, amount, state, order_date, student_id, stock_no 
 		FROM orders WHERE order_no = (SELECT order_no FROM (SELECT order_no FROM orders 
 		WHERE stock_no = #{stockNo} AND state = '대기' AND content = #{content} AND price = #{price} 
 		AND amount = #{amount} AND student_id != #{studentId} ORDER BY order_date ASC) 
 		WHERE ROWNUM = 1) FOR UPDATE
 	</select>
-	<select id="getMyOrderNo">
+	<select id="getMyOrderNo" parameterType="map" resultType="int">
 		SELECT order_no FROM orders 
 		WHERE content = #{content} AND student_id = #{studentId} "AND stock_no = #{stockNo} 
 		AND state = #{state} AND amount = #{amount} AND price = #{price} ORDER BY order_date DESC

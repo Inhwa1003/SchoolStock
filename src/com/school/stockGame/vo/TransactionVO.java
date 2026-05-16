@@ -6,6 +6,8 @@ public class TransactionVO{
 	private int sellOrderNo;
 	private int buyOrderNo;
 	
+	public TransactionVO(){}
+	
 	public TransactionVO(int buyOrderNo, int sellOrderNo, int transactionNo, String transactionDate){
 		setBuyOrderNo(buyOrderNo);
 		setSellOrderNo(sellOrderNo);
