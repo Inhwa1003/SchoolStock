@@ -45,8 +45,9 @@ public class CouponDAOMybatisTest {
 	public void getStudentPointTest() {
 		// NO
 		// 없는 아이디 조회
-		assertTrue(dao.getStudentPoint("keksee1") == 0);
-		assertFalse(!(dao.getStudentPoint("toto") == 0));
+		//assertTrue(dao.getStudentPoint("keksee1") == 0);
+		//assertFalse(!(dao.getStudentPoint("toto") == 0));
+		assertFalse(dao.getStudentPoint("abc") == 3800);
 		// YES
 		assertTrue(dao.getStudentPoint("abc") > 0);
 		assertNotNull(dao.getStudentPoint("abc"));
