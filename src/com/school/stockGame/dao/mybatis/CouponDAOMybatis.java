@@ -157,7 +157,7 @@ public class CouponDAOMybatis implements CouponDAOInterface{
 			session.close();
 		}
 		// 오류로 인한 null 상황 발생시 빈 리스트 반환
-		return list == null? Collections.emptyList():list;
+		return list;
 	}
 
 }
