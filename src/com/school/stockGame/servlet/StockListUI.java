@@ -10,8 +10,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.school.stockGame.dao.jdbc.StockDetailDAO;
-import com.school.stockGame.dao.jdbc.StockListDAO;
+import com.school.stockGame.dao.StockDetailDAOInterface;
+import com.school.stockGame.dao.StockListDAOInterface;
+import com.school.stockGame.dao.mybatis.StockDetailDAOMybatis;
+import com.school.stockGame.dao.mybatis.StockListDAOMybatis;
 import com.school.stockGame.vo.StockVO;
 
 public class StockListUI implements Action {
@@ -20,8 +22,8 @@ public class StockListUI implements Action {
     @Override
     public String execute(HttpServletRequest request) throws ServletException, IOException {
 
-        StockListDAO dao_list = new StockListDAO();
-        StockDetailDAO dao_detail = new StockDetailDAO();
+        StockListDAOInterface list = new StockListDAOMybatis();
+        StockDetailDAOInterface detail = new StockDetailDAOMybatis();
         HttpSession session = request.getSession();
 
         String studentId = (String) session.getAttribute("studentId");
@@ -32,7 +34,7 @@ public class StockListUI implements Action {
 		}
       
         // 1. 주식명 목록조회
-        List<StockVO> stockNameList = dao_list.getStockNameList();
+        List<StockVO> stockNameList = list.getStockNameList();
 
         // 2. JSP에 넘길 주식 목록 데이터 생성
         List<Map<String, Object>> stockList = new ArrayList<Map<String, Object>>();
@@ -43,7 +45,7 @@ public class StockListUI implements Action {
             String stockName = stockNameList.get(i).getName();
 
             // 주식 발행 정보 가져오기
-            Map<String, Object> pubInfo = dao_detail.getStockPubInfo(stockNo);
+            Map<String, Object> pubInfo = detail.getStockPubInfo(stockNo);
 
             int pubAmount = 0;
             int pubPrice = 0;
@@ -65,11 +67,11 @@ public class StockListUI implements Action {
             if (pubAmount > 0) {
                 currentPrice = pubPrice;
             } else {
-                currentPrice = dao_detail.getStockPrice(stockNo);
+                currentPrice = detail.getStockPrice(stockNo);
             }
 
             // 이전 장 가격
-            int prevPrice = dao_detail.getPervPrice(stockNo);
+            int prevPrice = detail.getPervPrice(stockNo);
     
             // 현재가격 - 이전가격은 Action에서 계산 (거래가 없는 주식은 action에서 계산하라고 함)
             int priceChange = currentPrice - prevPrice;          
