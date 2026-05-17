@@ -17,9 +17,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   </environments>
   
   <mappers>
-
+    <mapper resource="config/StockListMapper.xml"/>
     <mapper resource="config/stockDetailMapper.xml"/>
   </mappers>
   
 </configuration>
- 

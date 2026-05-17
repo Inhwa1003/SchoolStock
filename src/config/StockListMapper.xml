@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="stockListMapper">
+	<select id="getStockNameList" resultType="com.school.stockGame.vo.StockVO">
+		SELECT stock_no AS "stockNo", name AS "name" FROM stocks ORDER BY stock_no
+	</select>
+</mapper>
