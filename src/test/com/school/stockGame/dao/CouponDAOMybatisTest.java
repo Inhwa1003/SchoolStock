@@ -69,7 +69,7 @@ public class CouponDAOMybatisTest {
 		}
 	}
 	
-	// 쿠폰 구매시 학생의 가용포인트 차감 및 보유쿠폰 개수 업데이트(가용포인트 부족시 구매 불가)
+	// 쿠폰 구매시 학생의 가용포인트 차감 및 보유 쿠폰 수량 증가(가용포인트 부족시 구매 불가)
 	@Test
 	public void setStudentAssetsTest(){
 		SqlSession session = DBCPMybatis.getSqlSessionFactory().openSession();

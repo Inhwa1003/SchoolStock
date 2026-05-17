@@ -48,7 +48,8 @@ public class CouponDAOMybatis implements CouponDAOInterface{
 			// 보유포인트 충분하다면
 			// 2-1. 쿠폰 구매 내역 등록
 			int addRecord = setPurchaseRecord(session, studentId, couponNo, couponName, couponPrice, state);
-			// 2-2. 학생 포인트 차감 및 보유쿠폰 증가
+			
+			// 2-2. 학생 포인트 차감 및 보유 쿠폰 수량 증가
 			int pointDown = setStudentAssets(session, studentId, couponPrice);
 			
 			// 2-3. 둘 다 성공시 commit
@@ -126,7 +127,7 @@ public class CouponDAOMybatis implements CouponDAOInterface{
 			return result;
 		}
 
-	// 쿠폰 구매시 학생의 가용포인트 차감 및 보유쿠폰 개수 업데이트(가용포인트 부족시 구매 불가)
+	// 쿠폰 구매시 학생의 가용포인트 차감 및 보유 쿠폰 수량 증가(가용포인트 부족시 구매 불가)
 	@Override
 	public int setStudentAssets(String studentId, int price) {
 		SqlSession session = DBCPMybatis.getSqlSessionFactory().openSession();
@@ -139,7 +140,7 @@ public class CouponDAOMybatis implements CouponDAOInterface{
 		return result;
 	}
 	
-	// 쿠폰 구매시 학생의 가용포인트 차감 및 보유쿠폰 개수 업데이트 (트랜잭션 관리용)
+	// 쿠폰 구매시 학생의 가용포인트 차감 및 보유 쿠폰 수량 증가 (트랜잭션 관리용)
 		public int setStudentAssets(SqlSession session, String studentId, int price) {
 			int result = session.update("couponMapper.setStudentAssets", new CouponVO(price, studentId));
 			return result;
