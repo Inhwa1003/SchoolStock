@@ -34,13 +34,13 @@ public class CouponDAOMybatis implements CouponDAOInterface{
 		int maxCoupon = 3;
 		try {
 			// 1. 학생이 이미 구매한 쿠폰 개수 확인
-			if (getMyCouponCount(session, studentId) >= maxCoupon) {
+			if (getMyCouponCount(studentId) >= maxCoupon) {
 				message = "쿠폰은 최대 3개 까지만 구매할 수 있습니다.";
 				return message;
 			}
 
 			// 2. 학생 보유 포인트 확인
-			if (getStudentPoint(session, studentId) < couponPrice) {
+			if (getStudentPoint(studentId) < couponPrice) {
 				message = "보유 포인트가 부족합니다.";
 				return message;
 			}
