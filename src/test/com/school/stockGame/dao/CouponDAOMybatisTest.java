@@ -34,6 +34,7 @@ public class CouponDAOMybatisTest {
 		// 없는 아이디 조회
 		assertTrue(dao.getMyCouponCount("keks") == 0);
 		assertFalse(!(dao.getMyCouponCount("toto") == 0));
+		assertFalse(dao.getMyCouponCount("abc") == 1);
 		// YES
 		assertTrue(dao.getMyCouponCount("abc") >= 0);
 		assertNotNull(dao.getMyCouponCount("abc"));
