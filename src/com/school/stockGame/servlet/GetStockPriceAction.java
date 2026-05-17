@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import com.school.stockGame.dao.jdbc.MyAssetDAOJdbc;
 import com.school.stockGame.dao.jdbc.StockDetailDAOJdbc;
 
+
 public class GetStockPriceAction implements Action {
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
@@ -23,6 +24,7 @@ public class GetStockPriceAction implements Action {
 			int stockNo = Integer.parseInt(strStockNo);
 
 			StockDetailDAOJdbc detail = new StockDetailDAOJdbc();
+
 			MyAssetDAOJdbc myAsset = new MyAssetDAOJdbc();
 
 			// 1. 현재가 가져오기 (팀원 쿼리 수정 없이 자바에서 보완)

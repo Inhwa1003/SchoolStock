@@ -17,7 +17,11 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   </environments>
   
   <mappers>
+
     <mapper resource="config/couponMapper.xml"/>
+    <mapper resource="config/myAssetMapper.xml"/>
+    <mapper resource="config/newsMapper.xml"/>
+
   </mappers>
   
 </configuration>
