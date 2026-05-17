@@ -7,7 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.school.stockGame.dao.jdbc.MyAssetDAO;
+import com.school.stockGame.dao.jdbc.MyAssetDAOJdbc;
 import com.school.stockGame.dao.jdbc.StockDetailDAO;
 
 public class GetStockPriceAction implements Action {
@@ -23,7 +23,7 @@ public class GetStockPriceAction implements Action {
 			int stockNo = Integer.parseInt(strStockNo);
 
 			StockDetailDAO detail = new StockDetailDAO();
-			MyAssetDAO myAsset = new MyAssetDAO();
+			MyAssetDAOJdbc myAsset = new MyAssetDAOJdbc();
 
 			// 1. 현재가 가져오기 (팀원 쿼리 수정 없이 자바에서 보완)
 			int stockPrice = detail.getStockPrice(stockNo);

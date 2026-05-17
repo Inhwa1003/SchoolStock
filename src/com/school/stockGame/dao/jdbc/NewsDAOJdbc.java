@@ -6,10 +6,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.school.stockGame.dao.NewsDAOInterface;
 import com.school.stockGame.query.NewsQuery;
 
-public class NewsDAO {
-	public NewsDAO() {}
+public class NewsDAOJdbc implements NewsDAOInterface{
+	public NewsDAOJdbc() {}
 	
 	public List<String> getNewsList() {
         List<String> newsList = new ArrayList<String>();

@@ -10,7 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.school.stockGame.dao.jdbc.MyAssetDAO;
+import com.school.stockGame.dao.jdbc.MyAssetDAOJdbc;
 import com.school.stockGame.dao.jdbc.StockDetailDAO;;
 
 public class MyAssetsAction implements Action {
@@ -21,7 +21,7 @@ public class MyAssetsAction implements Action {
 		try {
 			HttpSession session = request.getSession();
 			String studentId = (String) session.getAttribute("studentId");
-			MyAssetDAO myAsset = new MyAssetDAO();
+			MyAssetDAOJdbc myAsset = new MyAssetDAOJdbc();
 			StockDetailDAO detail = new StockDetailDAO();
 
 			if(studentId == null) studentId = "abc";
