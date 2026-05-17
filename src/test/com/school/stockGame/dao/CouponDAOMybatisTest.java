@@ -13,11 +13,11 @@ import com.school.stockGame.vo.CouponPurchaseVO;
 import com.school.stockGame.vo.CouponVO;
 
 public class CouponDAOMybatisTest {
-	CouponDAOInterface dao;
+	CouponDAOInterface dao = new CouponDAOMybatis();
+	
 	// 등록된 쿠폰 모두 조회
 	@Test
 	public void getCouponListTest(){
-		dao = new CouponDAOMybatis();
 		// NO
 		// 조건을 주지 않는 조회 업무라 NO인 상황이 없다.
 		// YES
@@ -29,7 +29,6 @@ public class CouponDAOMybatisTest {
 	// 내가 구매한 쿠폰 수량
 	@Test
 	public void getMyCouponCountTest(){
-		dao = new CouponDAOMybatis();
 		// NO
 		// 없는 아이디 조회
 		assertTrue(dao.getMyCouponCount("keks") == 0);
@@ -42,7 +41,6 @@ public class CouponDAOMybatisTest {
 	// 나의 가용포인트 조회
 	@Test
 	public void getStudentPointTest() {
-		dao = new CouponDAOMybatis();
 		// NO
 		// 없는 아이디 조회
 		assertTrue(dao.getStudentPoint("keksee1") == 0);
@@ -88,8 +86,6 @@ public class CouponDAOMybatisTest {
 	// 나의 보유 쿠폰 조회 테스트
 	@Test
 	public void getMyCouponListTest(){
-		dao = new CouponDAOMybatis();
-		
 		// NO
 		// 잘못된 아이디 입력
 		assertTrue(dao.getMyCouponList("toto").size() >= 0);
