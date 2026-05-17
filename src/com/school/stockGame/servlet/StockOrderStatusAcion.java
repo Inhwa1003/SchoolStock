@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
+import com.school.stockGame.dao.StockDetailDAOInterface;
 import com.school.stockGame.dao.jdbc.StockDetailDAO;
+import com.school.stockGame.dao.mybatis.StockDetailDAOMybatis;
 import com.school.stockGame.vo.OrderVO;
 
 public class StockOrderStatusAcion implements Action {
@@ -24,7 +26,7 @@ public class StockOrderStatusAcion implements Action {
 			return "controller?cmd=LoginUI";
 		}
 		
-		StockDetailDAO stockDetailDAO = new StockDetailDAO();
+		StockDetailDAOInterface stockDetailDAO = new StockDetailDAOMybatis();
 		List<OrderVO> list = null;
 		
 		int stockNo = Integer.parseInt(request.getParameter("no"));

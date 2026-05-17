@@ -7,7 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.school.stockGame.dao.jdbc.StockDetailDAO;
+import com.school.stockGame.dao.StockDetailDAOInterface;
+import com.school.stockGame.dao.mybatis.StockDetailDAOMybatis;
 
 public class StockDetailUIAction implements Action {
 
@@ -23,13 +24,19 @@ public class StockDetailUIAction implements Action {
 		}
 
 		try {
-			StockDetailDAO stockDetailDAO = new StockDetailDAO();
+			StockDetailDAOInterface stockDetailDAO = new StockDetailDAOMybatis();
 			int stockNo = Integer.parseInt(request.getParameter("no"));
 			Map<String, Object> stockInfo = stockDetailDAO.getStockInfo(stockNo);
 			Map<String, Object> pubInfo = stockDetailDAO.getStockPubInfo(stockNo);
 			
 			int nowPrice = stockDetailDAO.getStockPrice(stockNo);
-			int pubPrice = (int)pubInfo.get("pubPrice");
+			
+			// MyBatis에서 반환된 Map은 값의 타입이 Number(BigDecimal 등)일 수 있으므로 
+			// Number로 먼저 캐스팅한 후 intValue()를 호출하여 안전하게 변환합니다.
+			int pubPrice = 0;
+			if(pubInfo != null && pubInfo.get("pubPrice") != null) {
+				pubPrice = ((Number)pubInfo.get("pubPrice")).intValue();
+			}
 			
 			request.setAttribute("nowPrice", stockDetailDAO.getStockPrice(stockNo));
 			
@@ -38,14 +45,18 @@ public class StockDetailUIAction implements Action {
 			}
 			// 주식 이전가격 가져오기
 			request.setAttribute("prevPrice", stockDetailDAO.getPervPrice(stockNo));
-			request.setAttribute("stockName", stockInfo.get("name"));
-			request.setAttribute("stockContent", stockInfo.get("content"));
+			
+			// stockInfo 널 체크
+			if(stockInfo != null) {
+				request.setAttribute("stockName", stockInfo.get("name"));
+				request.setAttribute("stockContent", stockInfo.get("content"));
+			}
 		
 
 			// 등락률
-			//request.setAttribute("percent", stockDetailDAO.getChangeRate(stockNo));
+			request.setAttribute("percent", stockDetailDAO.getChangeRate(stockNo));
 			// 주식 이전가 대비
-			//request.setAttribute("changePrice", stockDetailDAO.getStockPriceChange(stockNo));
+			request.setAttribute("changePrice", stockDetailDAO.getStockPriceChange(stockNo));
 			// 주식 현재가
 			
 

@@ -20,7 +20,7 @@ public class StockDetailDAOMybatis implements StockDetailDAOInterface {
 
 			//발행 잔량 확인 있으면 학생간 거래x 매도 요청x
 			Map<String, Object> publicationInfo = session.selectOne("stockDetailMapper.getStockPubInfo", stockNo);
-			if (publicationInfo != null && ((Number) publicationInfo.get("PUBLICATION_BALANCE")).intValue() > 0) {
+			if (publicationInfo != null && publicationInfo.get("pubAmount") != null && ((Number) publicationInfo.get("pubAmount")).intValue() > 0) {
 				return "발행 잔량이 남아 매도요청 할 수 없습니다.";
 			};
 			//(보유한 주식 수량 < 매도요청 수량 )체크
@@ -43,7 +43,7 @@ public class StockDetailDAOMybatis implements StockDetailDAOInterface {
 			if (matchOrder != null && !matchOrder.isEmpty()) {
 				//매칭O
 				//매수자 주문 '체결'로 업데이트 
-				Integer buyOrderNo =((Number) matchOrder.get("ORDER_NO")).intValue();
+				Integer buyOrderNo =((Number) matchOrder.get("orderNo")).intValue();
 
 				session.update("stockDetailMapper.setOrderStateMatched", buyOrderNo);
 				//매도자 주문 '체결'로 insert
@@ -91,6 +91,7 @@ public class StockDetailDAOMybatis implements StockDetailDAOInterface {
 			}
 		} catch (Exception e) {
 			if (session != null) session.rollback();
+			e.printStackTrace();
 			return "매도 요청 중 오류가 발생했습니다";
 		} finally {
 			if (session != null) session.close();
@@ -110,8 +111,13 @@ public class StockDetailDAOMybatis implements StockDetailDAOInterface {
 			}
 
 			Map<String, Object> publicationInfo = session.selectOne("stockDetailMapper.getStockPubInfo", stockNo);
-			Integer pubAmount = ((Number) publicationInfo.get("PUBLICATION_BALANCE")).intValue();	//publicatonBalance
-			Integer pubPrice = ((Number) publicationInfo.get("PUBLICATION_PRICE")).intValue();	//publicatonPrice
+			
+			Integer pubAmount = 0;
+			Integer pubPrice = 0;
+			if(publicationInfo != null && !publicationInfo.isEmpty()){
+				if(publicationInfo.get("pubAmount") != null) pubAmount = ((Number) publicationInfo.get("pubAmount")).intValue();
+				if(publicationInfo.get("pubPrice") != null) pubPrice = ((Number) publicationInfo.get("pubPrice")).intValue();
+			}
 
 			//발행 잔량 확인
 			if (pubAmount > 0) {
@@ -128,12 +134,13 @@ public class StockDetailDAOMybatis implements StockDetailDAOInterface {
 
 					Integer buyOrderNo = session.selectOne("stockDetailMapper.getMyOrderNo", buyOrder);
 
-					TransactionVO transactionVO = new TransactionVO();
-					transactionVO.setBuyOrderNo(buyOrderNo);
-					transactionVO.setSellOrderNo(0);
-					session.insert("stockDetailMapper.setMatchedOrder", transactionVO);
+					Map<String, Object> transactionMap = new HashMap<String, Object>();
+					transactionMap.put("buyOrderNo", buyOrderNo);
+					transactionMap.put("sellOrderNo", null);
+					session.insert("stockDetailMapper.setMatchedOrder", transactionMap);
 
 					session.update("stockDetailMapper.setStockPubBalance", buyOrder);
+					buyOrder.put("totalPoint", pubPrice * pubAmount);
 					session.update("stockDetailMapper.setStudentPointDown", buyOrder);
 
 					session.commit();
@@ -156,8 +163,8 @@ public class StockDetailDAOMybatis implements StockDetailDAOInterface {
 			Map<String, Object> matchOrder = session.selectOne("stockDetailMapper.getMatchOrder", matchParams);
 			
 			if (matchOrder != null && !matchOrder.isEmpty()) {
-				Integer sellOrderNo = ((Number) matchOrder.get("ORDER_NO")).intValue();
-				String sellerId = ((String) matchOrder.get("STUDENT_ID"));
+				Integer sellOrderNo = ((Number) matchOrder.get("orderNo")).intValue();
+				String sellerId = ((String) matchOrder.get("studentId"));
 				
 				session.update("stockDetailMapper.setOrderStateMatched", sellOrderNo);
 				
@@ -177,6 +184,7 @@ public class StockDetailDAOMybatis implements StockDetailDAOInterface {
 				transactionVO.setSellOrderNo(sellOrderNo);
 				session.insert("stockDetailMapper.setMatchedOrder", transactionVO);
 				
+				buyRequest.put("totalPoint", pubPrice * pubAmount);
 				session.update("stockDetailMapper.setStudentPointDown", buyRequest);
 				
 				OrderVO pointUp = new OrderVO();
@@ -197,6 +205,7 @@ public class StockDetailDAOMybatis implements StockDetailDAOInterface {
 				buyRequest.put("stockNo", stockNo);
 				session.insert("stockDetailMapper.setOrderRequest", buyRequest);
 				
+				buyRequest.put("totalPoint", pubPrice * pubAmount);
 				session.update("stockDetailMapper.setStudentPointDown", buyRequest);
 				
 				session.commit();
@@ -204,7 +213,8 @@ public class StockDetailDAOMybatis implements StockDetailDAOInterface {
 			}
 		} catch (Exception e) {
 			if (session != null) session.rollback();
-			return "매도 요청 중 오류가 발생했습니다";
+			e.printStackTrace();
+			return "매수 요청 중 오류가 발생했습니다";
 		} finally {
 			if (session != null) session.close();
 		}
@@ -473,7 +483,7 @@ public class StockDetailDAOMybatis implements StockDetailDAOInterface {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("amount", buyAmount);
 			map.put("stockNo", stockNo);
-			int savedMap = session.update("stockDetailMapper.setStockPubBalance", stockNo);
+			int savedMap = session.update("stockDetailMapper.setStockPubBalance", map);
 			if(savedMap > 0) result = true;
 		} finally {
 			if(session != null) session.close();
