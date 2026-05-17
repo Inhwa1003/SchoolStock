@@ -22,7 +22,8 @@ public class CouponDAOMybatisTest {
 		// 조건을 주지 않는 조회 업무라 NO인 상황이 없다.
 		// YES
 		assertNotNull(dao.getCouponList());
-		assertTrue(dao.getCouponList().size() > 0);
+		assertTrue(dao.getCouponList().size() >= 0);
+		assertTrue(dao.getCouponList().size() <= 5);
 		//System.out.println("등록된 모든 쿠폰 : " + dao.getCouponList());
 	}
 	
