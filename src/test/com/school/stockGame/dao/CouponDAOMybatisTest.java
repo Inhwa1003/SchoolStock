@@ -60,6 +60,9 @@ public class CouponDAOMybatisTest {
 		SqlSession session = DBCPMybatis.getSqlSessionFactory().openSession();
 		boolean flag = false;
 		try {
+			// 쿠폰 구매를 실패 하는 상황은 DB에서 이미 오류를 내버림
+			//flag = session.insert("couponMapper.setPurchaseRecord", new CouponPurchaseVO(100, "간식 교환권", 10, "abc", 1)) == 1;
+			
 			flag = session.insert("couponMapper.setPurchaseRecord", new CouponPurchaseVO(100, "간식 교환권", 1, "abc", 1)) == 1;
 			assertTrue(flag);
 			if(flag)
