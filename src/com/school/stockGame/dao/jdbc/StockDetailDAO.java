@@ -34,7 +34,7 @@ public class StockDetailDAO implements StockDetailDAOInterface {
 			conn = DBCP.getConnection();
 			conn.setAutoCommit(false);
 			
-			MyAssetDAO myAssetDAO = new MyAssetDAO();
+			MyAssetDAOJdbc myAssetDAO = new MyAssetDAOJdbc();
 			pubInfo = getStockPubInfo(conn, stockNo);
 			
 			//1. 발행 잔량 확인 있으면 학생간 거래x 매도 요청x return false;
