@@ -96,7 +96,7 @@ public class CouponDAOMybatisTest {
 		// 잘못된 아이디 입력
 		assertTrue(dao.getMyCouponList("toto").size() >= 0);
 		// YES
-		assertNotNull(dao.getMyCouponList("abc"));
+		assertFalse(dao.getMyCouponList("abc").equals(null));
 		assertTrue(dao.getMyCouponList("abc").size() >= 0);
 		System.out.println("[abc]의 보유 쿠폰 : " + dao.getMyCouponList("abc"));
 	}

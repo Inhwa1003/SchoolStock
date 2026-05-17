@@ -7,7 +7,9 @@ public class CouponPurchaseVO extends CouponVO{
 	private String name;
 	private int state;
 	private String studentId;
-
+	
+	public CouponPurchaseVO(){}
+	
 	//내 보유쿠폰에서 가져올  생성자
 	public CouponPurchaseVO(int price, String name) {
 		setPrice(price);
