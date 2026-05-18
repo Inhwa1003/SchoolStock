@@ -65,8 +65,8 @@ public class CouponDAOMybatisTest {
 			
 			flag = session.insert("couponMapper.setPurchaseRecord", new CouponPurchaseVO(100, "간식 교환권", 1, "abc", 1)) == 1;
 			assertTrue(flag);
-			if(flag)
-				System.out.println("쿠폰 구매내역 추가 테스트 완료");
+			//if(flag)
+				//System.out.println("쿠폰 구매내역 추가 테스트 완료");
 		} finally {
 			session.rollback();
 			session.close();
@@ -81,8 +81,8 @@ public class CouponDAOMybatisTest {
 		try {
 			flag = session.update("couponMapper.setStudentAssets", new CouponVO(100, "abc")) == 1;
 			assertTrue(flag);
-			if(flag)
-				System.out.println("쿠폰 구매 학생 보유포인트 다운 보유쿠폰 수량 업 테스트 완료");
+			//if(flag)
+				//System.out.println("쿠폰 구매 학생 보유포인트 다운 보유쿠폰 수량 업 테스트 완료");
 		} finally {
 			session.rollback();
 			session.close();
@@ -98,7 +98,7 @@ public class CouponDAOMybatisTest {
 		// YES
 		assertFalse(dao.getMyCouponList("abc").equals(null));
 		assertTrue(dao.getMyCouponList("abc").size() >= 0);
-		System.out.println("[abc]의 보유 쿠폰 : " + dao.getMyCouponList("abc"));
+		//System.out.println("[abc]의 보유 쿠폰 : " + dao.getMyCouponList("abc"));
 	}
 
 }
