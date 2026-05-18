@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberMapper">
+
+	<!-- 회원가입 -->
+	<insert id="setMember" parameterType="com.school.stockGame.vo.StudentVO">
+		INSERT INTO students (student_id, password, name, grade, class, class_number, register_year, total_coupon, total_point) 
+		VALUES (#{studentId}, #{password}, #{name}, #{grade}, #{className}, #{classNumber}, EXTRACT(YEAR FROM SYSDATE), 0, 30000)
+	</insert>
+	
+	<!-- 로그인 -->
+	<select id="login" parameterType="com.school.stockGame.vo.StudentVO" resultType="Map" >
+		SELECT name, grade, class, class_number, total_point FROM students WHERE student_id = #{studentId} AND password = #{password}
+	</select>
+	
+	<!-- 아이디 중복체크 -->
+	<select id="getIdCheck" parameterType="String" resultType="String">
+		SELECT student_id FROM students WHERE student_id = #{studentId} 
+	</select>
+	
+</mapper>

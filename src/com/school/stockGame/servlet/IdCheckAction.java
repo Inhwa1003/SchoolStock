@@ -13,7 +13,7 @@ public class IdCheckAction implements Action {
 	public String execute(HttpServletRequest request) 
 			throws ServletException, IOException {
 		String studentId=request.getParameter("studentId");
-		boolean result=new MemberDAOJdbc().idCheck(studentId);
+		boolean result=new MemberDAOJdbc().getIdCheck(studentId);
 		request.setAttribute("result", result);
 		return "IdJsonResult.jsp";
 	}
