@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.school.stockGame.dao.jdbc.MyAssetDAOJdbc;
-import com.school.stockGame.dao.jdbc.StockDetailDAOJdbc;;
+import com.school.stockGame.dao.jdbc.StockDetailDAOJdbc;
+
 
 public class MyAssetsAction implements Action {
 
@@ -23,7 +24,6 @@ public class MyAssetsAction implements Action {
 			String studentId = (String) session.getAttribute("studentId");
 			MyAssetDAOJdbc myAsset = new MyAssetDAOJdbc();
 			StockDetailDAOJdbc detail = new StockDetailDAOJdbc();
-
 			if(studentId == null) studentId = "abc";
 			List<Integer> myStockNos = myAsset.getMyStockNos(studentId, "체결");
 			List stockList = new ArrayList();

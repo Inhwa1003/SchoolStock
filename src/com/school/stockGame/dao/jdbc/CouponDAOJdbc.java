@@ -60,7 +60,7 @@ public class CouponDAOJdbc implements CouponDAOInterface{
 				// 3. 쿠폰 구매 내역 등록
 				int insertRecord = setPurchaseRecord(conn, studentId, couponNo, couponName, couponPrice, state);
 
-				// 4. 학생 포인트 차감
+				// 4. 학생 포인트 차감 및 보유 쿠폰 수량 증가
 				int updateAssets = setStudentAssets(conn, studentId, couponPrice);
 
 				// 5. 둘 다 성공하면 commit
@@ -232,7 +232,7 @@ public class CouponDAOJdbc implements CouponDAOInterface{
 		return result;
 	}
 	
-	// 학생 포인트 차감
+	// 학생 포인트 차감 및 보유 쿠폰 수량 증가
 	public int setStudentAssets(String studentId, int price){
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -256,7 +256,7 @@ public class CouponDAOJdbc implements CouponDAOInterface{
 		return result;
 	}
 
-	// 학생 포인트 차감 (트랜잭션 관리용)
+	// 학생 포인트 차감 및 보유 쿠폰 수량 증가(트랜잭션 관리용)
 	public int setStudentAssets(Connection conn, String studentId, int price) throws SQLException {
 		PreparedStatement stmt = conn.prepareStatement(CouponQuery.UPDATE_STUDENT_PURCHASE_SQL);
 		stmt.setInt(1, price);
