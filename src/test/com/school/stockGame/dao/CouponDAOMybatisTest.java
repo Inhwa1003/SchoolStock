@@ -94,7 +94,7 @@ public class CouponDAOMybatisTest {
 	public void getMyCouponListTest(){
 		// NO
 		// 잘못된 아이디 입력
-		assertTrue(dao.getMyCouponList("toto").size() >= 0);
+		assertTrue(dao.getMyCouponList("toto").size() == 0);
 		// YES
 		assertFalse(dao.getMyCouponList("abc").equals(null));
 		assertTrue(dao.getMyCouponList("abc").size() >= 0);
