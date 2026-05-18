@@ -7,7 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.school.stockGame.dao.jdbc.StockDetailDAO;
+import com.school.stockGame.dao.jdbc.StockDetailDAOJdbc;
 
 public class StockDetailUIAction implements Action {
 
@@ -23,7 +23,7 @@ public class StockDetailUIAction implements Action {
 		}
 
 		try {
-			StockDetailDAO stockDetailDAO = new StockDetailDAO();
+			StockDetailDAOJdbc stockDetailDAO = new StockDetailDAOJdbc();
 			int stockNo = Integer.parseInt(request.getParameter("no"));
 			Map<String, Object> stockInfo = stockDetailDAO.getStockInfo(stockNo);
 			Map<String, Object> pubInfo = stockDetailDAO.getStockPubInfo(stockNo);

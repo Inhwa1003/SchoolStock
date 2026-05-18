@@ -8,7 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.school.stockGame.dao.jdbc.MyAssetDAOJdbc;
-import com.school.stockGame.dao.jdbc.StockDetailDAO;
+import com.school.stockGame.dao.jdbc.StockDetailDAOJdbc;
+
 
 public class GetStockPriceAction implements Action {
 	@Override
@@ -22,7 +23,8 @@ public class GetStockPriceAction implements Action {
 			if (strStockNo == null || strStockNo.equals("")) return null;
 			int stockNo = Integer.parseInt(strStockNo);
 
-			StockDetailDAO detail = new StockDetailDAO();
+			StockDetailDAOJdbc detail = new StockDetailDAOJdbc();
+
 			MyAssetDAOJdbc myAsset = new MyAssetDAOJdbc();
 
 			// 1. 현재가 가져오기 (팀원 쿼리 수정 없이 자바에서 보완)

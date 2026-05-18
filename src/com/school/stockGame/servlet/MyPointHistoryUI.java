@@ -8,13 +8,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.school.stockGame.dao.jdbc.MyPointHistoryDAO;
+import com.school.stockGame.dao.jdbc.MyPointHistoryDAOJdbc;
 
 public class MyPointHistoryUI implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
-			MyPointHistoryDAO dao = new MyPointHistoryDAO();
+			MyPointHistoryDAOJdbc dao = new MyPointHistoryDAOJdbc();
 			HttpSession session = request.getSession();
 
 	        String studentId = (String) session.getAttribute("studentId");

@@ -8,7 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.Gson;
-import com.school.stockGame.dao.jdbc.StockDetailDAO;
+import com.school.stockGame.dao.jdbc.StockDetailDAOJdbc;
 
 public class GetNowPriceAction implements Action {
 	@Override
@@ -28,7 +28,7 @@ public class GetNowPriceAction implements Action {
 		int stockNo = Integer.parseInt(stockNoStr);
 		
 		// DAO에서 현재가만 조회
-		StockDetailDAO stockDetailDAO = new StockDetailDAO();
+		StockDetailDAOJdbc stockDetailDAO = new StockDetailDAOJdbc();
 		int nowPrice = stockDetailDAO.getStockPrice(stockNo);
 		
 		// 거래 없으면 발행가 사용
