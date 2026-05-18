@@ -8,10 +8,6 @@ public class StockVO {
 	private int publicationPrice;
 	private int prevPrice;
 	
-	// 기본 생성자 추가 (MyBatis 객체 생성용)
-	public StockVO() {
-	}
-
 	// 동석 추가 (인화님 주식리스트에서 눌렀을때 주식no가 필요해서 만듦)
 	public StockVO(int stockNo, String name){
 		setStockNo(stockNo);
