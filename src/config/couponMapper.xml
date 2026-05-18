@@ -25,7 +25,7 @@
 	</update>
 	
 	<!-- 나의 보유 쿠폰 조회 -->
-	<select id="getMyCouponList" parameterType="String" resultType="List">
+	<select id="getMyCouponList" parameterType="String" resultType="com.school.stockGame.vo.CouponPurchaseVO">
 		SELECT c.name, cp.price 
 		FROM coupon_purchase cp 
 		INNER JOIN coupons c ON cp.coupon_no = c.coupon_no 

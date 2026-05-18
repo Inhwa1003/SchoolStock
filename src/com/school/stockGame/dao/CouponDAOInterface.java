@@ -21,7 +21,7 @@ public interface CouponDAOInterface {
 	// 쿠폰 구매 내역 등록
 	public int setPurchaseRecord(String studentId, int couponNo, String couponName, int couponPrice, int state);
 
-	// 학생 포인트 차감
+	// 학생 포인트 차감 및 보유 쿠폰 수량 증가
 	public int setStudentAssets(String studentId, int price);
 
 	// 내가 보유한 쿠폰 조회

@@ -34,13 +34,13 @@ public class CouponDAOMybatis implements CouponDAOInterface{
 		int maxCoupon = 3;
 		try {
 			// 1. 학생이 이미 구매한 쿠폰 개수 확인
-			if (getMyCouponCount(session, studentId) >= maxCoupon) {
+			if (getMyCouponCount(studentId) >= maxCoupon) {
 				message = "쿠폰은 최대 3개 까지만 구매할 수 있습니다.";
 				return message;
 			}
 
 			// 2. 학생 보유 포인트 확인
-			if (getStudentPoint(session, studentId) < couponPrice) {
+			if (getStudentPoint(studentId) < couponPrice) {
 				message = "보유 포인트가 부족합니다.";
 				return message;
 			}
@@ -48,7 +48,8 @@ public class CouponDAOMybatis implements CouponDAOInterface{
 			// 보유포인트 충분하다면
 			// 2-1. 쿠폰 구매 내역 등록
 			int addRecord = setPurchaseRecord(session, studentId, couponNo, couponName, couponPrice, state);
-			// 2-2. 학생 포인트 차감
+			
+			// 2-2. 학생 포인트 차감 및 보유 쿠폰 수량 증가
 			int pointDown = setStudentAssets(session, studentId, couponPrice);
 			
 			// 2-3. 둘 다 성공시 commit
@@ -126,7 +127,7 @@ public class CouponDAOMybatis implements CouponDAOInterface{
 			return result;
 		}
 
-	// 쿠폰 구매시 학생의 가용포인트 차감 및 보유쿠폰 개수 업데이트(가용포인트 부족시 구매 불가)
+	// 쿠폰 구매시 학생의 가용포인트 차감 및 보유 쿠폰 수량 증가(가용포인트 부족시 구매 불가)
 	@Override
 	public int setStudentAssets(String studentId, int price) {
 		SqlSession session = DBCPMybatis.getSqlSessionFactory().openSession();
@@ -139,7 +140,7 @@ public class CouponDAOMybatis implements CouponDAOInterface{
 		return result;
 	}
 	
-	// 쿠폰 구매시 학생의 가용포인트 차감 및 보유쿠폰 개수 업데이트 (트랜잭션 관리용)
+	// 쿠폰 구매시 학생의 가용포인트 차감 및 보유 쿠폰 수량 증가 (트랜잭션 관리용)
 		public int setStudentAssets(SqlSession session, String studentId, int price) {
 			int result = session.update("couponMapper.setStudentAssets", new CouponVO(price, studentId));
 			return result;
@@ -156,7 +157,7 @@ public class CouponDAOMybatis implements CouponDAOInterface{
 			session.close();
 		}
 		// 오류로 인한 null 상황 발생시 빈 리스트 반환
-		return list == null? Collections.emptyList():list;
+		return list;
 	}
 
 }

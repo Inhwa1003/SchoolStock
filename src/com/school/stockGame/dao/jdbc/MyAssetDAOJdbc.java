@@ -7,9 +7,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.school.stockGame.dao.MyAssetDAOInterface;
 import com.school.stockGame.query.MyAssetQuery;
 
-public class MyAssetDAOJdbc {
+// 각각의 매서드 무슨 기능을 수행하는 건지, 작성해주면 좋겠다고 생각함.
+public class MyAssetDAOJdbc implements MyAssetDAOInterface {
 	public MyAssetDAOJdbc(){}
 	
 	public int getMyValue(int stockNo, String studentId) {
