@@ -8,9 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.school.stockGame.dao.MyPointHistoryDAOInterface;
 import com.school.stockGame.query.MyPointHistoryQuery;
 
-public class MyPointHistoryDAOJdbc {
+public class MyPointHistoryDAOJdbc implements MyPointHistoryDAOInterface{
 
     public MyPointHistoryDAOJdbc() {}
 
