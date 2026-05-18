@@ -9,9 +9,9 @@ import java.util.List;
 import com.school.stockGame.query.StockListQuery;
 import com.school.stockGame.vo.StockVO;
 
-public class StockListDAO {
+public class StockListDAOJdbc {
 
-    public StockListDAO() {}
+    public StockListDAOJdbc() {}
     
     // 1. 주식명 조회
     public List<StockVO> getStockNameList() {

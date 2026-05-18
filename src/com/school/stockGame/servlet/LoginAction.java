@@ -7,7 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.school.stockGame.dao.jdbc.MemberDAO;
+import com.school.stockGame.dao.jdbc.MemberDAOJdbc;
 
 public class LoginAction implements Action {
 
@@ -19,7 +19,7 @@ public class LoginAction implements Action {
 		String password=request.getParameter("password");
 
 		try{
-			MemberDAO dao=new MemberDAO();
+			MemberDAOJdbc dao=new MemberDAOJdbc();
 			Map<String, Object> m=dao.login(studentId, password);
 			if(m != null && m.size() > 0){
 				HttpSession session=request.getSession(true);

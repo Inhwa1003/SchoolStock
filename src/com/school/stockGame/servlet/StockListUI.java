@@ -10,8 +10,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.school.stockGame.dao.jdbc.StockDetailDAO;
-import com.school.stockGame.dao.jdbc.StockListDAO;
+import com.school.stockGame.dao.jdbc.StockDetailDAOJdbc;
+import com.school.stockGame.dao.jdbc.StockListDAOJdbc;
 import com.school.stockGame.vo.StockVO;
 
 public class StockListUI implements Action {
@@ -20,8 +20,8 @@ public class StockListUI implements Action {
     @Override
     public String execute(HttpServletRequest request) throws ServletException, IOException {
 
-        StockListDAO dao_list = new StockListDAO();
-        StockDetailDAO dao_detail = new StockDetailDAO();
+        StockListDAOJdbc dao_list = new StockListDAOJdbc();
+        StockDetailDAOJdbc dao_detail = new StockDetailDAOJdbc();
         HttpSession session = request.getSession();
 
         String studentId = (String) session.getAttribute("studentId");

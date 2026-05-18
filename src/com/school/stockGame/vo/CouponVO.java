@@ -1,11 +1,15 @@
 package com.school.stockGame.vo;
 
-public class CouponVO {
+public class CouponVO extends StudentVO{
 	private int couponNo;
 	private String name;
 	private int price;
 
-	public CouponVO() {
+	public CouponVO() {}
+	
+	public CouponVO(int price, String studentId) {
+		super(studentId);
+		setPrice(price);
 	}
 	
 	public CouponVO(int couponNo) {

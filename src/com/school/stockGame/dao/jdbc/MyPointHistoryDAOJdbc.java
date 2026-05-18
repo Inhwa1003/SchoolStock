@@ -10,9 +10,9 @@ import java.util.Map;
 
 import com.school.stockGame.query.MyPointHistoryQuery;
 
-public class MyPointHistoryDAO {
+public class MyPointHistoryDAOJdbc {
 
-    public MyPointHistoryDAO() {}
+    public MyPointHistoryDAOJdbc() {}
 
     public List<Map<String, Object>> getMyPointHistoryList(String studentId) {
         List<Map<String, Object>> historyList = new ArrayList<Map<String, Object>>();

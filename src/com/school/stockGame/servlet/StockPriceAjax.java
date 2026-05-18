@@ -10,8 +10,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.Gson;
-import com.school.stockGame.dao.jdbc.StockDetailDAO;
-import com.school.stockGame.dao.jdbc.StockListDAO;
+import com.school.stockGame.dao.jdbc.StockDetailDAOJdbc;
+import com.school.stockGame.dao.jdbc.StockListDAOJdbc;
 import com.school.stockGame.vo.StockVO;
 
 public class StockPriceAjax implements Action {
@@ -19,8 +19,8 @@ public class StockPriceAjax implements Action {
     @Override
     public String execute(HttpServletRequest request) throws ServletException, IOException {
 
-        StockListDAO daoList = new StockListDAO();
-        StockDetailDAO daoDetail = new StockDetailDAO();
+        StockListDAOJdbc daoList = new StockListDAOJdbc();
+        StockDetailDAOJdbc daoDetail = new StockDetailDAOJdbc();
 
         // 1. 등록된 주식 목록 조회
         List<StockVO> stockNameList = daoList.getStockNameList();

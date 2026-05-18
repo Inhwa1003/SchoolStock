@@ -11,8 +11,10 @@ public class StudentVO {
 	private int totalCoupon;
 	private int totalPoint;
 	
-	public StudentVO() {};
-	public StudentVO(String studentId) {};
+	public StudentVO() {}
+	public StudentVO(String studentId) {
+		setStudentId(studentId);
+	}
 	public StudentVO(String studentId, String password, String name, int grade, String classNumber, int studentNumber,
 			int registerYear, int totalCoupon, int totalPoint) {
 		setStudentId(studentId);

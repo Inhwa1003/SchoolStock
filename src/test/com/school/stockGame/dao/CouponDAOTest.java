@@ -27,7 +27,7 @@ public class CouponDAOTest {
 
     @Test
     public void 보유_쿠폰_확인_테스트() throws Exception {
-        List<CouponPurchaseVO> result = dao.MyCouponList(validId);
+        List<CouponPurchaseVO> result = dao.getMyCouponList(validId);
         assertNotNull(result);
         
         if (result.isEmpty()) {
@@ -82,7 +82,7 @@ public class CouponDAOTest {
 
     @Test
     public void testMyCouponList_데이터없음() {
-        List<CouponPurchaseVO> result = dao.MyCouponList(invalidId);
+        List<CouponPurchaseVO> result = dao.getMyCouponList(invalidId);
         System.out.println("무실적 학생 쿠폰 조회 결과 개수: " + result.size());
         
         assertEquals("구매 내역이 없는 경우 리스트의 크기는 0이어야 합니다.", 0, result.size());
