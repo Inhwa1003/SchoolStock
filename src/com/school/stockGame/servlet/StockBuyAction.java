@@ -7,13 +7,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.school.stockGame.dao.jdbc.StockDetailDAOJdbc;
+import com.school.stockGame.dao.StockDetailDAOInterface;
+import com.school.stockGame.dao.mybatis.StockDetailDAOMybatis;
 
 public class StockBuyAction implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request) throws ServletException, IOException {
-			StockDetailDAOJdbc stockDetailDAO = new StockDetailDAOJdbc();
+			StockDetailDAOInterface stockDetailDAO = new StockDetailDAOMybatis();
 			HttpSession session = request.getSession();
 			Map<String, Object> studentInfo = (Map<String, Object>) session.getAttribute("info");
 			
