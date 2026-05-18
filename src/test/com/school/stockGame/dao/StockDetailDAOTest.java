@@ -14,7 +14,7 @@ public class StockDetailDAOTest {
 	static StockDetailDAOJdbc dao;
 	static Connection conn;
 	@Test
-	public void getStockInfoTest() throws ClassNotFoundException, SQLException {
+	public void getStockInfoTest() {
 		dao = new StockDetailDAOJdbc();
 		System.out.println(dao.getStockInfo(3));
 	}

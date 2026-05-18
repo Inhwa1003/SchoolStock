@@ -23,8 +23,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
     <mapper resource="config/myPointHistoryMapper.xml"/>
     <mapper resource="config/myAssetMapper.xml"/>
     <mapper resource="config/newsMapper.xml"/>
-
+    <mapper resource="config/StockListMapper.xml"/>
+    <mapper resource="config/stockDetailMapper.xml"/>
   </mappers>
   
 </configuration>
- 
