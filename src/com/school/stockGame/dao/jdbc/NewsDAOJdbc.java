@@ -9,6 +9,7 @@ import java.util.List;
 import com.school.stockGame.dao.NewsDAOInterface;
 import com.school.stockGame.query.NewsQuery;
 
+
 public class NewsDAOJdbc implements NewsDAOInterface{
 	public NewsDAOJdbc() {}
 	

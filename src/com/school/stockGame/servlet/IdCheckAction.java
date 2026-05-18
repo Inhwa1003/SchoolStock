@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import com.school.stockGame.dao.jdbc.MemberDAO;
+import com.school.stockGame.dao.jdbc.MemberDAOJdbc;
 
 public class IdCheckAction implements Action {
 
@@ -13,7 +13,7 @@ public class IdCheckAction implements Action {
 	public String execute(HttpServletRequest request) 
 			throws ServletException, IOException {
 		String studentId=request.getParameter("studentId");
-		boolean result=new MemberDAO().idCheck(studentId);
+		boolean result=new MemberDAOJdbc().getIdCheck(studentId);
 		request.setAttribute("result", result);
 		return "IdJsonResult.jsp";
 	}

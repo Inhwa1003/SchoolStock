@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import com.school.stockGame.dao.jdbc.MemberDAO;
+import com.school.stockGame.dao.jdbc.MemberDAOJdbc;
 
 public class AddMemberAction implements Action {
 
@@ -14,8 +14,8 @@ public class AddMemberAction implements Action {
 			throws ServletException, IOException {
 		String url="AddMember.jsp";
 		try {
-			MemberDAO dao=new MemberDAO();
-			if(dao.addMember(request.getParameter("studentId"),
+			MemberDAOJdbc dao=new MemberDAOJdbc();
+			if(dao.setMember(request.getParameter("studentId"),
 					request.getParameter("password"),
 					request.getParameter("name"),
 					Integer.parseInt(request.getParameter("grade")),

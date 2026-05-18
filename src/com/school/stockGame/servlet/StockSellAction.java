@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.school.stockGame.dao.StockDetailDAOInterface;
-import com.school.stockGame.dao.jdbc.StockDetailDAO;
 import com.school.stockGame.dao.mybatis.StockDetailDAOMybatis;
 
 public class StockSellAction implements Action {

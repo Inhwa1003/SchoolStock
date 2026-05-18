@@ -7,14 +7,15 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import com.school.stockGame.dao.jdbc.MyPointHistoryDAO;
+import com.school.stockGame.dao.MyPointHistoryDAOInterface;
+import com.school.stockGame.dao.jdbc.MyPointHistoryDAOJdbc;
 
 public class MyPointHistoryDAOTest {
 
     @Test
     public void testGetMyPointHistoryList() {
         // 1. DAO 객체 생성
-        MyPointHistoryDAO dao = new MyPointHistoryDAO();
+        MyPointHistoryDAOInterface dao = new MyPointHistoryDAOJdbc();
 
         // 2. 테스트할 학생 ID
         String studentId = "abc";

@@ -23,7 +23,6 @@ public class StockPriceAjax implements Action {
 
         StockListDAOInterface daoList = new StockListDAOMybatis();
         StockDetailDAOInterface daoDetail = new StockDetailDAOMybatis();
-
         // 1. 등록된 주식 목록 조회
         List<StockVO> stockNameList = daoList.getStockNameList();
 
